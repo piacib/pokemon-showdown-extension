@@ -10,9 +10,10 @@
     "default_title": "Open the popup"
   },
   "icons": {
-    "16": "logo-small.png",
-    "48": "logo-small.png",
-    "128": "logo-small.png"
+    "16": "logo192.png",
+    "48": "logo192.png",
+    "128": "logo192.png"
   },
-  "permissions": ["activeTab"]
+  "permissions": ["activeTab"],
+  "optional_permissions": ["<all_urls>"]
 }
