@@ -1,34 +1,63 @@
 import { ChromeMessage, Sender } from "../types";
 
+type MessageResponse = (response?: any) => void;
+
+const validateSender = (
+  message: ChromeMessage,
+  sender: chrome.runtime.MessageSender
+) => {
+  console.log(message, sender);
+  return sender.id === chrome.runtime.id && message.from === Sender.React;
+};
 const messagesFromReactAppListener = (
   message: ChromeMessage,
-  sender: any,
-  response: any
+  sender: chrome.runtime.MessageSender,
+  response: MessageResponse
 ) => {
-  console.log("[content.js]. Message received", {
-    message,
-    sender,
-  });
-
-  if (
-    sender.id === chrome.runtime.id &&
-    message.from === Sender.React &&
-    message.message === "Hello from React"
-  ) {
+  const isValidated = validateSender(message, sender);
+  // console.log(document);
+  //
+  if (isValidated && message.message === "Hello from React") {
     response("Hello from content.js");
   }
 
-  if (
-    sender.id === chrome.runtime.id &&
-    message.from === Sender.React &&
-    message.message === "delete logo"
-  ) {
+  if (isValidated && message.message === "delete logo") {
     const logo = document.getElementById("hplogo");
-    logo.parentElement.removeChild(logo);
+    const moves = document.getElementsByClassName("battle-history");
+    // const getPokemonName = (arr: Array<String>) => {
+    //   return arr.map((x) => x.match(/(?<=<strong>)(.*?)(?=<)/));
+    // };
+    // const getHTML = (arr: Array<JSX.Element[]>) => {
+    //   return arr.map((x) => x.innerHTML);
+    // };
+    // const getPokemon = () => {
+    //   const filteredArray = Array.from(moves).filter(
+    //     (history) => history.classList.length === 1
+    //   );
+    //   const sentOutFiltered: Array<JSX.Element[]> = filteredArray.filter(
+    //     (entry) => entry.innerHTML.includes("sent out")
+    //   );
+    //   const goFiltered = filteredArray.filter((entry) =>
+    //     entry.innerHTML.includes("Go!")
+    //   );
+    //   const sentOutFilteredHTML = getHTML(sentOutFiltered);
+    //   const goFilteredHTML = getHTML(goFiltered);
+    //   return {
+    //     user: getPokemonName(goFilteredHTML),
+    //     opponent: getPokemonName(sentOutFilteredHTML),
+    //   };
+    // };
+    // console.log(getPokemon());
+
+    logo?.parentElement?.removeChild(logo);
   }
 };
+const main = () => {
+  console.log("[content.ts] Main");
+  /**
+   * Fired when a message is sent from either an extension process or a content script.
+   */
+  chrome.runtime.onMessage.addListener(messagesFromReactAppListener);
+};
 
-/**
- * Fired when a message is sent from either an extension process or a content script.
- */
-chrome.runtime.onMessage.addListener(messagesFromReactAppListener);
+main();

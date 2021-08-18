@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
-import "./App.css";
 import { ChromeMessage, Sender } from "./types";
+
+import "./App.css";
+const isURLShowdown = (url: string) => {
+  return url.includes("play.pokemonshowdown.com");
+};
 const App = () => {
   const [url, setUrl] = useState<string>("");
   const [responseFromContent, setResponseFromContent] = useState<string>("");
@@ -11,12 +15,14 @@ const App = () => {
    */
   useEffect(() => {
     const queryInfo = { active: true, lastFocusedWindow: true };
+
     chrome.tabs &&
       chrome.tabs.query(queryInfo, (tabs) => {
         const url = tabs[0].url ? tabs[0].url : "";
         setUrl(url);
       });
   }, []);
+
   /**
    * Send message to the content script
    */
@@ -30,14 +36,14 @@ const App = () => {
       active: true,
       currentWindow: true,
     };
-
+    console.log(message);
     /**
      * We can't use "chrome.runtime.sendMessage" for sending messages from React.
      * For sending messages from React we need to specify which tab to send it to.
      */
     chrome.tabs &&
       chrome.tabs.query(queryInfo, (tabs) => {
-        const currentTabId = tabs[0].id;
+        const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
         /**
          * Sends a single message to the content script(s) in the specified tab,
          * with an optional callback to run when a response is sent back.
@@ -64,15 +70,14 @@ const App = () => {
 
     chrome.tabs &&
       chrome.tabs.query(queryInfo, (tabs) => {
-        const currentTabId = tabs[0].id;
+        const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
+
         chrome.tabs.sendMessage(currentTabId, message, (response) => {
           setResponseFromContent(response);
         });
       });
   };
-  const isURLShowdown = (url: string) => {
-    return url.includes("play.pokemonshowdown.com");
-  };
+
   return (
     <div className="App">
       <header className="App-header">
