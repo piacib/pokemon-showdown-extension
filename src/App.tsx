@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import { ChromeMessage, Sender } from "./types";
-
+import { pokemonMessage } from "./messages";
 import "./App.css";
 const isURLShowdown = (url: string) => {
   return url.includes("play.pokemonshowdown.com");
@@ -36,7 +36,6 @@ const App = () => {
       active: true,
       currentWindow: true,
     };
-    console.log(message);
     /**
      * We can't use "chrome.runtime.sendMessage" for sending messages from React.
      * For sending messages from React we need to specify which tab to send it to.
@@ -51,6 +50,24 @@ const App = () => {
          * The runtime.onMessage event is fired in each content script running
          * in the specified tab for the current extension.
          */
+        chrome.tabs.sendMessage(currentTabId, message, (response) => {
+          setResponseFromContent(response);
+        });
+      });
+  };
+  const sendPokemonMessage = () => {
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: pokemonMessage,
+    };
+    const queryInfo: chrome.tabs.QueryInfo = {
+      active: true,
+      currentWindow: true,
+    };
+    chrome.tabs &&
+      chrome.tabs.query(queryInfo, (tabs) => {
+        const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
+
         chrome.tabs.sendMessage(currentTabId, message, (response) => {
           setResponseFromContent(response);
         });
@@ -91,6 +108,7 @@ const App = () => {
             : "this extension only works on pokemon showdown"}
         </p>
         <button onClick={sendTestMessage}>SEND MESSAGE</button>
+        <button onClick={sendPokemonMessage}>getPokemon</button>
         {/* <button onClick={sendRemoveMessage}>Remove logo</button> */}
         <p>Response from content:</p>
         <p>{responseFromContent}</p>

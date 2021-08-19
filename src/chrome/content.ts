@@ -1,4 +1,6 @@
 import { ChromeMessage, Sender } from "../types";
+import { useState } from "react";
+import { pokemonMessage } from "../messages";
 
 type MessageResponse = (response?: any) => void;
 
@@ -19,6 +21,8 @@ const messagesFromReactAppListener = (
   //
   if (isValidated && message.message === "Hello from React") {
     response("Hello from content.js");
+  }
+  if (isValidated && message.message === pokemonMessage) {
     const moves: HTMLCollection =
       document.getElementsByClassName("battle-history");
     const getPokemonName = (arr: Array<String>) => {
@@ -45,6 +49,7 @@ const messagesFromReactAppListener = (
       };
     };
     console.log(getPokemon());
+    response(getPokemon().user.toString());
   }
 
   if (isValidated && message.message === "delete logo") {
@@ -77,6 +82,21 @@ const messagesFromReactAppListener = (
 
     logo?.parentElement?.removeChild(logo);
   }
+};
+const useTurnCount = () => {
+  const [turnCount, setTurnCount] = useState(0);
+  //UI dependent, if the ui changes within the battle log
+  // and h2 tags are added then this may break
+  const battleLog: Element | null = document
+    .getElementsByClassName("battle-log")
+    .item(0);
+  if (!battleLog) {
+    return;
+  }
+  const turnArray: HTMLCollection = battleLog.getElementsByTagName("h2");
+  const turn = turnArray[turnArray.length - 1].innerHTML.slice(5);
+  setTurnCount(Number(turn));
+  return turnCount;
 };
 const main = () => {
   console.log("[content.ts] Main");
