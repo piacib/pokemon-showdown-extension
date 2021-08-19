@@ -2,24 +2,19 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 1s linear;
   }
 }
 
-.App-header {
+.App {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -35,4 +30,43 @@
   to {
     transform: rotate(360deg);
   }
+}
+.pokeball-btn {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+button {
+  position: relative;
+  background: green;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+  width: 100px;
+  height: 100px;
+  border: none;
+  text-align: center;
+}
+.search-text {
+  color: rgb(2, 0, 1);
+  font-size: 1.2rem;
+  top: -25%;
+  /* height: 100%; */
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+.data-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.pokemon-display {
+  border: 1px solid white;
+  height: 100%;
+  flex: 1;
 }

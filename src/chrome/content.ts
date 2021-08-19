@@ -26,7 +26,8 @@ const messagesFromReactAppListener = (
     const moves: HTMLCollection =
       document.getElementsByClassName("battle-history");
     const getPokemonName = (arr: Array<String>) => {
-      return arr.map((x) => x.match(/(?<=<strong>)(.*?)(?=<)/));
+      const pokemonArray = arr.map((x) => x.match(/(?<=<strong>)(.*?)(?=<)/));
+      return pokemonArray.map((x) => (x ? x[0] : ""));
     };
     const getPokemon = () => {
       const filteredArray = Array.from(moves).filter(
@@ -48,38 +49,16 @@ const messagesFromReactAppListener = (
         opponent: getPokemonName(sentOutFilteredHTML),
       };
     };
+    const { user, opponent } = getPokemon();
     console.log(getPokemon());
-    response(getPokemon().user.toString());
+    response({
+      user, //[user.length - 1],
+      opponent, //[opponent.length - 1],
+    });
   }
 
   if (isValidated && message.message === "delete logo") {
     const logo = document.getElementById("hplogo");
-    // const moves = document.getElementsByClassName("battle-history");
-    // const getPokemonName = (arr: Array<String>) => {
-    //   return arr.map((x) => x.match(/(?<=<strong>)(.*?)(?=<)/));
-    // };
-    // const getHTML = (arr: Array<JSX.Element[]>) => {
-    //   return arr.map((x) => x.innerHTML);
-    // };
-    // const getPokemon = () => {
-    //   const filteredArray = Array.from(moves).filter(
-    //     (history) => history.classList.length === 1
-    //   );
-    //   const sentOutFiltered: Array<JSX.Element[]> = filteredArray.filter(
-    //     (entry) => entry.innerHTML.includes("sent out")
-    //   );
-    //   const goFiltered = filteredArray.filter((entry) =>
-    //     entry.innerHTML.includes("Go!")
-    //   );
-    //   const sentOutFilteredHTML = getHTML(sentOutFiltered);
-    //   const goFilteredHTML = getHTML(goFiltered);
-    //   return {
-    //     user: getPokemonName(goFilteredHTML),
-    //     opponent: getPokemonName(sentOutFilteredHTML),
-    //   };
-    // };
-    // console.log(getPokemon());
-
     logo?.parentElement?.removeChild(logo);
   }
 };

@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
-import { ChromeMessage, Sender } from "./types";
+import { ChromeMessage, Sender, PokemonResponse } from "./types";
 import { pokemonMessage } from "./messages";
 import "./App.css";
+import pokeball from "./media/pokeball.svg";
 const isURLShowdown = (url: string) => {
   return url.includes("play.pokemonshowdown.com");
 };
 const App = () => {
   const [url, setUrl] = useState<string>("");
-  const [responseFromContent, setResponseFromContent] = useState<string>("");
-
+  const [responseFromContent, setResponseFromContent] =
+    useState<PokemonResponse>({
+      user: [""],
+      opponent: [""],
+    });
+  const { user, opponent } = responseFromContent;
   /**
    * Get current URL
    */
@@ -31,7 +35,33 @@ const App = () => {
       from: Sender.React,
       message: "Hello from React",
     };
-
+    setResponseFromContent({
+      user: [
+        "Dodrio",
+        "Rotom-Heat",
+        "Snorlax",
+        "Snorlax",
+        "Talonflame",
+        "Rotom-Heat",
+        "Lilligant",
+      ],
+      opponent: [
+        "Skarmory",
+        "Suicune",
+        "Wobbuffet",
+        "Exeggutor",
+        "Skarmory",
+        "Pyroar",
+        "Wobbuffet",
+        "Regice",
+        "Pyroar",
+        "Skarmory",
+        "Wobbuffet",
+        "Skarmory",
+        "Suicune",
+        "Wobbuffet",
+      ],
+    });
     const queryInfo: chrome.tabs.QueryInfo = {
       active: true,
       currentWindow: true,
@@ -60,6 +90,8 @@ const App = () => {
       from: Sender.React,
       message: pokemonMessage,
     };
+    console.log("clicked");
+
     const queryInfo: chrome.tabs.QueryInfo = {
       active: true,
       currentWindow: true,
@@ -74,45 +106,53 @@ const App = () => {
       });
   };
 
-  const sendRemoveMessage = () => {
-    const message: ChromeMessage = {
-      from: Sender.React,
-      message: "delete logo",
-    };
+  // const sendRemoveMessage = () => {
+  //   const message: ChromeMessage = {
+  //     from: Sender.React,
+  //     message: "delete logo",
+  //   };
 
-    const queryInfo: chrome.tabs.QueryInfo = {
-      active: true,
-      currentWindow: true,
-    };
+  //   const queryInfo: chrome.tabs.QueryInfo = {
+  //     active: true,
+  //     currentWindow: true,
+  //   };
 
-    chrome.tabs &&
-      chrome.tabs.query(queryInfo, (tabs) => {
-        const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
+  //   chrome.tabs &&
+  //     chrome.tabs.query(queryInfo, (tabs) => {
+  //       const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
 
-        chrome.tabs.sendMessage(currentTabId, message, (response) => {
-          setResponseFromContent(response);
-        });
-      });
-  };
+  //       chrome.tabs.sendMessage(currentTabId, message, (response) => {
+  //         setResponseFromContent(response);
+  //       });
+  //     });
+  // };
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>URL:</p>
-        <p>{url}</p>
-        <p>Showdown?</p>
-        <p>
-          {isURLShowdown(url)
-            ? "Welcome to showdown!"
-            : "this extension only works on pokemon showdown"}
-        </p>
-        <button onClick={sendTestMessage}>SEND MESSAGE</button>
-        <button onClick={sendPokemonMessage}>getPokemon</button>
-        {/* <button onClick={sendRemoveMessage}>Remove logo</button> */}
-        <p>Response from content:</p>
-        <p>{responseFromContent}</p>
+        <h1>Pokemon Information</h1>
       </header>
+      <p>
+        {isURLShowdown(url)
+          ? "Welcome to showdown!"
+          : "this extension only works on pokemon showdown"}
+      </p>
+      {/* <button onClick={sendTestMessage}>SEND Test MESSAGE</button> */}
+      <button onClick={sendPokemonMessage}>
+        <img alt="pokeball button" src={pokeball} className="pokeball-btn" />
+        <p className="search-text">Search</p>
+      </button>
+      {/* <button onClick={sendRemoveMessage}>Remove logo</button> */}
+      <div className="data-display">
+        <div className="pokemon-display user-display">
+          <p>user pokemon Data:</p>
+          <p>{user[user.length - 1]}</p>
+        </div>
+        <div className="pokemon-display opponent-display">
+          <p>Opponent pokemon Data:</p>
+          <p>{opponent[opponent.length - 1]}</p>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 const chat = [...document.getElementsByClassName("battle-history")];
 const getPokemonName = (arr) => {
-  return arr.map((x) => x.match(/(?<=<strong>)(.*?)(?=<)/));
+  return arr.map((x) => x.match(/(?<=<strong>)(.*?)(?=<)/)[0]);
 };
 const getHTML = (arr) => {
   return arr.map((x) => x.innerHTML);
