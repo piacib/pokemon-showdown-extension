@@ -91,7 +91,7 @@ const App = () => {
             : "this extension only works on pokemon showdown"}
         </p>
         <button onClick={sendTestMessage}>SEND MESSAGE</button>
-        <button onClick={sendRemoveMessage}>Remove logo</button>
+        {/* <button onClick={sendRemoveMessage}>Remove logo</button> */}
         <p>Response from content:</p>
         <p>{responseFromContent}</p>
       </header>

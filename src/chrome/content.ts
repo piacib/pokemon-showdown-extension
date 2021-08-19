@@ -19,11 +19,37 @@ const messagesFromReactAppListener = (
   //
   if (isValidated && message.message === "Hello from React") {
     response("Hello from content.js");
+    const moves: HTMLCollection =
+      document.getElementsByClassName("battle-history");
+    const getPokemonName = (arr: Array<String>) => {
+      return arr.map((x) => x.match(/(?<=<strong>)(.*?)(?=<)/));
+    };
+    const getPokemon = () => {
+      const filteredArray = Array.from(moves).filter(
+        (history) => history.classList.length === 1
+      );
+      let sentOutFiltered: Array<Element> = filteredArray.filter((entry) =>
+        entry.innerHTML.includes("sent out")
+      );
+      let goFiltered: Array<Element> = filteredArray.filter((entry) =>
+        entry.innerHTML.includes("Go!")
+      );
+      const getHTML = (arr: Array<Element>) => {
+        return arr.map((x) => x.innerHTML);
+      };
+      let sentOutFilteredHTML = getHTML(sentOutFiltered);
+      let goFilteredHTML = getHTML(goFiltered);
+      return {
+        user: getPokemonName(goFilteredHTML),
+        opponent: getPokemonName(sentOutFilteredHTML),
+      };
+    };
+    console.log(getPokemon());
   }
 
   if (isValidated && message.message === "delete logo") {
     const logo = document.getElementById("hplogo");
-    const moves = document.getElementsByClassName("battle-history");
+    // const moves = document.getElementsByClassName("battle-history");
     // const getPokemonName = (arr: Array<String>) => {
     //   return arr.map((x) => x.match(/(?<=<strong>)(.*?)(?=<)/));
     // };
