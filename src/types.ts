@@ -11,3 +11,6 @@ export interface PokemonResponse {
   user: Array<string>;
   opponent: Array<string>;
 }
+// export interface PokemonData {
+//   <string>:any;
+// }
