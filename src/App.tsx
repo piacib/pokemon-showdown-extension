@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ChromeMessage, Sender, PokemonResponse } from "./types";
 import { pokemonMessage, testMessage } from "./messages";
 import "./App.css";
+import { OpponentPokemonDataDisplay } from "./OpponentPokemonDataDisplay";
 import pokeball from "./media/pokeball.svg";
 // import { useAsync } from "./hooks/useAsync";
 const testDS = {
@@ -31,6 +32,9 @@ const testDS = {
     "Wobbuffet",
   ],
 };
+interface PokemonData {
+  [key: string]: any;
+}
 const isURLShowdown = (url: string) => {
   return url.includes("play.pokemonshowdown.com");
 };
@@ -41,6 +45,7 @@ const queryInfo: chrome.tabs.QueryInfo = {
 // const { Dex } = require("pokemon-showdown");
 // const tackle = Dex.moves.get("Tackle");
 //
+
 const App = () => {
   const [url, setUrl] = useState<string>("");
   const [responseFromContent, setResponseFromContent] =
@@ -48,8 +53,9 @@ const App = () => {
       user: [""],
       opponent: [""],
     });
-  const [pokemonData, setPokemonData] = useState({});
-
+  const [pokemonData, setPokemonData] = useState<PokemonData>({});
+  const [opponentsCurrentPokemon, setOpponentsCurrentPokemon] =
+    useState<PokemonData>({});
   //
   const { user, opponent } = responseFromContent;
   /**
@@ -71,9 +77,15 @@ const App = () => {
       .then((data) => setPokemonData(data));
   }, []);
   useEffect(() => {
-    console.log(pokemonData[opponent[opponent.length - 1]]);
-    console.log("updated");
-  }, [responseFromContent]);
+    setOpponentsCurrentPokemon(
+      pokemonData[
+        responseFromContent.opponent[responseFromContent.opponent.length - 1]
+      ]
+    );
+    console.log(
+      pokemonData[responseFromContent.user[responseFromContent.user.length - 1]]
+    );
+  }, [responseFromContent, pokemonData]);
   /**
    * Send message to the content script
    */
@@ -138,14 +150,15 @@ const App = () => {
       </button>
       {/* <button onClick={sendRemoveMessage}>Remove logo</button> */}
       <div className="data-display">
-        <div className="pokemon-display user-display">
+        {/* <div className="pokemon-display user-display">
           <p>user pokemon Data:</p>
           <p>{user[user.length - 1]}</p>
-        </div>
-        <div className="pokemon-display opponent-display">
+        </div> */}
+        <OpponentPokemonDataDisplay pokemon={opponentsCurrentPokemon} />
+        {/* <div className="pokemon-display opponent-display">
           <p>Opponent pokemon Data:</p>
           <p>{opponent[opponent.length - 1]}</p>
-        </div>
+        </div> */}
       </div>
     </div>
   );
