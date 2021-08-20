@@ -1,11 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { ChromeMessage, Sender, PokemonResponse } from "./types";
-import { pokemonMessage } from "./messages";
+import { pokemonMessage, testMessage } from "./messages";
 import "./App.css";
 import pokeball from "./media/pokeball.svg";
+// import { useAsync } from "./hooks/useAsync";
+const testDS = {
+  user: [
+    "Dodrio",
+    "Rotom-Heat",
+    "Snorlax",
+    "Snorlax",
+    "Talonflame",
+    "Rotom-Heat",
+    "Lilligant",
+  ],
+  opponent: [
+    "Skarmory",
+    "Suicune",
+    "Wobbuffet",
+    "Exeggutor",
+    "Skarmory",
+    "Pyroar",
+    "Wobbuffet",
+    "Regice",
+    "Pyroar",
+    "Skarmory",
+    "Wobbuffet",
+    "Skarmory",
+    "Suicune",
+    "Wobbuffet",
+  ],
+};
 const isURLShowdown = (url: string) => {
   return url.includes("play.pokemonshowdown.com");
 };
+const queryInfo: chrome.tabs.QueryInfo = {
+  active: true,
+  currentWindow: true,
+};
+// const { Dex } = require("pokemon-showdown");
+// const tackle = Dex.moves.get("Tackle");
+//
 const App = () => {
   const [url, setUrl] = useState<string>("");
   const [responseFromContent, setResponseFromContent] =
@@ -13,6 +48,9 @@ const App = () => {
       user: [""],
       opponent: [""],
     });
+  const [pokemonData, setPokemonData] = useState({});
+
+  //
   const { user, opponent } = responseFromContent;
   /**
    * Get current URL
@@ -26,46 +64,28 @@ const App = () => {
         setUrl(url);
       });
   }, []);
-
+  useEffect(() => {
+    console.log("fetching");
+    fetch("https://pkmn.github.io/randbats/data/gen8randombattle.json")
+      .then((resp) => resp.json())
+      .then((data) => setPokemonData(data));
+  }, []);
+  useEffect(() => {
+    console.log(pokemonData[opponent[opponent.length - 1]]);
+    console.log("updated");
+  }, [responseFromContent]);
   /**
    * Send message to the content script
    */
   const sendTestMessage = () => {
     const message: ChromeMessage = {
       from: Sender.React,
-      message: "Hello from React",
+      message: testMessage,
     };
-    setResponseFromContent({
-      user: [
-        "Dodrio",
-        "Rotom-Heat",
-        "Snorlax",
-        "Snorlax",
-        "Talonflame",
-        "Rotom-Heat",
-        "Lilligant",
-      ],
-      opponent: [
-        "Skarmory",
-        "Suicune",
-        "Wobbuffet",
-        "Exeggutor",
-        "Skarmory",
-        "Pyroar",
-        "Wobbuffet",
-        "Regice",
-        "Pyroar",
-        "Skarmory",
-        "Wobbuffet",
-        "Skarmory",
-        "Suicune",
-        "Wobbuffet",
-      ],
-    });
-    const queryInfo: chrome.tabs.QueryInfo = {
-      active: true,
-      currentWindow: true,
-    };
+    setResponseFromContent(testDS);
+    console.log("testted");
+    // setResponseFromContent();
+
     /**
      * We can't use "chrome.runtime.sendMessage" for sending messages from React.
      * For sending messages from React we need to specify which tab to send it to.
@@ -91,11 +111,6 @@ const App = () => {
       message: pokemonMessage,
     };
     console.log("clicked");
-
-    const queryInfo: chrome.tabs.QueryInfo = {
-      active: true,
-      currentWindow: true,
-    };
     chrome.tabs &&
       chrome.tabs.query(queryInfo, (tabs) => {
         const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
@@ -105,27 +120,6 @@ const App = () => {
         });
       });
   };
-
-  // const sendRemoveMessage = () => {
-  //   const message: ChromeMessage = {
-  //     from: Sender.React,
-  //     message: "delete logo",
-  //   };
-
-  //   const queryInfo: chrome.tabs.QueryInfo = {
-  //     active: true,
-  //     currentWindow: true,
-  //   };
-
-  //   chrome.tabs &&
-  //     chrome.tabs.query(queryInfo, (tabs) => {
-  //       const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
-
-  //       chrome.tabs.sendMessage(currentTabId, message, (response) => {
-  //         setResponseFromContent(response);
-  //       });
-  //     });
-  // };
 
   return (
     <div className="App">
@@ -137,7 +131,7 @@ const App = () => {
           ? "Welcome to showdown!"
           : "this extension only works on pokemon showdown"}
       </p>
-      {/* <button onClick={sendTestMessage}>SEND Test MESSAGE</button> */}
+      <button onClick={sendTestMessage}>SEND Test MESSAGE</button>
       <button onClick={sendPokemonMessage}>
         <img alt="pokeball button" src={pokeball} className="pokeball-btn" />
         <p className="search-text">Search</p>
