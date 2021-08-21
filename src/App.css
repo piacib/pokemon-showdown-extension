@@ -70,3 +70,9 @@ button {
   height: 100%;
   flex: 1;
 }
+.btn-display {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+}

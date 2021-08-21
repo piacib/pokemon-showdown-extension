@@ -57,7 +57,7 @@ const App = () => {
   const [opponentsCurrentPokemon, setOpponentsCurrentPokemon] =
     useState<PokemonData>({});
   //
-  const { user, opponent } = responseFromContent;
+
   /**
    * Get current URL
    */
@@ -143,23 +143,25 @@ const App = () => {
           ? "Welcome to showdown!"
           : "this extension only works on pokemon showdown"}
       </p>
-      <button onClick={sendTestMessage}>SEND Test MESSAGE</button>
-      <button onClick={sendPokemonMessage}>
-        <img alt="pokeball button" src={pokeball} className="pokeball-btn" />
-        <p className="search-text">Search</p>
-      </button>
-      {/* <button onClick={sendRemoveMessage}>Remove logo</button> */}
-      <div className="data-display">
-        {/* <div className="pokemon-display user-display">
-          <p>user pokemon Data:</p>
-          <p>{user[user.length - 1]}</p>
-        </div> */}
-        <OpponentPokemonDataDisplay pokemon={opponentsCurrentPokemon} />
-        {/* <div className="pokemon-display opponent-display">
-          <p>Opponent pokemon Data:</p>
-          <p>{opponent[opponent.length - 1]}</p>
-        </div> */}
+      <div className="btn-display">
+        <button onClick={sendTestMessage}>SEND Test MESSAGE</button>
+        <button onClick={sendPokemonMessage}>
+          <img alt="pokeball button" src={pokeball} className="pokeball-btn" />
+          <p className="search-text">Search</p>
+        </button>
       </div>
+
+      {/* <h3>
+        {responseFromContent.opponent
+          ? responseFromContent.opponent[
+              responseFromContent.opponent.length - 1
+            ]
+          : null}
+      </h3> */}
+      <OpponentPokemonDataDisplay
+        pokemonName={"WOb"}
+        pokemon={opponentsCurrentPokemon}
+      />
     </div>
   );
 };

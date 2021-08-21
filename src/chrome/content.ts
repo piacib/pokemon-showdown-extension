@@ -45,7 +45,7 @@ const messagesFromReactAppListener = (
   console.log(document);
   //
   if (isValidated && message.message === testMessage) {
-    console.log("test");
+    console.log(testDS);
     response(testDS);
   }
   if (isValidated && message.message === pokemonMessage) {

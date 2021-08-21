@@ -15,8 +15,10 @@ export const getPokemon = (battleHistory: HTMLCollection) => {
   // user and opponents pokemon in the order they came out
   const filteredArray = filteredBattleHistory(battleHistory);
   const filterPokemonObj = {
-    user: filteredArray.filter((entry) => entry.innerHTML.includes("sent out")),
-    opponent: filteredArray.filter((entry) => entry.innerHTML.includes("Go!")),
+    opponent: filteredArray.filter((entry) =>
+      entry.innerHTML.includes("sent out")
+    ),
+    user: filteredArray.filter((entry) => entry.innerHTML.includes("Go!")),
   };
   const userHTML = getHTML(filterPokemonObj.user);
   const opponentHTML = getHTML(filterPokemonObj.opponent);
