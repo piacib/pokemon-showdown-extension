@@ -2,7 +2,11 @@ export enum Sender {
   React,
   Content,
 }
-
+export interface TitleBarType {
+  sendTestMessage: () => void;
+  sendPokemonMessage: () => void;
+  battleType: string;
+}
 export interface ChromeMessage {
   from: Sender;
   message: any;

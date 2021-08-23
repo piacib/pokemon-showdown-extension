@@ -1,7 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap");
+:root {
+  --font-family: "Press Start 2P", cursive;
+  --font-family2: "VT323", monospace;
+}
 html,
 body {
-  width: 800px;
-  height: 600px;
+  width: 600px;
+  height: 400px;
+}
+h1,
+h2 {
+  font-family: var(--font-family);
 }
 
 body {

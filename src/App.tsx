@@ -3,8 +3,18 @@ import { ChromeMessage, Sender, PokemonResponse } from "./types";
 import { pokemonMessage, testMessage } from "./messages";
 import "./App.css";
 import { OpponentPokemonDataDisplay } from "./OpponentPokemonDataDisplay";
-import pokeball from "./media/pokeball.svg";
+import { useBattleType } from "./hooks/useBattleType";
+import { OpponentsTeamDisplay } from "./OpponentsTeamDisplay";
+import { TitleBar } from "./TitleBar";
 // import { useAsync } from "./hooks/useAsync";
+import styled from "styled-components";
+const AppDisplay = styled.div`
+  display: grid;
+  grid-template-columns: 20px repeat(12, 1fr) 20px;
+  background-color: #282c34a4;
+  width: 600px;
+  height: 400px;
+`;
 const testDS = {
   user: [
     "Dodrio",
@@ -35,9 +45,7 @@ const testDS = {
 interface PokemonData {
   [key: string]: any;
 }
-const isURLShowdown = (url: string) => {
-  return url.includes("play.pokemonshowdown.com");
-};
+
 const queryInfo: chrome.tabs.QueryInfo = {
   active: true,
   currentWindow: true,
@@ -47,7 +55,6 @@ const queryInfo: chrome.tabs.QueryInfo = {
 //
 
 const App = () => {
-  const [url, setUrl] = useState<string>("");
   const [responseFromContent, setResponseFromContent] =
     useState<PokemonResponse>({
       user: [""],
@@ -56,19 +63,19 @@ const App = () => {
   const [pokemonData, setPokemonData] = useState<PokemonData>({});
   const [opponentsCurrentPokemon, setOpponentsCurrentPokemon] =
     useState<PokemonData>({});
+  const battleType = useBattleType();
   //
 
   /**
    * Get current URL
    */
   useEffect(() => {
-    const queryInfo = { active: true, lastFocusedWindow: true };
-
-    chrome.tabs &&
-      chrome.tabs.query(queryInfo, (tabs) => {
-        const url = tabs[0].url ? tabs[0].url : "";
-        setUrl(url);
-      });
+    // const queryInfo = { active: true, lastFocusedWindow: true };
+    // chrome.tabs &&
+    //   chrome.tabs.query(queryInfo, (tabs) => {
+    //     const url = tabs[0].url ? tabs[0].url : "";
+    //     setUrl(url);
+    //   });
   }, []);
   useEffect(() => {
     console.log("fetching");
@@ -134,35 +141,18 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Pokemon Information</h1>
-      </header>
-      <p>
-        {isURLShowdown(url)
-          ? "Welcome to showdown!"
-          : "this extension only works on pokemon showdown"}
-      </p>
-      <div className="btn-display">
-        <button onClick={sendTestMessage}>SEND Test MESSAGE</button>
-        <button onClick={sendPokemonMessage}>
-          <img alt="pokeball button" src={pokeball} className="pokeball-btn" />
-          <p className="search-text">Search</p>
-        </button>
-      </div>
-
-      {/* <h3>
-        {responseFromContent.opponent
-          ? responseFromContent.opponent[
-              responseFromContent.opponent.length - 1
-            ]
-          : null}
-      </h3> */}
+    <AppDisplay>
+      <TitleBar
+        sendTestMessage={sendTestMessage}
+        sendPokemonMessage={sendPokemonMessage}
+        battleType={battleType}
+      />
+      <OpponentsTeamDisplay />
       <OpponentPokemonDataDisplay
         // pokemonName={"WOb"}
         pokemon={opponentsCurrentPokemon}
       />
-    </div>
+    </AppDisplay>
   );
 };
 export default App;

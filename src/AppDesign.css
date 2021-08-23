@@ -4,8 +4,8 @@
   --font-family2: "VT323", monospace;
 }
 :root {
-  --screen-width: 505px;
-  --screen-height: 255px;
+  --screen-width: 605px;
+  --screen-height: 355px;
   --line-color: black;
   --border-line-width: 5px;
   --line-width: 465px;
@@ -71,15 +71,17 @@ h1 {
   height: 35px;
   width: calc(2 * var(--border-line-width));
   background-color: var(--line-color);
-  animation: blinker 2s linear infinite;
+  animation: blinker 1s linear infinite;
 }
-
+li {
+  margin-bottom: 1rem;
+}
 @keyframes blinker {
   50% {
     opacity: 0;
   }
 }
-.typewriter h1 {
+.typewriter li {
   overflow: hidden; /* Ensures the content is not revealed until the animation */
   border-right: 0.25em solid var(--line-color); /* The typwriter cursor */
   white-space: nowrap; /* Keeps the content on a single line */

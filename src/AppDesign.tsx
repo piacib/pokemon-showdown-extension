@@ -132,25 +132,17 @@ const AppDesign = () => {
   };
 
   return (
-    <div className="pokemon-screen">
-      <div className="outer-box center ">
-        <div className="upper-line line horizontal-line"></div>
-        <div className="lower-line line horizontal-line"></div>
-        {/* <div className="left-line  line veritcal-line"></div> */}
-        {/* <div className="right-line line veritcal-line"></div> */}
-        <div className="inner-box content-container center typewriter">
-          <h1>
-            PokeInfo
-            {/* <div className="blinking-line"></div> */}
-          </h1>
-          <button onClick={sendTestMessage}>SEND Test MESSAGE</button>
-          <OpponentPokemonDataDisplay
-            // pokemonName={"WOb"}
-            pokemon={opponentsCurrentPokemon}
-          />
-        </div>
-      </div>
-    </div>
+    <>
+      <h1>
+        PokeInfo
+        {/* <div className="blinking-line"></div> */}
+      </h1>
+      <button onClick={sendTestMessage}>SEND Test MESSAGE</button>
+      <OpponentPokemonDataDisplay
+        // pokemonName={"WOb"}
+        pokemon={opponentsCurrentPokemon}
+      />
+    </>
   );
 };
 export default AppDesign;
