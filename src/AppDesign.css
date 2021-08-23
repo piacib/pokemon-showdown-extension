@@ -1,0 +1,110 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap");
+:root {
+  --font-family: "Press Start 2P", cursive;
+  --font-family2: "VT323", monospace;
+}
+:root {
+  --screen-width: 505px;
+  --screen-height: 255px;
+  --line-color: black;
+  --border-line-width: 5px;
+  --line-width: 465px;
+  --veritcal-line-height: 215px;
+  --line-height: 5px;
+}
+.content-container {
+  display: grid;
+}
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+h1 {
+  font-family: var(--font-family);
+  display: flex;
+  flex-flow: row;
+  align-items: flex-end;
+}
+.pokemon-screen {
+  position: relative;
+  width: var(--screen-width);
+  height: var(--screen-height);
+}
+.outer-box {
+  width: calc(var(--screen-width) - var(--border-line-width));
+  height: calc(var(--screen-height) - var(--border-line-width));
+  border: var(--border-line-width) solid var(--line-color);
+}
+.inner-box {
+  width: calc(var(--screen-width) - 35px);
+  height: calc(var(--screen-height) - 35px);
+  border: var(--border-line-width) solid var(--line-color);
+}
+.upper-line {
+  top: 10px;
+}
+.horizontal-line {
+  width: var(--line-width);
+  height: var(--line-height);
+}
+.veritcal-line {
+  height: var(--veritcal-line-height);
+  width: var(--line-height);
+}
+
+.line {
+  background: var(--line-color);
+  position: absolute;
+}
+.lower-line {
+  bottom: 0px;
+}
+.blinking-line {
+  height: 35px;
+  width: calc(2 * var(--border-line-width));
+  background-color: var(--line-color);
+  animation: blinker 2s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+.typewriter h1 {
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: 0.25em solid var(--line-color); /* The typwriter cursor */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: 0.15em; /* Adjust as needed */
+  animation: typing 3.5s steps(40, end), blink-caret 1.5s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: var(--line-color);
+  }
+}

@@ -1,7 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap");
+:root {
+  --font-family: "Press Start 2P", cursive;
+  --font-family2: "VT323", monospace;
+}
 .App {
   text-align: center;
 }
-
+p {
+  font-family: var(--font-family);
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 1s linear;

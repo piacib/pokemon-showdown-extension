@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+
+import "./AppDesign.css";
 import { ChromeMessage, Sender, PokemonResponse } from "./types";
 import { pokemonMessage, testMessage } from "./messages";
 import "./App.css";
@@ -42,11 +44,7 @@ const queryInfo: chrome.tabs.QueryInfo = {
   active: true,
   currentWindow: true,
 };
-// const { Dex } = require("pokemon-showdown");
-// const tackle = Dex.moves.get("Tackle");
-//
-
-const App = () => {
+const AppDesign = () => {
   const [url, setUrl] = useState<string>("");
   const [responseFromContent, setResponseFromContent] =
     useState<PokemonResponse>({
@@ -134,35 +132,25 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Pokemon Information</h1>
-      </header>
-      <p>
-        {isURLShowdown(url)
-          ? "Welcome to showdown!"
-          : "this extension only works on pokemon showdown"}
-      </p>
-      <div className="btn-display">
-        <button onClick={sendTestMessage}>SEND Test MESSAGE</button>
-        <button onClick={sendPokemonMessage}>
-          <img alt="pokeball button" src={pokeball} className="pokeball-btn" />
-          <p className="search-text">Search</p>
-        </button>
+    <div className="pokemon-screen">
+      <div className="outer-box center ">
+        <div className="upper-line line horizontal-line"></div>
+        <div className="lower-line line horizontal-line"></div>
+        {/* <div className="left-line  line veritcal-line"></div> */}
+        {/* <div className="right-line line veritcal-line"></div> */}
+        <div className="inner-box content-container center typewriter">
+          <h1>
+            PokeInfo
+            {/* <div className="blinking-line"></div> */}
+          </h1>
+          <button onClick={sendTestMessage}>SEND Test MESSAGE</button>
+          <OpponentPokemonDataDisplay
+            // pokemonName={"WOb"}
+            pokemon={opponentsCurrentPokemon}
+          />
+        </div>
       </div>
-
-      {/* <h3>
-        {responseFromContent.opponent
-          ? responseFromContent.opponent[
-              responseFromContent.opponent.length - 1
-            ]
-          : null}
-      </h3> */}
-      <OpponentPokemonDataDisplay
-        // pokemonName={"WOb"}
-        pokemon={opponentsCurrentPokemon}
-      />
     </div>
   );
 };
-export default App;
+export default AppDesign;

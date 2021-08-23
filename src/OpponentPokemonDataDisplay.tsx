@@ -2,7 +2,7 @@ import React from "react";
 import { PokemonData } from "./types";
 
 export const OpponentPokemonDataDisplay = (
-  pokemonName,
+  // pokemonName: string,
   { pokemon }: PokemonData
 ) =>
   // pokemonName: string
@@ -17,7 +17,7 @@ export const OpponentPokemonDataDisplay = (
     const values = Object.values(pokemon);
     return (
       <div>
-        <h3>{pokemonName}</h3>
+        <h3>{"pokemonName"}</h3>
         <ul>
           {keys.map((key, idx) =>
             key === "evs" || key === "ivs" ? null : (
