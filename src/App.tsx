@@ -6,7 +6,6 @@ import { OpponentPokemonDataDisplay } from "./OpponentPokemonDataDisplay";
 import { useBattleType } from "./hooks/useBattleType";
 import { OpponentsTeamDisplay } from "./OpponentsTeamDisplay";
 import { TitleBar } from "./TitleBar";
-// import { useAsync } from "./hooks/useAsync";
 import styled from "styled-components";
 const AppDisplay = styled.div`
   display: grid;

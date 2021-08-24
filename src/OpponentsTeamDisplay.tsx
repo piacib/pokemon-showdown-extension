@@ -1,5 +1,4 @@
 import React from "react";
-// import { useTeams } from "./hooks/useTeams";
 import pokeball from "./media/pokeball.svg";
 import styled from "styled-components";
 const ButtonSize = "2rem";
@@ -30,8 +29,6 @@ const PokeballButton = () => {
   );
 };
 export const OpponentsTeamDisplay = () => {
-  //   const team = useTeams();
-  //   console.log(team);
   return (
     <ButtonDisplay>
       {[1, 2, 3, 4, 5, 6].map((x) => (

@@ -23,14 +23,8 @@ export const OpponentPokemonDataDisplay = (
 ) =>
   // pokemonName: string
   {
-    // const pokemonName = "Wobb";
-    console.log(pokemon);
-    // if (!pokemon) {
-    //   return <div>...</div>;
-    // }
-    // const keys = Object.keys(pokemon);
-    //
-    // const values = Object.values(pokemon);
+    console.log("OpponentPokemonDataDisplay", pokemon);
+
     return (
       <PokemonScreen>
         <OuterBox>
