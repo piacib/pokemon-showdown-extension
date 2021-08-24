@@ -43,7 +43,7 @@ const messagesFromReactAppListener = (
   response: MessageResponse
 ) => {
   const isValidated = validateSender(message, sender);
-  console.log(document);
+
   //
   if (isValidated && message.message === testMessage) {
     console.log(testDS);
@@ -55,13 +55,14 @@ const messagesFromReactAppListener = (
 
     const battleLog = document.getElementsByClassName("battle-log").item(0);
     console.log("turnCount", turnCount(battleLog));
-    const team = getTeam();
-    console.log("content teams", team);
+    const opponentsTeam = getTeam();
+    console.log("content teams", opponentsTeam);
     const { user, opponent } = getPokemon(chat);
     console.log(getPokemon(chat));
     response({
       user,
       opponent,
+      opponentsTeam,
     });
   }
 

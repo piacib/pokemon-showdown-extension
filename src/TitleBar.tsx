@@ -5,16 +5,14 @@ import { TitleBarType } from "./types";
 const TitleBarDisplay = styled.div`
   display: grid;
   height: 100px;
-  grid-column: 1 / end;
-  grid-row: 1;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   width: 100%;
 `;
 const Title = styled.h1`
   grid-row: 1/2;
   justify-self: start;
   text-align: center;
-  margin: 1rem 0 0rem 1.5rem;
+  /* margin: 1rem 0 0rem 1.5rem; */
   height: 1em;
 `;
 const BattleType = styled.h2`
@@ -27,11 +25,13 @@ const PokeButton = styled.button`
   grid-row: 1/3;
   justify-self: center;
   align-self: center;
+  width: 5em;
+  height: 5em;
 `;
 
 export const TitleBar = ({
-  sendTestMessage,
   sendPokemonMessage,
+  sendTestMessage,
   battleType,
 }: TitleBarType) => {
   //   const battleType = "gen8OU";
@@ -45,8 +45,8 @@ export const TitleBar = ({
           : "this extension only works on pokemon showdown"}
       </BattleType>
       {/* <button onClick={sendTestMessage}>SEND Test MESSAGE</button> */}
-      <PokeButton onClick={sendPokemonMessage}>
-        <img alt="pokeball button" src={pokeball} className="pokeball-btn" />
+      <PokeButton onClick={sendTestMessage}>
+        <img alt="pokeball" src={pokeball} className="pokeball-btn" />
         <p className="search-text">Search</p>
       </PokeButton>
     </TitleBarDisplay>

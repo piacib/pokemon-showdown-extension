@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+//need to convert and move to content
 export const useBattleType = () => {
   const [battleType, setBattleType] = useState<string>("");
   useEffect(() => {

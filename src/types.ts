@@ -14,6 +14,7 @@ export interface ChromeMessage {
 export interface PokemonResponse {
   user: Array<string>;
   opponent: Array<string>;
+  opponentsTeam: string[] | null;
 }
 export interface PokemonData {
   [key: string]: any;
