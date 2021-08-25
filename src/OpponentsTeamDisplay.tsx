@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import pokeball from "./media/pokeball.svg";
 import styled from "styled-components";
 import { OpponentPokemonDataDisplay } from "./OpponentPokemonDataDisplay";
+import { PokemonData } from "./types";
 const DataDisplay = styled.div`
   width: 100%;
   height: 300px;
@@ -50,7 +51,19 @@ interface PokeballButtonProps {
 const PokeballButton = ({ pokemon }: PokeballButtonProps) => {
   return <Button className="search-text">{pokemon}</Button>;
 };
+//fetches latest pokemon data from auto updating dataset
 export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
+  const [pokemonData, setPokemonData] = useState<PokemonData>({});
+  useEffect(() => {
+    console.log("fetching");
+    fetch("https://pkmn.github.io/randbats/data/gen8randombattle.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log(data);
+        setPokemonData(data);
+      });
+  }, []);
+
   console.log("OpponentsTeamDisplay", opponentsTeam);
   return !opponentsTeam ? (
     <div>empty</div>
@@ -61,7 +74,14 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
           <PokeballButton pokemon={x} />
         ))}
       </ButtonDisplay>
-      <OpponentPokemonDataDisplay pokemon={getCurrentPokemon(opponentsTeam)} />
+      {pokemonData && opponentsTeam ? (
+        <OpponentPokemonDataDisplay
+          pokemonData={pokemonData}
+          pokemon={getCurrentPokemon(opponentsTeam)}
+        />
+      ) : (
+        <div>loading</div>
+      )}
     </DataDisplay>
   );
 };

@@ -48,7 +48,7 @@ const isURLShowdown = (url: string) => {
 //   return opponentsTeam.filter((x) => x.includes("fainted"));
 // };
 const App = () => {
-  const [url, setUrl] = useState<string>("");
+  const [url, setUrl] = useState<string>("play.pokemonshowdown.com");
 
   const [responseFromContent, setResponseFromContent] =
     useState<PokemonResponse>({
