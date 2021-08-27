@@ -15,6 +15,7 @@ export const useAsyncMoveFetch = (data: string[]) => {
   useEffect(() => {
     let loadedMoves: Array<MoveResponse> = [];
     let ignore = false;
+    //fetch moves data from pokeapi
     async function fetchData(url: string) {
       let response = await fetch(url);
       let json = await response.json();
@@ -26,6 +27,7 @@ export const useAsyncMoveFetch = (data: string[]) => {
         accuracy: json.accuracy,
         pp: json.pp,
       };
+      // ignore if not complete set of moves
       if (!ignore) {
         loadedMoves.push(results);
         if (loadedMoves.length === data.length) {
@@ -33,11 +35,11 @@ export const useAsyncMoveFetch = (data: string[]) => {
         }
       }
     }
-
+    // if data dne then create promise object
     if (data !== undefined) {
       Promise.all(data.map((url: string) => fetchData(url)));
     }
-
+    // clean up
     return () => {
       ignore = true;
     };
