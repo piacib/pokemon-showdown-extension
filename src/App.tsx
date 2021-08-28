@@ -140,9 +140,7 @@ const App = () => {
         sendPokemonMessage={sendPokemonMessage}
         battleType={battleType}
       />
-      <OpponentsTeamDisplay
-        opponentsTeam={responseFromContent.opponentsTeam}
-      ></OpponentsTeamDisplay>
+      <OpponentsTeamDisplay opponentsTeam={responseFromContent.opponentsTeam} />
     </AppDisplay>
   ) : (
     <div>

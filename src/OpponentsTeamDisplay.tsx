@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import pokeball from "./media/pokeball.svg";
 import styled from "styled-components";
 import { OpponentPokemonDataDisplay } from "./OpponentPokemonDataDisplay";
-import { PokemonData } from "./types";
+import { PokemonData, ActivePokemon } from "./types";
 const DataDisplay = styled.div`
   width: 100%;
   height: 300px;
@@ -30,17 +30,31 @@ const Button = styled.button`
   border-radius: 0;
   margin: 0.25em;
 `;
-
-const activePokemonNames = (arr: string[]) => {
+const activePokemonNames = (arr: string[]): string[] => {
+  // takes in active pokemon (potentailly 2 for double battles)
+  // and returns name with active sliced off
   return arr.map((x) => x.slice(0, x.length - 9));
 };
-const getCurrentPokemon = (opponentsTeam: string[] | null): null | string[] => {
-  if (!opponentsTeam) {
-    return null;
-  }
 
+const getCurrentPokemon = (opponentsTeam: string[] | null): ActivePokemon => {
+  if (!opponentsTeam) {
+    return {
+      pokemon1: null,
+      pokemon2: null,
+    };
+  }
   const activePokemon = opponentsTeam.filter((x) => x.includes("active"));
-  return activePokemonNames(activePokemon);
+  const activePokemonFilteredName: string[] = activePokemonNames(activePokemon);
+  if (activePokemon.length === 1) {
+    return {
+      pokemon1: activePokemonFilteredName[0],
+      pokemon2: null,
+    };
+  }
+  return {
+    pokemon1: activePokemonFilteredName[0],
+    pokemon2: activePokemonFilteredName[1],
+  };
 };
 interface OpponentsProps {
   opponentsTeam: string[] | null;
@@ -53,18 +67,26 @@ const PokeballButton = ({ pokemon }: PokeballButtonProps) => {
 };
 //fetches latest pokemon data from auto updating dataset
 export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
-  const [pokemonData, setPokemonData] = useState<PokemonData>({});
+  const [pokemonData, setPokemonData] = useState<PokemonData>({
+    "": {
+      level: 0,
+      abilities: [],
+      items: [],
+      moves: [],
+    },
+  });
   useEffect(() => {
     console.log("fetching");
     fetch("https://pkmn.github.io/randbats/data/gen8randombattle.json")
       .then((resp) => resp.json())
       .then((data) => {
-        console.log(data);
+        // console.log("git data", data);
         setPokemonData(data);
       });
   }, []);
 
   console.log("OpponentsTeamDisplay", opponentsTeam);
+  console.log("OpponentsTeamDisplay", pokemonData);
   return !opponentsTeam ? (
     <div>empty</div>
   ) : (
