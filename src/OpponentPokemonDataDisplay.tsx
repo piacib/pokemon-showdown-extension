@@ -44,7 +44,7 @@ export const OpponentPokemonDataDisplay = (
   {
     const pokemon: ActivePokemon = props.pokemon;
     const pokemonData: PokemonData = props.pokemonData;
-
+    console.log("pokemon", pokemon);
     const [urls, setUrls] = useState<string[]>([]);
 
     console.log(pokemon);

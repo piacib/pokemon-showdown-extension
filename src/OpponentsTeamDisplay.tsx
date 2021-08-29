@@ -38,6 +38,7 @@ const activePokemonNames = (arr: string[]): string[] => {
 
 const getCurrentPokemon = (opponentsTeam: string[] | null): ActivePokemon => {
   if (!opponentsTeam) {
+    console.log("opponentsTeam is null", opponentsTeam);
     return {
       pokemon1: null,
       pokemon2: null,
@@ -45,6 +46,7 @@ const getCurrentPokemon = (opponentsTeam: string[] | null): ActivePokemon => {
   }
   const activePokemon = opponentsTeam.filter((x) => x.includes("active"));
   const activePokemonFilteredName: string[] = activePokemonNames(activePokemon);
+
   if (activePokemon.length === 1) {
     return {
       pokemon1: activePokemonFilteredName[0],
@@ -62,8 +64,28 @@ interface OpponentsProps {
 interface PokeballButtonProps {
   pokemon: string;
 }
+// converts string to just pokemon name for the button component
+//  by pullingout first word
+const getPokemonName = (nameStr: string): ActivePokemon => {
+  if (nameStr.includes("Not revealed")) {
+    return {
+      pokemon1: null,
+      pokemon2: null,
+    };
+  }
+  const activePokemon = nameStr.match(/^([\w\-]+)/);
+  const activePokemonName = activePokemon ? activePokemon[0] : null;
+  console.log({
+    pokemon1: activePokemonName,
+    pokemon2: null,
+  });
+  return {
+    pokemon1: activePokemonName,
+    pokemon2: null,
+  };
+};
 const PokeballButton = ({ pokemon }: PokeballButtonProps) => {
-  return <Button className="search-text">{pokemon}</Button>;
+  return <Button>{pokemon}</Button>;
 };
 //fetches latest pokemon data from auto updating dataset
 export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
@@ -75,6 +97,10 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
       moves: [],
     },
   });
+  const [currentPokemon, setCurrentPokemon] = useState<ActivePokemon>(
+    getCurrentPokemon(opponentsTeam)
+  );
+  console.log("currentPokemon", currentPokemon);
   useEffect(() => {
     console.log("fetching");
     fetch("https://pkmn.github.io/randbats/data/gen8randombattle.json")
@@ -85,21 +111,26 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
       });
   }, []);
 
-  console.log("OpponentsTeamDisplay", opponentsTeam);
-  console.log("OpponentsTeamDisplay", pokemonData);
   return !opponentsTeam ? (
     <div>empty</div>
   ) : (
     <DataDisplay>
       <ButtonDisplay>
         {opponentsTeam.map((x) => (
-          <PokeballButton pokemon={x} />
+          <Button
+            onClick={() => {
+              console.log([x]);
+              setCurrentPokemon(getPokemonName(x));
+            }}
+          >
+            {x}
+          </Button>
         ))}
       </ButtonDisplay>
       {pokemonData && opponentsTeam ? (
         <OpponentPokemonDataDisplay
           pokemonData={pokemonData}
-          pokemon={getCurrentPokemon(opponentsTeam)}
+          pokemon={currentPokemon}
         />
       ) : (
         <div>loading</div>
