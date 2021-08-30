@@ -45,7 +45,7 @@ export const TitleBar = ({
           : "this extension only works on pokemon showdown"}
       </BattleType>
       {/* <button onClick={sendTestMessage}>SEND Test MESSAGE</button> */}
-      <PokeButton onClick={sendTestMessage}>
+      <PokeButton onClick={sendPokemonMessage}>
         <img alt="pokeball" src={pokeball} className="pokeball-btn" />
         <p className="search-text">Search</p>
       </PokeButton>

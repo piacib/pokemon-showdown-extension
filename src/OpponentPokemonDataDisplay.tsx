@@ -38,62 +38,56 @@ const pokeAPIUrlGenerator = (query: string, version = "v2", type = "move") => {
 
 export const OpponentPokemonDataDisplay = (
   props: OpponentPokemonDataDisplayProps
-) =>
-  // pokemonName: string,
-  // pokemonName: string
-  {
-    const pokemon: ActivePokemon = props.pokemon;
-    const pokemonData: PokemonData = props.pokemonData;
-    console.log("pokemon", pokemon);
-    const [urls, setUrls] = useState<string[]>([]);
+) => {
+  const pokemon: ActivePokemon = props.pokemon;
+  const pokemonData: PokemonData = props.pokemonData;
+  const [urls, setUrls] = useState<string[]>([]);
 
-    console.log(pokemon);
-    useEffect(() => {
-      if (pokemonData && pokemon.pokemon1) {
-        console.log("url set");
-        setUrls(
-          pokemonData[pokemon.pokemon1].moves.map((x: string) =>
-            pokeAPIUrlGenerator(moveFetchPrepper(x))
-          )
-        );
-      }
-    }, [pokemon, pokemonData]);
-
-    const [moves, setMoves] = useAsyncMoveFetch([]);
-
-    // console.log("OpponentPokemonDataDisplay", pokemonData[pokemon.pokemon1]);
-    if (pokemonData && pokemon.pokemon1 && pokemonData[pokemon.pokemon1]) {
-      const { level, abilities, items, moves } = pokemonData[pokemon.pokemon1];
-      console.log(level, abilities, items, moves);
-      const keys = Object.keys(pokemonData[pokemon.pokemon1]);
-      const values = Object.values(pokemonData[pokemon.pokemon1]);
-
-      return (
-        <PokemonScreen>
-          <OuterBox>
-            <InnerBox>
-              <ul>
-                <li>
-                  <a
-                    href={`https://www.smogon.com/dex/sm/pokemon/${pokemon.pokemon1}/`}
-                  >
-                    {pokemon.pokemon1}
-                  </a>
-                </li>
-
-                <li>{level}</li>
-                <li>{abilities}</li>
-                <li>{items}</li>
-                <li>{moves}</li>
-
-                {/* {keys.map((key, idx) =>
-                  key === "level" ? null : <li id={key}>{`${values[idx]}`}</li>
-                )} */}
-              </ul>
-            </InnerBox>
-          </OuterBox>
-        </PokemonScreen>
+  useEffect(() => {
+    if (pokemonData && pokemon.pokemon1) {
+      console.log("url set");
+      setUrls(
+        pokemonData[pokemon.pokemon1].moves.map((x: string) =>
+          pokeAPIUrlGenerator(moveFetchPrepper(x))
+        )
       );
     }
-    return <div> Noooooooooo</div>;
-  };
+  }, [pokemon, pokemonData]);
+
+  const [moves, setMoves] = useAsyncMoveFetch([]);
+
+  // console.log("OpponentPokemonDataDisplay", pokemonData[pokemon.pokemon1]);
+  if (pokemonData && pokemon.pokemon1 && pokemonData[pokemon.pokemon1]) {
+    const { level, abilities, items, moves } = pokemonData[pokemon.pokemon1];
+    console.log(level, abilities, items, moves);
+    const keys = Object.keys(pokemonData[pokemon.pokemon1]);
+    const values = Object.values(pokemonData[pokemon.pokemon1]);
+
+    return (
+      <PokemonScreen>
+        <OuterBox>
+          <InnerBox>
+            <ul>
+              <li>
+                <a
+                  href={`https://www.smogon.com/dex/sm/pokemon/${pokemon.pokemon1}/`}
+                >
+                  {pokemon.pokemon1}
+                </a>
+              </li>
+
+              <li>{abilities}</li>
+              <li>{items} </li>
+              <li>{moves}</li>
+
+              {/* {keys.map((key, idx) =>
+                  key === "level" ? null : <li id={key}>{`${values[idx]}`}</li>
+                )} */}
+            </ul>
+          </InnerBox>
+        </OuterBox>
+      </PokemonScreen>
+    );
+  }
+  return <div> Noooooooooo</div>;
+};

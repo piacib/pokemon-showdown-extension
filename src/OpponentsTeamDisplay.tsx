@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import pokeball from "./media/pokeball.svg";
 import styled from "styled-components";
 import { OpponentPokemonDataDisplay } from "./OpponentPokemonDataDisplay";
-import { PokemonData, ActivePokemon } from "./types";
+import { PokemonData, ActivePokemon, OpponentsProps } from "./types";
 const DataDisplay = styled.div`
   width: 100%;
   height: 300px;
   display: flex;
   align-items: center;
 `;
-const ButtonSize = "1rem";
 const ButtonDisplay = styled.div`
   align-self: flex-end;
   display: flex;
@@ -18,10 +16,6 @@ const ButtonDisplay = styled.div`
   justify-content: flex-start;
   width: 150px;
   grid-column: 2;
-`;
-
-const Pokeball = styled.img`
-  width: ${ButtonSize};
 `;
 const Button = styled.button`
   font-size: 16px;
@@ -37,8 +31,9 @@ const activePokemonNames = (arr: string[]): string[] => {
 };
 
 const getCurrentPokemon = (opponentsTeam: string[] | null): ActivePokemon => {
+  console.log("getCurrentPokemon", opponentsTeam);
   if (!opponentsTeam) {
-    console.log("opponentsTeam is null", opponentsTeam);
+    console.log("opponentsTeam is null");
     return {
       pokemon1: null,
       pokemon2: null,
@@ -46,6 +41,7 @@ const getCurrentPokemon = (opponentsTeam: string[] | null): ActivePokemon => {
   }
   const activePokemon = opponentsTeam.filter((x) => x.includes("active"));
   const activePokemonFilteredName: string[] = activePokemonNames(activePokemon);
+  console.log("getCurrentPokemon", activePokemonFilteredName[0]);
 
   if (activePokemon.length === 1) {
     return {
@@ -58,12 +54,7 @@ const getCurrentPokemon = (opponentsTeam: string[] | null): ActivePokemon => {
     pokemon2: activePokemonFilteredName[1],
   };
 };
-interface OpponentsProps {
-  opponentsTeam: string[] | null;
-}
-interface PokeballButtonProps {
-  pokemon: string;
-}
+
 // converts string to just pokemon name for the button component
 //  by pullingout first word
 const getPokemonName = (nameStr: string): ActivePokemon => {
@@ -84,9 +75,7 @@ const getPokemonName = (nameStr: string): ActivePokemon => {
     pokemon2: null,
   };
 };
-const PokeballButton = ({ pokemon }: PokeballButtonProps) => {
-  return <Button>{pokemon}</Button>;
-};
+
 //fetches latest pokemon data from auto updating dataset
 export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
   const [pokemonData, setPokemonData] = useState<PokemonData>({
@@ -97,16 +86,20 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
       moves: [],
     },
   });
-  const [currentPokemon, setCurrentPokemon] = useState<ActivePokemon>(
-    getCurrentPokemon(opponentsTeam)
-  );
+  const [currentPokemon, setCurrentPokemon] = useState<ActivePokemon>({
+    pokemon1: null,
+    pokemon2: null,
+  });
+
   console.log("currentPokemon", currentPokemon);
   useEffect(() => {
-    console.log("fetching");
+    setCurrentPokemon(getCurrentPokemon(opponentsTeam));
+  }, [opponentsTeam]);
+  useEffect(() => {
+    console.log("fetching", currentPokemon);
     fetch("https://pkmn.github.io/randbats/data/gen8randombattle.json")
       .then((resp) => resp.json())
       .then((data) => {
-        // console.log("git data", data);
         setPokemonData(data);
       });
   }, []);
@@ -116,8 +109,9 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
   ) : (
     <DataDisplay>
       <ButtonDisplay>
-        {opponentsTeam.map((x) => (
+        {opponentsTeam.map((x, idx) => (
           <Button
+            key={x + idx}
             onClick={() => {
               console.log([x]);
               setCurrentPokemon(getPokemonName(x));
@@ -127,7 +121,7 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
           </Button>
         ))}
       </ButtonDisplay>
-      {pokemonData && opponentsTeam ? (
+      {pokemonData ? (
         <OpponentPokemonDataDisplay
           pokemonData={pokemonData}
           pokemon={currentPokemon}

@@ -39,3 +39,6 @@ export interface OpponentPokemonDataDisplayProps {
   pokemonData: PokemonData;
   pokemon: ActivePokemon;
 }
+export interface OpponentsProps {
+  opponentsTeam: string[] | null;
+}
