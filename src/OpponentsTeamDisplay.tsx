@@ -54,9 +54,17 @@ const getCurrentPokemon = (opponentsTeam: string[] | null): ActivePokemon => {
     pokemon2: activePokemonFilteredName[1],
   };
 };
+const pokemonNameFilter = (name: string): string => {
+  if (name === "Not revealed") {
+    return name;
+  }
+  const activePokemon = name.match(/^([\w\-]+)/);
+  const activePokemonName = activePokemon ? activePokemon[0] : name;
 
+  return activePokemonName;
+};
 // converts string to just pokemon name for the button component
-//  by pullingout first word
+//  by pulling out first word
 const getPokemonName = (nameStr: string): ActivePokemon => {
   if (nameStr.includes("Not revealed")) {
     return {
@@ -64,8 +72,7 @@ const getPokemonName = (nameStr: string): ActivePokemon => {
       pokemon2: null,
     };
   }
-  const activePokemon = nameStr.match(/^([\w\-]+)/);
-  const activePokemonName = activePokemon ? activePokemon[0] : null;
+  const activePokemonName = pokemonNameFilter(nameStr);
   console.log({
     pokemon1: activePokemonName,
     pokemon2: null,
@@ -91,7 +98,6 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
     pokemon2: null,
   });
 
-  console.log("currentPokemon", currentPokemon);
   useEffect(() => {
     setCurrentPokemon(getCurrentPokemon(opponentsTeam));
   }, [opponentsTeam]);
@@ -117,7 +123,7 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
               setCurrentPokemon(getPokemonName(x));
             }}
           >
-            {x}
+            {pokemonNameFilter(x)}
           </Button>
         ))}
       </ButtonDisplay>
