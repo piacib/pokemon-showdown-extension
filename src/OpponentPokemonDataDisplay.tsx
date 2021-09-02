@@ -6,25 +6,26 @@ import {
 } from "./types";
 import "./AppDesign.css";
 import styled from "styled-components";
-import { useAsyncMoveFetch } from "./hooks/useAsyncMoveFetch";
 import { Dex } from "@pkmn/dex";
 
 const PokemonScreen = styled.div`
   position: relative;
-  width: 415px;
+  width: 100%;
   height: 275px;
 `;
 const OuterBox = styled.div`
   width: 100%;
-  height: 100%;
+  grid-column: 1/4;
+  grid-row: 3/4;
   border: 5px solid black;
+
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 const InnerBox = styled.div`
-  width: 400px;
-  height: 260px;
+  width: 550px;
+  height: 240px;
   display: grid;
 
   font-size: 1.3rem;
@@ -32,27 +33,35 @@ const InnerBox = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const Move = styled.div``;
+const Move = styled.div`
+  padding: 5px;
+`;
 const Ability = styled.div``;
 const Item = styled.div``;
+const Type = styled.div`
+  width: fit-content;
+  padding: 5px;
+  margin: 0.5em;
+  border-radius: 20px;
+`;
 const MoveDisplay = styled.div`
   /* width: 100%; */
   display: grid;
   grid-template-columns: 1fr 1fr;
-
-  border: 1px solid black;
 `;
 const ItemsDisplay = styled.div`
   grid-template-columns: 1fr 1fr;
   display: grid;
   width: 100%;
-  border: 1px solid black;
 `;
 const AbilitiesDisplay = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
-  border: 1px solid black;
+`;
+const NotRevealed = styled.h3`
+  text-align: center;
+  line-height: 2;
 `;
 const dexSearchPrepper = (str: string): string => {
   return str.toLowerCase().replace(/\W+/g, "");
@@ -80,10 +89,10 @@ export const OpponentPokemonDataDisplay = (
   const pokemon: ActivePokemon = props.pokemon;
   const pokemonData: PokemonData = props.pokemonData;
   const [urls, setUrls] = useState<string[]>([]);
-  const [moves] = useAsyncMoveFetch(urls);
+  // const [moves] = useAsyncMoveFetch(urls);
   console.log(Dex.data);
   useEffect(() => {
-    if (pokemonData && pokemon.pokemon1) {
+    if (pokemon.pokemon1 && pokemonData[pokemon.pokemon1]) {
       setUrls(
         pokemonData[pokemon.pokemon1].moves.map((x: string) =>
           pokeAPIUrlGenerator(moveFetchPrepper(x))
@@ -93,10 +102,10 @@ export const OpponentPokemonDataDisplay = (
     }
   }, [pokemon, pokemonData]);
   if (pokemonData && pokemon.pokemon1 && pokemonData[pokemon.pokemon1]) {
-    const { level, abilities, items, moves } = pokemonData[pokemon.pokemon1];
+    const { abilities, items, moves } = pokemonData[pokemon.pokemon1];
 
     return (
-      <PokemonScreen>
+      <>
         <OuterBox>
           <InnerBox>
             <div>
@@ -106,9 +115,9 @@ export const OpponentPokemonDataDisplay = (
                 {pokemon.pokemon1}
               </a>
               <div>
-                {JSON.stringify(
-                  Species[dexSearchPrepper(pokemon.pokemon1)].types
-                )}
+                {Species[dexSearchPrepper(pokemon.pokemon1)].types.map((x) => (
+                  <Type className={x.toLowerCase()}>{x}</Type>
+                ))}
               </div>
             </div>
             <AbilitiesDisplay>
@@ -128,14 +137,20 @@ export const OpponentPokemonDataDisplay = (
               ))}
             </ItemsDisplay>
             <MoveDisplay>
-              {moves.map((x) => (
+              {pokemonData[pokemon.pokemon1].moves.map((x) => (
                 <Move>{x}</Move>
               ))}
             </MoveDisplay>
           </InnerBox>
         </OuterBox>
-      </PokemonScreen>
+      </>
     );
   }
-  return <div> Noooooooooo</div>;
+  return (
+    <OuterBox>
+      <InnerBox>
+        <NotRevealed> This Pokemon hasn't been revealed yet</NotRevealed>{" "}
+      </InnerBox>
+    </OuterBox>
+  );
 };

@@ -2,30 +2,28 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { OpponentPokemonDataDisplay } from "./OpponentPokemonDataDisplay";
 import { PokemonData, ActivePokemon, OpponentsProps } from "./types";
+import { Sprites } from "@pkmn/img";
+import pokeball from "./media/pokeball.svg";
 
-const DataDisplay = styled.div`
-  width: 100%;
-  height: 300px;
-  display: flex;
-  align-items: center;
-`;
 const ButtonDisplay = styled.div`
-  align-self: flex-end;
+  grid-row: 2/3;
+  grid-column: 1/4;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  flex-direction: row;
+  align-items: center;
   justify-content: flex-start;
-  width: 150px;
-  grid-column: 2;
+  border: 1px solid black;
+  width: 100%;
 `;
 const Button = styled.button`
-  font-size: 16px;
-  width: 150px;
-  height: 40px;
+  font-size: 10px;
+  width: inherit;
+  background: none;
+  height: 60px;
   border-radius: 0;
   margin: 0.25em;
 `;
-
+console.log(Button);
 const activePokemonNames = (arr: string[]): string[] => {
   // takes in active pokemon (potentailly 2 for double battles)
   // and returns name with active sliced off
@@ -85,6 +83,42 @@ const getPokemonName = (nameStr: string): ActivePokemon => {
   };
 };
 
+type Name = {
+  name: string;
+};
+const SpriteImage: React.FC<Name> = ({ name }) => {
+  const { url, w, h, pixelated } = Sprites.getPokemon(name.toLowerCase(), {
+    gen: 7,
+    shiny: false,
+  });
+  const ButtonSize = 60;
+  const ButtonSizePX = `${ButtonSize}px`;
+  if (url === "https://play.pokemonshowdown.com/sprites/gen5/0.png") {
+    return (
+      <img
+        src={pokeball}
+        alt={name}
+        style={{
+          width: ButtonSizePX,
+          height: ButtonSizePX,
+          imageRendering: "pixelated",
+        }}
+      ></img>
+    );
+  }
+  const width = `${(w / h) * ButtonSize}px`;
+  return (
+    <img
+      src={url}
+      alt={name}
+      style={{ width: width, height: ButtonSize }}
+    ></img>
+  );
+};
+// const spriteSrc = url;
+// const spriteWidth = w;
+// const spriteHeight = h;
+
 //fetches latest pokemon data from auto updating dataset
 export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
   const [pokemonData, setPokemonData] = useState<PokemonData>({
@@ -116,7 +150,7 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
   return !opponentsTeam ? (
     <div>empty</div>
   ) : (
-    <DataDisplay>
+    <>
       <ButtonDisplay>
         {opponentsTeam.map((x, idx) => (
           <Button
@@ -125,7 +159,8 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
               setCurrentPokemon(getPokemonName(x));
             }}
           >
-            {pokemonNameFilter(x)}
+            <SpriteImage name={pokemonNameFilter(x)} />
+            {/* {pokemonNameFilter(x)} */}
           </Button>
         ))}
       </ButtonDisplay>
@@ -137,6 +172,6 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
       ) : (
         <div>loading</div>
       )}
-    </DataDisplay>
+    </>
   );
 };

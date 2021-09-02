@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { ChromeMessage, Sender, PokemonResponse } from "./types";
 import { pokemonMessage, testMessage } from "./messages";
 import "./App.css";
-import { useBattleType } from "./hooks/useBattleType";
 import { OpponentsTeamDisplay } from "./OpponentsTeamDisplay";
 import { TitleBar } from "./TitleBar";
 import styled from "styled-components";
+import { getBattleType, isDevelopmentMode } from "./functions";
 const AppDisplay = styled.div`
   background-color: #282c34a4;
+  display: grid;
   width: 600px;
   height: 400px;
   padding: 1em;
@@ -47,9 +48,15 @@ const isURLShowdown = (url: string) => {
 //   }
 //   return opponentsTeam.filter((x) => x.includes("fainted"));
 // };
+interface WebsiteInfo {
+  url: string;
+  battleType: string;
+}
 const App = () => {
-  const [url, setUrl] = useState<string>("play.pokemonshowdown.com");
-
+  const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfo>({
+    url: "",
+    battleType: "",
+  });
   const [responseFromContent, setResponseFromContent] =
     useState<PokemonResponse>({
       user: [""],
@@ -59,20 +66,26 @@ const App = () => {
   // const [opponentsTeam, setOpponentsTeam] = useState<string[] | null>(null);
   // const [opponentsCurrentPokemon, setOpponentsCurrentPokemon] =
   //   useState<PokemonData>({});
-  const battleType = useBattleType();
+  // const battleType = useBattleType();
   //
 
   /**
    * Get current URL
    */
-  // useEffect(() => {
-  //   const queryInfo = { active: true, lastFocusedWindow: true };
-  //   chrome.tabs &&
-  //     chrome.tabs.query(queryInfo, (tabs) => {
-  //       const url = tabs[0].url ? tabs[0].url : "";
-  //       setUrl(url);
-  //       });
-  // }, []);
+  useEffect(() => {
+    if (isDevelopmentMode) {
+      const testUrl =
+        "https://play.pokemonshowdown.com/battle-gen8ou-1402224551";
+      setWebsiteInfo({ url: testUrl, battleType: getBattleType(testUrl) });
+    } else {
+      const queryInfo = { active: true, lastFocusedWindow: true };
+      chrome.tabs &&
+        chrome.tabs.query(queryInfo, (tabs) => {
+          const url = tabs[0].url ? tabs[0].url : "";
+          setWebsiteInfo({ url: url, battleType: getBattleType(url) });
+        });
+    }
+  }, []);
 
   // useEffect(() => {
   //   const currentPokemon = getCurrentPokemon(responseFromContent.opponentsTeam);
@@ -97,7 +110,6 @@ const App = () => {
       message: testMessage,
     };
     setResponseFromContent(testDS);
-    // setResponseFromContent();
   };
 
   const sendPokemonMessage = () => {
@@ -105,27 +117,28 @@ const App = () => {
       from: Sender.React,
       message: pokemonMessage,
     };
+    console.log(message);
     chrome.tabs &&
       chrome.tabs.query(queryInfo, (tabs) => {
         const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
-
         chrome.tabs.sendMessage(currentTabId, message, (response) => {
           setResponseFromContent(response);
+          console.log(response);
         });
       });
   };
-  return isURLShowdown(url) ? (
+  return isURLShowdown(websiteInfo.url) ? (
     <AppDisplay>
       <TitleBar
         sendTestMessage={sendTestMessage}
         sendPokemonMessage={sendPokemonMessage}
-        battleType={battleType}
+        battleType={websiteInfo.battleType}
       />
       <OpponentsTeamDisplay opponentsTeam={responseFromContent.opponentsTeam} />
     </AppDisplay>
   ) : (
     <div>
-      {url}
+      {websiteInfo.url}
       <h1>
         This Extension only works on <br />
         <a href="https://play.pokemonshowdown.com/">Pokemon Showdown</a>
