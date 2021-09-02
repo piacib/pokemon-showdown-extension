@@ -17,9 +17,9 @@ export const useAsyncMoveFetch = (data: string[]) => {
     let ignore = false;
     //fetch moves data from pokeapi
     async function fetchData(url: string) {
-      let response = await fetch(url);
-      let json = await response.json();
-      let results = {
+      const response = await fetch(url);
+      const json = await response.json();
+      const results = {
         move: json.name,
         type: json.type.name,
         category: json.damage_class.name,

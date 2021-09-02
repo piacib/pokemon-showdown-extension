@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { OpponentPokemonDataDisplay } from "./OpponentPokemonDataDisplay";
 import { PokemonData, ActivePokemon, OpponentsProps } from "./types";
+
 const DataDisplay = styled.div`
   width: 100%;
   height: 300px;
@@ -24,6 +25,7 @@ const Button = styled.button`
   border-radius: 0;
   margin: 0.25em;
 `;
+
 const activePokemonNames = (arr: string[]): string[] => {
   // takes in active pokemon (potentailly 2 for double battles)
   // and returns name with active sliced off
@@ -58,7 +60,7 @@ const pokemonNameFilter = (name: string): string => {
   if (name === "Not revealed") {
     return name;
   }
-  const activePokemon = name.match(/^([\w\-]+)/);
+  const activePokemon = name.match(/^([\w-]+)/);
   const activePokemonName = activePokemon ? activePokemon[0] : name;
 
   return activePokemonName;
@@ -101,8 +103,9 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
   useEffect(() => {
     setCurrentPokemon(getCurrentPokemon(opponentsTeam));
   }, [opponentsTeam]);
+
   useEffect(() => {
-    console.log("fetching", currentPokemon);
+    // console.log("fetching", currentPokemon);
     fetch("https://pkmn.github.io/randbats/data/gen8randombattle.json")
       .then((resp) => resp.json())
       .then((data) => {
@@ -117,9 +120,8 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
       <ButtonDisplay>
         {opponentsTeam.map((x, idx) => (
           <Button
-            key={x + idx}
+            key={pokemonNameFilter(x) + idx}
             onClick={() => {
-              console.log([x]);
               setCurrentPokemon(getPokemonName(x));
             }}
           >

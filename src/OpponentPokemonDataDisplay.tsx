@@ -7,6 +7,7 @@ import {
 import "./AppDesign.css";
 import styled from "styled-components";
 import { useAsyncMoveFetch } from "./hooks/useAsyncMoveFetch";
+import { Dex } from "@pkmn/dex";
 
 const PokemonScreen = styled.div`
   position: relative;
@@ -53,25 +54,36 @@ const AbilitiesDisplay = styled.div`
   width: 100%;
   border: 1px solid black;
 `;
+const dexSearchPrepper = (str: string): string => {
+  return str.toLowerCase().replace(/\W+/g, "");
+};
 const moveFetchPrepper = (move: string) => {
   return move.replace(" ", "-").toLowerCase();
 };
 const pokeAPIUrlGenerator = (query: string, version = "v2", type = "move") => {
   return `https://pokeapi.co/api/${version}/${type}/${query}`;
 };
-
+const {
+  Abilities,
+  // Aliases,
+  // Conditions,
+  // Items,
+  // Moves,
+  Species,
+  // Natures,
+  // Types,
+  // FormatsData,
+} = Dex.data;
 export const OpponentPokemonDataDisplay = (
   props: OpponentPokemonDataDisplayProps
 ) => {
   const pokemon: ActivePokemon = props.pokemon;
   const pokemonData: PokemonData = props.pokemonData;
   const [urls, setUrls] = useState<string[]>([]);
-  const [moves, setMoves] = useAsyncMoveFetch(urls);
-
+  const [moves] = useAsyncMoveFetch(urls);
+  console.log(Dex.data);
   useEffect(() => {
     if (pokemonData && pokemon.pokemon1) {
-      console.log(pokemonData);
-      console.log("url set");
       setUrls(
         pokemonData[pokemon.pokemon1].moves.map((x: string) =>
           pokeAPIUrlGenerator(moveFetchPrepper(x))
@@ -80,12 +92,8 @@ export const OpponentPokemonDataDisplay = (
       // setMoves(urls);
     }
   }, [pokemon, pokemonData]);
-
-  console.log(moves);
-  // console.log("OpponentPokemonDataDisplay", pokemonData[pokemon.pokemon1]);
   if (pokemonData && pokemon.pokemon1 && pokemonData[pokemon.pokemon1]) {
     const { level, abilities, items, moves } = pokemonData[pokemon.pokemon1];
-    console.log(level, abilities, items, moves);
 
     return (
       <PokemonScreen>
@@ -93,14 +101,25 @@ export const OpponentPokemonDataDisplay = (
           <InnerBox>
             <div>
               <a
-                href={`https://www.smogon.com/dex/sm/pokemon/${pokemon.pokemon1}/`}
+                href={`https://www.smogon.com/dex/ss/pokemon/${pokemon.pokemon1}/`}
               >
                 {pokemon.pokemon1}
               </a>
+              <div>
+                {JSON.stringify(
+                  Species[dexSearchPrepper(pokemon.pokemon1)].types
+                )}
+              </div>
             </div>
             <AbilitiesDisplay>
               {abilities.map((x) => (
-                <Ability>{x}</Ability>
+                <>
+                  <Ability>{x}</Ability>
+
+                  {/* <div>
+                    {JSON.stringify(Abilities[dexSearchPrepper(x)].shortDesc)}
+                  </div> */}
+                </>
               ))}
             </AbilitiesDisplay>
             <ItemsDisplay>

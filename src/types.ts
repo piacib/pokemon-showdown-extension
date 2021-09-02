@@ -1,5 +1,3 @@
-import { ChildProcessWithoutNullStreams } from "child_process";
-
 export enum Sender {
   React,
   Content,
@@ -30,7 +28,7 @@ export type PokemonData = {
 //   <string>:any;
 // }
 // export type POKEMON = [string, string?];
-type POKEMON = keyof PokemonData;
+type POKEMON = string; //keyof PokemonData;
 export interface ActivePokemon {
   pokemon1: POKEMON | null;
   pokemon2: POKEMON | null;
@@ -41,4 +39,18 @@ export interface OpponentPokemonDataDisplayProps {
 }
 export interface OpponentsProps {
   opponentsTeam: string[] | null;
+}
+type Properties = {
+  name: string | null;
+  description: string | null;
+  hyperlink: string | null;
+};
+
+export interface OpponentsTeamData {
+  [key: string]: {
+    level: Number;
+    abilities: Properties[];
+    items: Properties[];
+    moves: Properties[];
+  };
 }
