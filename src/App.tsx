@@ -6,6 +6,8 @@ import { OpponentsTeamDisplay } from "./OpponentsTeamDisplay";
 import { TitleBar } from "./TitleBar";
 import styled from "styled-components";
 import { getBattleType, isDevelopmentMode } from "./functions";
+import { NotPokemonShowdownErrorScreen } from "./NotPokemonShowdownErrorScreen";
+import { NotInBattleErrorScreen } from "./NotInBattleErrorScreen";
 const AppDisplay = styled.div`
   background-color: #282c34a4;
   display: grid;
@@ -128,22 +130,22 @@ const App = () => {
       });
   };
   return isURLShowdown(websiteInfo.url) ? (
-    <AppDisplay>
-      <TitleBar
-        sendTestMessage={sendTestMessage}
-        sendPokemonMessage={sendPokemonMessage}
-        battleType={websiteInfo.battleType}
-      />
-      <OpponentsTeamDisplay opponentsTeam={responseFromContent.opponentsTeam} />
-    </AppDisplay>
+    websiteInfo.battleType ? (
+      <AppDisplay>
+        <TitleBar
+          sendTestMessage={sendTestMessage}
+          sendPokemonMessage={sendPokemonMessage}
+          battleType={websiteInfo.battleType}
+        />
+        <OpponentsTeamDisplay
+          opponentsTeam={responseFromContent.opponentsTeam}
+        />
+      </AppDisplay>
+    ) : (
+      <NotInBattleErrorScreen />
+    )
   ) : (
-    <div>
-      {websiteInfo.url}
-      <h1>
-        This Extension only works on <br />
-        <a href="https://play.pokemonshowdown.com/">Pokemon Showdown</a>
-      </h1>
-    </div>
+    <NotPokemonShowdownErrorScreen />
   );
 };
 export default App;

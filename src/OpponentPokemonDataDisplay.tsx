@@ -90,17 +90,7 @@ export const OpponentPokemonDataDisplay = (
   const pokemonData: PokemonData = props.pokemonData;
   const [urls, setUrls] = useState<string[]>([]);
   // const [moves] = useAsyncMoveFetch(urls);
-  console.log(Dex.data);
-  useEffect(() => {
-    if (pokemon.pokemon1 && pokemonData[pokemon.pokemon1]) {
-      setUrls(
-        pokemonData[pokemon.pokemon1].moves.map((x: string) =>
-          pokeAPIUrlGenerator(moveFetchPrepper(x))
-        )
-      );
-      // setMoves(urls);
-    }
-  }, [pokemon, pokemonData]);
+
   if (pokemonData && pokemon.pokemon1 && pokemonData[pokemon.pokemon1]) {
     const { abilities, items, moves } = pokemonData[pokemon.pokemon1];
 
@@ -149,7 +139,7 @@ export const OpponentPokemonDataDisplay = (
   return (
     <OuterBox>
       <InnerBox>
-        <NotRevealed> This Pokemon hasn't been revealed yet</NotRevealed>{" "}
+        <NotRevealed> This Pokemon hasn't been revealed yet</NotRevealed>
       </InnerBox>
     </OuterBox>
   );

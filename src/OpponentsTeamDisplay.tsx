@@ -4,6 +4,7 @@ import { OpponentPokemonDataDisplay } from "./OpponentPokemonDataDisplay";
 import { PokemonData, ActivePokemon, OpponentsProps } from "./types";
 import { Sprites } from "@pkmn/img";
 import pokeball from "./media/pokeball.svg";
+import { OpponentsTeamUnavailable } from "./OpponentsTeamUnavailable";
 
 const ButtonDisplay = styled.div`
   grid-row: 2/3;
@@ -11,7 +12,7 @@ const ButtonDisplay = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   border: 1px solid black;
   width: 100%;
 `;
@@ -87,13 +88,10 @@ type Name = {
   name: string;
 };
 const SpriteImage: React.FC<Name> = ({ name }) => {
-  const { url, w, h, pixelated } = Sprites.getPokemon(name.toLowerCase(), {
-    gen: 7,
-    shiny: false,
-  });
   const ButtonSize = 60;
   const ButtonSizePX = `${ButtonSize}px`;
-  if (url === "https://play.pokemonshowdown.com/sprites/gen5/0.png") {
+  console.log(name);
+  if (name === "Not revealed") {
     return (
       <img
         src={pokeball}
@@ -102,6 +100,29 @@ const SpriteImage: React.FC<Name> = ({ name }) => {
           width: ButtonSizePX,
           height: ButtonSizePX,
           imageRendering: "pixelated",
+        }}
+      ></img>
+    );
+  }
+  const { url, w, h } = Sprites.getPokemon(name.toLowerCase(), {
+    gen: 7,
+    shiny: false,
+  });
+  console.log(
+    Sprites.getPokemon(name.toLowerCase(), {
+      gen: 7,
+      shiny: false,
+    })
+  );
+
+  if (url === "https://play.pokemonshowdown.com/sprites/gen5/0.png") {
+    return (
+      <img
+        src={url}
+        alt={"question mark"}
+        style={{
+          width: "80px",
+          height: "80px",
         }}
       ></img>
     );
@@ -148,7 +169,17 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
   }, []);
 
   return !opponentsTeam ? (
-    <div>empty</div>
+    <>
+      <ButtonDisplay>
+        <SpriteImage name={pokemonNameFilter("")} />
+        <SpriteImage name={pokemonNameFilter("")} />
+        <SpriteImage name={pokemonNameFilter("")} />
+        <SpriteImage name={pokemonNameFilter("")} />
+        <SpriteImage name={pokemonNameFilter("")} />
+        <SpriteImage name={pokemonNameFilter("")} />
+      </ButtonDisplay>
+      <OpponentsTeamUnavailable />
+    </>
   ) : (
     <>
       <ButtonDisplay>
@@ -160,7 +191,6 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
             }}
           >
             <SpriteImage name={pokemonNameFilter(x)} />
-            {/* {pokemonNameFilter(x)} */}
           </Button>
         ))}
       </ButtonDisplay>
