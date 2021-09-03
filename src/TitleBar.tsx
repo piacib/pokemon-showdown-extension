@@ -36,23 +36,17 @@ export const TitleBar = ({
   sendTestMessage,
   battleType,
 }: TitleBarType) => {
-  //   const battleType = "gen8OU";
-
   return (
     <>
       <Title>PokeInfo</Title>
-      {battleType ? (
-        <>
-          {/* <BattleType>battleType</BattleType> */}
-          <PokeButton
-            onClick={isDevelopmentMode ? sendTestMessage : sendPokemonMessage}
-          >
-            <img alt="pokeball" src={pokeball} className="pokeball-btn" />
-          </PokeButton>
-        </>
-      ) : (
-        "this extension only works in pokemon showdown battles"
-      )}
+      <>
+        {/* <BattleType>{battleType}</BattleType> */}
+        <PokeButton
+          onClick={isDevelopmentMode ? sendTestMessage : sendPokemonMessage}
+        >
+          <img alt="pokeball" src={pokeball} className="pokeball-btn" />
+        </PokeButton>
+      </>
     </>
   );
 };
