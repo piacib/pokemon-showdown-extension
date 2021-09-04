@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Dex } from "@pkmn/dex";
 import styled from "styled-components";
+
 const DamageContainer = styled.div`
+  grid-column: 2/3;
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border: 1px solid black;
+  height: 100%;
+`;
+const DamageGroupContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  height: 40px;
-  width: 250px;
+  width: 100%;
 `;
 const TypeBox = styled.div`
   margin: 5px;
+  padding: 2px 5px;
+  border-radius: 10px;
 `;
 
 const Types = Dex.data.Types;
@@ -91,23 +102,21 @@ export const DamageDisplay = (props: DamageDisplayProps) => {
   const entries4 = Object.entries(damageObj).filter((entry) => entry[1] === 4);
   const label = ["0", "1/4", "1/2", "2", "4"];
   return (
-    <div>
+    <DamageContainer>
       {[entries0, entries25, entries12, entries2, entries4].map(
         (array, idx) => (
-          <DamageContainer>
+          <DamageGroupContainer>
             {array.length ? (
               <>
                 x{label[idx]}:
                 {array.map((x) => (
-                  <TypeBox>{x[0]}</TypeBox>
+                  <TypeBox className={x[0].toLowerCase()}>{x[0]}</TypeBox>
                 ))}
               </>
-            ) : (
-              <div></div>
-            )}
-          </DamageContainer>
+            ) : null}
+          </DamageGroupContainer>
         )
       )}
-    </div>
+    </DamageContainer>
   );
 };

@@ -22,16 +22,20 @@ const InnerBox = styled.div`
   width: 550px;
   height: 240px;
   display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 53px 1fr 1fr 1fr;
+  grid-gap: 10px;
   font-size: 1.3rem;
   border: 5px solid black;
-  align-items: center;
-  justify-content: center;
 `;
 const Move = styled.div`
   padding: 5px;
 `;
 const Ability = styled.div``;
-const Item = styled.div``;
+const Item = styled.div`
+  height: 1rem;
+  width: fit-content;
+`;
 const TypeBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -44,18 +48,28 @@ const Type = styled.div`
 `;
 const MoveDisplay = styled.div`
   /* width: 100%; */
+  grid-column: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
 `;
 const ItemsDisplay = styled.div`
-  grid-template-columns: 1fr 1fr;
-  display: grid;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  grid-column: 1/2;
 `;
 const AbilitiesDisplay = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: 100%;
+  grid-column: 1/2;
+  grid-row: 2/3;
+  display: flex;
+  flex-direction: column;
+`;
+const PokemonName = styled.div`
+  grid-row: 1/2;
+  grid-column: 1/2;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 const NotRevealed = styled.h3`
   text-align: center;
@@ -103,18 +117,18 @@ export const OpponentPokemonDataDisplay = (
       <>
         <OuterBox>
           <InnerBox>
-            <div>
+            <PokemonName>
               <a
                 href={`https://www.smogon.com/dex/ss/pokemon/${pokemon.pokemon1}/`}
               >
                 {pokemon.pokemon1}
               </a>
-              <TypeBox>
+              {/* <TypeBox>
                 {Species[dexSearchPrepper(pokemon.pokemon1)].types.map((x) => (
                   <Type className={x.toLowerCase()}>{x}</Type>
                 ))}
-              </TypeBox>
-            </div>
+              </TypeBox> */}
+            </PokemonName>
             <DamageDisplay typesArray={typesArray} />
             <AbilitiesDisplay>
               {abilities.map((x) => (
@@ -129,9 +143,10 @@ export const OpponentPokemonDataDisplay = (
               ))}
             </ItemsDisplay>
             <MoveDisplay>
-              {pokemonData[pokemon.pokemon1].moves.map((x) => (
+              Moves
+              {/* {pokemonData[pokemon.pokemon1].moves.map((x) => (
                 <Move>{x}</Move>
-              ))}
+              ))} */}
             </MoveDisplay>
           </InnerBox>
         </OuterBox>
