@@ -52,7 +52,7 @@ const messagesFromReactAppListener = (
   if (isValidated && message.message === pokemonMessage) {
     const chat: HTMLCollection =
       document.getElementsByClassName("battle-history");
-
+    console.log("chat", chat);
     const battleLog = document.getElementsByClassName("battle-log").item(0);
     console.log("turnCount", turnCount(battleLog));
     const opponentsTeam = getTeam();

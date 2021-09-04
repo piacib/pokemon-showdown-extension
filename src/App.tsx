@@ -10,6 +10,7 @@ import { NotPokemonShowdownErrorScreen } from "./NotPokemonShowdownErrorScreen";
 import { NotInBattleErrorScreen } from "./NotInBattleErrorScreen";
 const AppDisplay = styled.div`
   background-color: #282c34a4;
+  background-color: #c5bfbf;
   display: grid;
   width: 600px;
   height: 400px;
@@ -18,8 +19,8 @@ const AppDisplay = styled.div`
 const testDS = {
   opponentsTeam: [
     "Aggron",
-    "Indeedee (Indeedee-F) (52%|tox)",
-    "Regice",
+    "Azelf (52%|tox)",
+    "Butterfree",
     "Runerigus (active)",
     "Scizor",
     "Not revealed",
@@ -122,10 +123,10 @@ const App = () => {
     console.log(message);
     chrome.tabs &&
       chrome.tabs.query(queryInfo, (tabs) => {
+        console.log(responseFromContent);
         const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
         chrome.tabs.sendMessage(currentTabId, message, (response) => {
           setResponseFromContent(response);
-          console.log(response);
         });
       });
   };

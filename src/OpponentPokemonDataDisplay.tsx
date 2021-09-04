@@ -22,47 +22,43 @@ const InnerBox = styled.div`
   width: 550px;
   height: 240px;
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-template-rows: 53px 1fr 1fr 1fr;
+  grid-template-columns: 1fr 280px;
+  grid-template-rows: repeat(4, auto);
+  justify-items: center;
   grid-gap: 10px;
   font-size: 1.3rem;
   border: 5px solid black;
+  /* overflow-y: scroll; */
 `;
-const Move = styled.div`
-  padding: 5px;
-`;
-const Ability = styled.div``;
-const Item = styled.div`
-  height: 1rem;
-  width: fit-content;
-`;
-const TypeBox = styled.div`
+const PropertyDisplay = styled.div`
+  grid-column: 1/2;
+  height: fit-content;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 `;
-const Type = styled.div`
-  width: fit-content;
+const HiddenPropertyText = styled.div`
+  display: none;
+`;
+const Property = styled.div`
   padding: 5px;
-  margin: 0.5em;
-  border-radius: 20px;
+  text-align: center;
+  padding: 2px;
+  margin: 2px;
+  border: 2px solid black;
+  font-size: 0.75rem;
+
+  &:hover ${HiddenPropertyText} {
+    display: block;
+    position: absolute;
+    max-width: 250px;
+    text-align: start;
+    font-size: 1.1rem;
+    background: white;
+    border: 1px solid black;
+  }
 `;
-const MoveDisplay = styled.div`
-  /* width: 100%; */
-  grid-column: 1;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-`;
-const ItemsDisplay = styled.div`
-  display: flex;
-  flex-direction: column;
-  grid-column: 1/2;
-`;
-const AbilitiesDisplay = styled.div`
-  grid-column: 1/2;
-  grid-row: 2/3;
-  display: flex;
-  flex-direction: column;
-`;
+
 const PokemonName = styled.div`
   grid-row: 1/2;
   grid-column: 1/2;
@@ -86,11 +82,10 @@ const {
   Abilities,
   // Aliases,
   // Conditions,
-  // Items,
-  // Moves,
+  Items,
+  Moves,
   Species,
   // Natures,
-  Types,
   // FormatsData,
 } = Dex.data;
 
@@ -101,7 +96,7 @@ export const OpponentPokemonDataDisplay = (
   const pokemon: ActivePokemon = props.pokemon;
   const pokemonData: PokemonData = props.pokemonData;
 
-  console.log(Types);
+  console.log(Moves);
   useEffect(() => {
     if (pokemon.pokemon1) {
       setTypesArray(
@@ -113,6 +108,7 @@ export const OpponentPokemonDataDisplay = (
   }, [pokemon.pokemon1]);
   if (pokemonData && pokemon.pokemon1 && pokemonData[pokemon.pokemon1]) {
     const { abilities, items, moves } = pokemonData[pokemon.pokemon1];
+    console.log(Items);
     return (
       <>
         <OuterBox>
@@ -130,24 +126,35 @@ export const OpponentPokemonDataDisplay = (
               </TypeBox> */}
             </PokemonName>
             <DamageDisplay typesArray={typesArray} />
-            <AbilitiesDisplay>
+            <PropertyDisplay>
               {abilities.map((x) => (
                 <>
-                  <Ability>{x}</Ability>
+                  <Property>
+                    {x}
+                    <HiddenPropertyText>
+                      {Abilities[dexSearchPrepper(x)].shortDesc}
+                    </HiddenPropertyText>
+                  </Property>
                 </>
               ))}
-            </AbilitiesDisplay>
-            <ItemsDisplay>
+            </PropertyDisplay>
+            <PropertyDisplay>
               {items.map((x) => (
-                <Item>{x}</Item>
+                <Property>
+                  {x}
+                  <HiddenPropertyText>
+                    {Items[dexSearchPrepper(x)].desc}
+                  </HiddenPropertyText>
+                </Property>
+                // <Item>{x}</Item>
               ))}
-            </ItemsDisplay>
-            <MoveDisplay>
-              Moves
-              {/* {pokemonData[pokemon.pokemon1].moves.map((x) => (
-                <Move>{x}</Move>
-              ))} */}
-            </MoveDisplay>
+            </PropertyDisplay>
+            <PropertyDisplay>
+              {/* Moves */}
+              {pokemonData[pokemon.pokemon1].moves.map((x) => (
+                <Property>{x}</Property>
+              ))}
+            </PropertyDisplay>
           </InnerBox>
         </OuterBox>
       </>

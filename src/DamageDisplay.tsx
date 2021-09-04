@@ -9,21 +9,33 @@ const DamageContainer = styled.div`
   flex-direction: column;
   justify-content: space-around;
   border: 1px solid black;
-  height: 100%;
+  height: 240px;
+  justify-self: end;
 `;
 const DamageGroupContainer = styled.div`
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  width: 100%;
+  align-items: space-around;
+  /* justify-content: center; */
+  /* width: 100%; */
+  padding-left: 20px;
 `;
 const TypeBox = styled.div`
   margin: 5px;
   padding: 2px 5px;
   border-radius: 10px;
 `;
-
+const TypeBoxContainer = styled.div`
+  height: 100%;
+  width: 280px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+`;
+const DamageMultiplier = styled.p`
+  height: 100%;
+  vertical-align: middle;
+`;
 const Types = Dex.data.Types;
 const damageAdjustor = (objectEntries: [string, number]): [string, number] => {
   if (!objectEntries[1]) {
@@ -101,22 +113,47 @@ export const DamageDisplay = (props: DamageDisplayProps) => {
   const entries2 = Object.entries(damageObj).filter((entry) => entry[1] === 2);
   const entries4 = Object.entries(damageObj).filter((entry) => entry[1] === 4);
   const label = ["0", "1/4", "1/2", "2", "4"];
+  const labels = ["No Effect", "Ineffective", "Super effective"];
+  const noEffect = Object.entries(damageObj).filter((entry) => entry[1] === 0);
+  const ineffective = Object.entries(damageObj).filter(
+    (entry) => entry[1] === 0.25 || entry[1] === 0.5
+  );
+  const superEffective = Object.entries(damageObj).filter(
+    (entry) => entry[1] === 2 || entry[1] === 4
+  );
+  console.log([noEffect, ineffective, superEffective]);
   return (
     <DamageContainer>
-      {[entries0, entries25, entries12, entries2, entries4].map(
-        (array, idx) => (
-          <DamageGroupContainer>
-            {array.length ? (
-              <>
-                x{label[idx]}:
-                {array.map((x) => (
-                  <TypeBox className={x[0].toLowerCase()}>{x[0]}</TypeBox>
-                ))}
-              </>
-            ) : null}
-          </DamageGroupContainer>
-        )
-      )}
+      {[noEffect, ineffective, superEffective].map((array, idx) => (
+        <DamageGroupContainer>
+          {Boolean(array.length) ? (
+            <TypeBoxContainer>
+              {labels[idx]}:
+              {array.map((x) => (
+                <TypeBox className={x[0].toLowerCase()}>
+                  x{x[1]} {x[0]}
+                </TypeBox>
+              ))}
+            </TypeBoxContainer>
+          ) : null}
+        </DamageGroupContainer>
+      ))}
     </DamageContainer>
+    // <DamageContainer>
+    //   {[entries0, entries25, entries12, entries2, entries4].map(
+    //     (array, idx) => (
+    //       <DamageGroupContainer>
+    //         {Boolean(array.length) ? (
+    //           <TypeBoxContainer>
+    //             x{label[idx]}:
+    //             {array.map((x) => (
+    //               <TypeBox className={x[0].toLowerCase()}>{x[0]}</TypeBox>
+    //             ))}
+    //           </TypeBoxContainer>
+    //         ) : null}
+    //       </DamageGroupContainer>
+    //     )
+    //   )}
+    // </DamageContainer>
   );
 };

@@ -19,6 +19,7 @@ export const TitleBar = ({
   sendPokemonMessage,
   sendTestMessage,
 }: TitleBarType) => {
+  console.log("isDevelopmentMode", isDevelopmentMode);
   return (
     <>
       <Title>PokeInfo</Title>
