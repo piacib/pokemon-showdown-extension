@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   ActivePokemon,
   PokemonData,
@@ -7,12 +6,8 @@ import {
 import "./AppDesign.css";
 import styled from "styled-components";
 import { Dex } from "@pkmn/dex";
-
-const PokemonScreen = styled.div`
-  position: relative;
-  width: 100%;
-  height: 275px;
-`;
+import { DamageDisplay } from "./DamageDisplay";
+import { useEffect, useState } from "react";
 const OuterBox = styled.div`
   width: 100%;
   grid-column: 1/4;
@@ -27,7 +22,6 @@ const InnerBox = styled.div`
   width: 550px;
   height: 240px;
   display: grid;
-
   font-size: 1.3rem;
   border: 5px solid black;
   align-items: center;
@@ -38,6 +32,10 @@ const Move = styled.div`
 `;
 const Ability = styled.div``;
 const Item = styled.div``;
+const TypeBox = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 const Type = styled.div`
   width: fit-content;
   padding: 5px;
@@ -66,12 +64,10 @@ const NotRevealed = styled.h3`
 const dexSearchPrepper = (str: string): string => {
   return str.toLowerCase().replace(/\W+/g, "");
 };
-const moveFetchPrepper = (move: string) => {
-  return move.replace(" ", "-").toLowerCase();
-};
-const pokeAPIUrlGenerator = (query: string, version = "v2", type = "move") => {
-  return `https://pokeapi.co/api/${version}/${type}/${query}`;
-};
+// const moveFetchPrepper = (move: string) => {
+//   return move.replace(" ", "-").toLowerCase();
+// };
+
 const {
   Abilities,
   // Aliases,
@@ -80,20 +76,29 @@ const {
   // Moves,
   Species,
   // Natures,
-  // Types,
+  Types,
   // FormatsData,
 } = Dex.data;
+
 export const OpponentPokemonDataDisplay = (
   props: OpponentPokemonDataDisplayProps
 ) => {
+  const [typesArray, setTypesArray] = useState<string[] | null>(null);
   const pokemon: ActivePokemon = props.pokemon;
   const pokemonData: PokemonData = props.pokemonData;
-  const [urls, setUrls] = useState<string[]>([]);
-  // const [moves] = useAsyncMoveFetch(urls);
 
+  console.log(Types);
+  useEffect(() => {
+    if (pokemon.pokemon1) {
+      setTypesArray(
+        Species[dexSearchPrepper(pokemon.pokemon1)].types.map((x) =>
+          x.toLowerCase()
+        )
+      );
+    }
+  }, [pokemon.pokemon1]);
   if (pokemonData && pokemon.pokemon1 && pokemonData[pokemon.pokemon1]) {
     const { abilities, items, moves } = pokemonData[pokemon.pokemon1];
-
     return (
       <>
         <OuterBox>
@@ -104,20 +109,17 @@ export const OpponentPokemonDataDisplay = (
               >
                 {pokemon.pokemon1}
               </a>
-              <div>
+              <TypeBox>
                 {Species[dexSearchPrepper(pokemon.pokemon1)].types.map((x) => (
                   <Type className={x.toLowerCase()}>{x}</Type>
                 ))}
-              </div>
+              </TypeBox>
             </div>
+            <DamageDisplay typesArray={typesArray} />
             <AbilitiesDisplay>
               {abilities.map((x) => (
                 <>
                   <Ability>{x}</Ability>
-
-                  {/* <div>
-                    {JSON.stringify(Abilities[dexSearchPrepper(x)].shortDesc)}
-                  </div> */}
                 </>
               ))}
             </AbilitiesDisplay>
@@ -139,7 +141,7 @@ export const OpponentPokemonDataDisplay = (
   return (
     <OuterBox>
       <InnerBox>
-        <NotRevealed> This Pokemon hasn't been revealed yet</NotRevealed>
+        <NotRevealed>This Pokemon hasn't been revealed yet</NotRevealed>
       </InnerBox>
     </OuterBox>
   );

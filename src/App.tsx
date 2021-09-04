@@ -21,7 +21,7 @@ const testDS = {
     "Indeedee (Indeedee-F) (52%|tox)",
     "Regice",
     "Runerigus (active)",
-    "Not revealed",
+    "Scizor",
     "Not revealed",
   ],
   user: ["Slowking", "Heracross", "Stoutland", "Amoonguss", "Stoutland"],
