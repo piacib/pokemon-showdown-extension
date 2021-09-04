@@ -90,7 +90,6 @@ type Name = {
 const SpriteImage: React.FC<Name> = ({ name }) => {
   const ButtonSize = 60;
   const ButtonSizePX = `${ButtonSize}px`;
-  console.log(name);
   if (name === "Not revealed") {
     return (
       <img
@@ -108,12 +107,6 @@ const SpriteImage: React.FC<Name> = ({ name }) => {
     gen: 7,
     shiny: false,
   });
-  console.log(
-    Sprites.getPokemon(name.toLowerCase(), {
-      gen: 7,
-      shiny: false,
-    })
-  );
 
   if (url === "https://play.pokemonshowdown.com/sprites/gen5/0.png") {
     return (
