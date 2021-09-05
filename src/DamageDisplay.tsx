@@ -3,12 +3,12 @@ import { Dex } from "@pkmn/dex";
 import styled from "styled-components";
 
 const DamageContainer = styled.div`
-  grid-column: 2/3;
+  grid-column: -2/-1;
   grid-row: 1 / -1;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   height: 240px;
   justify-self: end;
 `;

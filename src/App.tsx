@@ -15,12 +15,13 @@ const AppDisplay = styled.div`
   width: 600px;
   height: 400px;
   padding: 1em;
+  overflow: hidden;
 `;
 const testDS = {
   opponentsTeam: [
     "Aggron",
     "Azelf (52%|tox)",
-    "Butterfree",
+    "Toxicroak",
     "Runerigus (active)",
     "Scizor",
     "Not revealed",

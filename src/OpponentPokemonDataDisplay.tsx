@@ -9,33 +9,32 @@ import { Dex } from "@pkmn/dex";
 import { DamageDisplay } from "./DamageDisplay";
 import { useEffect, useState } from "react";
 const OuterBox = styled.div`
-  width: 100%;
+  width: 550px;
+  height: 380px;
   grid-column: 1/4;
   grid-row: 3/4;
-  border: 5px solid black;
-
+  /* border: 5px solid black; */
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 const InnerBox = styled.div`
   width: 550px;
-  height: 240px;
+  height: 380px;
   display: grid;
-  grid-template-columns: 1fr 280px;
-  grid-template-rows: repeat(4, auto);
+  grid-template-columns: 1fr 1fr 280px;
+  grid-template-rows: repeat(10, auto);
   justify-items: center;
-  grid-gap: 10px;
-  font-size: 1.3rem;
-  border: 5px solid black;
-  /* overflow-y: scroll; */
+  margin: 5px;
+  font-size: 1.2rem;
+  /* border: 5px solid black; */
 `;
 const PropertyDisplay = styled.div`
-  grid-column: 1/2;
   height: fit-content;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: center;
 `;
 const HiddenPropertyText = styled.div`
   display: none;
@@ -43,7 +42,6 @@ const HiddenPropertyText = styled.div`
 const Property = styled.div`
   padding: 5px;
   text-align: center;
-  padding: 2px;
   margin: 2px;
   border: 2px solid black;
   font-size: 0.75rem;
@@ -59,34 +57,66 @@ const Property = styled.div`
   }
 `;
 
-const PokemonName = styled.div`
+const PokemonName = styled.a`
+  justify-self: start;
+  margin-left: 1rem;
   grid-row: 1/2;
   grid-column: 1/2;
+  font-size: 2rem;
   height: fit-content;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  text-align: start;
 `;
 const NotRevealed = styled.h3`
   text-align: center;
   line-height: 2;
 `;
+const MovesDisplay = styled(PropertyDisplay)`
+  grid-row: 1/-1;
+  grid-column: 2;
+  display: flex;
+`;
+const AbilitiesDisplay = styled(PropertyDisplay)`
+  /* height: fit-content; */
+  grid-row: 1;
+  grid-column: 1;
+`;
+const ItemsDisplay = styled(PropertyDisplay)`
+  grid-row: 2;
+  grid-column: 1;
+`;
+const PropertiesContainer = styled.div`
+  grid-row: 2;
+  grid-column: 1/-2;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+const TypeBox = styled.div`
+  grid-row: 1/2;
+  grid-column: 2;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+`;
+const Type = styled.div`
+  margin: 0 5px;
+  padding: 1px 15px;
+  border-radius: 20px;
+
+  display: flex;
+  align-items: center;
+`;
 const dexSearchPrepper = (str: string): string => {
   return str.toLowerCase().replace(/\W+/g, "");
 };
-// const moveFetchPrepper = (move: string) => {
-//   return move.replace(" ", "-").toLowerCase();
-// };
 
 const {
   Abilities,
   // Aliases,
-  // Conditions,
   Items,
   Moves,
   Species,
-  // Natures,
-  // FormatsData,
 } = Dex.data;
 
 export const OpponentPokemonDataDisplay = (
@@ -113,48 +143,51 @@ export const OpponentPokemonDataDisplay = (
       <>
         <OuterBox>
           <InnerBox>
-            <PokemonName>
-              <a
-                href={`https://www.smogon.com/dex/ss/pokemon/${pokemon.pokemon1}/`}
-              >
-                {pokemon.pokemon1}
-              </a>
-              {/* <TypeBox>
-                {Species[dexSearchPrepper(pokemon.pokemon1)].types.map((x) => (
-                  <Type className={x.toLowerCase()}>{x}</Type>
-                ))}
-              </TypeBox> */}
+            <PokemonName
+              href={`https://www.smogon.com/dex/ss/pokemon/${pokemon.pokemon1}/`}
+            >
+              {pokemon.pokemon1}
             </PokemonName>
+
+            <TypeBox>
+              {Species[dexSearchPrepper(pokemon.pokemon1)].types.map((x) => (
+                <Type className={x.toLowerCase()}>{x}</Type>
+              ))}
+            </TypeBox>
             <DamageDisplay typesArray={typesArray} />
-            <PropertyDisplay>
-              {abilities.map((x) => (
-                <>
+            <PropertiesContainer>
+              <AbilitiesDisplay>
+                Abilities:
+                {abilities.map((x) => (
+                  <>
+                    <Property>
+                      {x}
+                      <HiddenPropertyText>
+                        {Abilities[dexSearchPrepper(x)].shortDesc}
+                      </HiddenPropertyText>
+                    </Property>
+                  </>
+                ))}
+              </AbilitiesDisplay>
+              <ItemsDisplay>
+                Items:
+                {items.map((x) => (
                   <Property>
                     {x}
                     <HiddenPropertyText>
-                      {Abilities[dexSearchPrepper(x)].shortDesc}
+                      {Items[dexSearchPrepper(x)].desc}
                     </HiddenPropertyText>
                   </Property>
-                </>
-              ))}
-            </PropertyDisplay>
-            <PropertyDisplay>
-              {items.map((x) => (
-                <Property>
-                  {x}
-                  <HiddenPropertyText>
-                    {Items[dexSearchPrepper(x)].desc}
-                  </HiddenPropertyText>
-                </Property>
-                // <Item>{x}</Item>
-              ))}
-            </PropertyDisplay>
-            <PropertyDisplay>
-              {/* Moves */}
-              {pokemonData[pokemon.pokemon1].moves.map((x) => (
-                <Property>{x}</Property>
-              ))}
-            </PropertyDisplay>
+                  // <Item>{x}</Item>
+                ))}
+              </ItemsDisplay>
+              <MovesDisplay>
+                Moves:
+                {pokemonData[pokemon.pokemon1].moves.map((x) => (
+                  <Property>{x}</Property>
+                ))}
+              </MovesDisplay>
+            </PropertiesContainer>
           </InnerBox>
         </OuterBox>
       </>

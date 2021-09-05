@@ -6,6 +6,7 @@ import { isDevelopmentMode } from "./functions";
 
 const Title = styled.h1`
   height: 1em;
+  margin-bottom: 0.25em;
 `;
 const PokeButton = styled.button`
   grid-column: 3/4;

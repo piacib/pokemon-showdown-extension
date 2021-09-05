@@ -11,10 +11,11 @@ const ButtonDisplay = styled.div`
   grid-column: 1/4;
   display: flex;
   flex-direction: row;
+  place-self: center;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid black;
-  width: 100%;
+  margin-bottom: 1em;
+  /* width: 550px; */
 `;
 const Button = styled.button`
   font-size: 10px;
