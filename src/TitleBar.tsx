@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import pokeball from "./media/pokeball.svg";
+import loading from "./media/loading.svg";
 import { TitleBarType } from "./types";
 import { isDevelopmentMode } from "./functions";
 
@@ -10,11 +10,13 @@ const Title = styled.h1`
 `;
 const PokeButton = styled.button`
   grid-column: 3/4;
+  background-color: transparent;
+  border: 2px solid black;
   grid-row: 1/2;
-  justify-self: end;
-  align-self: start;
-  width: 5em;
-  height: 5em;
+  justify-self: center;
+  align-self: center;
+  width: 4em;
+  height: 4em;
 `;
 export const TitleBar = ({
   sendPokemonMessage,
@@ -28,7 +30,7 @@ export const TitleBar = ({
         <PokeButton
           onClick={isDevelopmentMode ? sendTestMessage : sendPokemonMessage}
         >
-          <img alt="pokeball" src={pokeball} className="pokeball-btn" />
+          <img alt="refresh" src={loading} className="pokeball-btn" />
         </PokeButton>
       </>
     </>
