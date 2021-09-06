@@ -5,7 +5,6 @@ export enum Sender {
 export interface TitleBarType {
   sendTestMessage: () => void;
   sendPokemonMessage: () => void;
-  battleType: string;
 }
 export interface ChromeMessage {
   from: Sender;
@@ -24,6 +23,12 @@ export type PokemonData = {
     moves: string[];
   };
 };
+export type isRandomBattleReturn = null | false | string;
+export interface WebsiteInfo {
+  url: string;
+  battleType: string;
+  isRandomBattle: isRandomBattleReturn;
+}
 // export interface PokemonData {
 //   <string>:any;
 // }
@@ -36,9 +41,11 @@ export interface ActivePokemon {
 export interface OpponentPokemonDataDisplayProps {
   pokemonData: PokemonData;
   pokemon: ActivePokemon;
+  isRandomBattle: isRandomBattleReturn;
 }
 export interface OpponentsProps {
   opponentsTeam: string[] | null;
+  isRandomBattle: isRandomBattleReturn;
 }
 type Properties = {
   name: string | null;

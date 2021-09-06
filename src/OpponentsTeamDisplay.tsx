@@ -25,7 +25,6 @@ const Button = styled.button`
   border-radius: 0;
   margin: 0.25em;
 `;
-console.log(Button);
 const activePokemonNames = (arr: string[]): string[] => {
   // takes in active pokemon (potentailly 2 for double battles)
   // and returns name with active sliced off
@@ -33,9 +32,7 @@ const activePokemonNames = (arr: string[]): string[] => {
 };
 
 const getCurrentPokemon = (opponentsTeam: string[] | null): ActivePokemon => {
-  console.log("getCurrentPokemon", opponentsTeam);
   if (!opponentsTeam) {
-    console.log("opponentsTeam is null");
     return {
       pokemon1: null,
       pokemon2: null,
@@ -43,7 +40,6 @@ const getCurrentPokemon = (opponentsTeam: string[] | null): ActivePokemon => {
   }
   const activePokemon = opponentsTeam.filter((x) => x.includes("active"));
   const activePokemonFilteredName: string[] = activePokemonNames(activePokemon);
-  console.log("getCurrentPokemon", activePokemonFilteredName[0]);
 
   if (activePokemon.length === 1) {
     return {
@@ -75,10 +71,6 @@ const getPokemonName = (nameStr: string): ActivePokemon => {
     };
   }
   const activePokemonName = pokemonNameFilter(nameStr);
-  console.log({
-    pokemon1: activePokemonName,
-    pokemon2: null,
-  });
   return {
     pokemon1: activePokemonName,
     pokemon2: null,
@@ -135,7 +127,10 @@ const SpriteImage: React.FC<Name> = ({ name }) => {
 // const spriteHeight = h;
 
 //fetches latest pokemon data from auto updating dataset
-export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
+export const OpponentsTeamDisplay = ({
+  opponentsTeam,
+  isRandomBattle,
+}: OpponentsProps) => {
   const [pokemonData, setPokemonData] = useState<PokemonData>({
     "": {
       level: 0,
@@ -154,13 +149,14 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
   }, [opponentsTeam]);
 
   useEffect(() => {
-    // console.log("fetching", currentPokemon);
-    fetch("https://pkmn.github.io/randbats/data/gen8randombattle.json")
-      .then((resp) => resp.json())
-      .then((data) => {
-        setPokemonData(data);
-      });
-  }, []);
+    if (isRandomBattle) {
+      fetch(`https://pkmn.github.io/randbats/data/${isRandomBattle}.json`)
+        .then((resp) => resp.json())
+        .then((data) => {
+          setPokemonData(data);
+        });
+    }
+  }, [isRandomBattle]);
 
   return !opponentsTeam ? (
     <>
@@ -192,6 +188,7 @@ export const OpponentsTeamDisplay = ({ opponentsTeam }: OpponentsProps) => {
         <OpponentPokemonDataDisplay
           pokemonData={pokemonData}
           pokemon={currentPokemon}
+          isRandomBattle={isRandomBattle}
         />
       ) : (
         <div>loading</div>
