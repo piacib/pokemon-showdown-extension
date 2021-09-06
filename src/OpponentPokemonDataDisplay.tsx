@@ -8,6 +8,8 @@ import styled from "styled-components";
 import { Dex } from "@pkmn/dex";
 import { DamageDisplay } from "./DamageDisplay";
 import { useEffect, useState } from "react";
+import { isRandomBattle } from "./functions";
+// STYLED COMPONENTS CSS //
 const OuterBox = styled.div`
   width: 550px;
   height: 380px;
@@ -44,7 +46,7 @@ const Property = styled.div`
   text-align: center;
   margin: 2px;
   border: 2px solid black;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
 
   &:hover ${HiddenPropertyText} {
     display: block;
@@ -56,7 +58,6 @@ const Property = styled.div`
     border: 1px solid black;
   }
 `;
-
 const PokemonName = styled.a`
   justify-self: start;
   margin-left: 1rem;
@@ -69,6 +70,8 @@ const PokemonName = styled.a`
 const NotRevealed = styled.h3`
   text-align: center;
   line-height: 2;
+  grid-row: 1/-1;
+  grid-column: 1/-1;
 `;
 const MovesDisplay = styled(PropertyDisplay)`
   grid-row: 1/-1;
@@ -107,18 +110,57 @@ const Type = styled.div`
   display: flex;
   align-items: center;
 `;
+
 const dexSearchPrepper = (str: string): string => {
   return str.toLowerCase().replace(/\W+/g, "");
 };
 
-const {
-  Abilities,
-  // Aliases,
-  Items,
-  Moves,
-  Species,
-} = Dex.data;
-
+const { Abilities, Aliases, Items, Moves, Species } = Dex.data;
+interface RandomBattlePokemonDisplayProps {
+  moves: string[];
+  abilities: string[];
+  items: string[];
+}
+const RandomBattlePokemonDisplay = ({
+  moves,
+  abilities,
+  items,
+}: RandomBattlePokemonDisplayProps) => {
+  return (
+    <PropertiesContainer>
+      <AbilitiesDisplay>
+        Abilities:
+        {abilities.map((x) => (
+          <>
+            <Property>
+              {x}
+              <HiddenPropertyText>
+                {Abilities[dexSearchPrepper(x)].shortDesc}
+              </HiddenPropertyText>
+            </Property>
+          </>
+        ))}
+      </AbilitiesDisplay>
+      <ItemsDisplay>
+        Items:
+        {items.map((x) => (
+          <Property>
+            {x}
+            <HiddenPropertyText>
+              {Items[dexSearchPrepper(x)].desc}
+            </HiddenPropertyText>
+          </Property>
+        ))}
+      </ItemsDisplay>
+      <MovesDisplay>
+        Moves:
+        {moves.map((x) => (
+          <Property>{x}</Property>
+        ))}
+      </MovesDisplay>
+    </PropertiesContainer>
+  );
+};
 export const OpponentPokemonDataDisplay = (
   props: OpponentPokemonDataDisplayProps
 ) => {
@@ -126,7 +168,7 @@ export const OpponentPokemonDataDisplay = (
   const pokemon: ActivePokemon = props.pokemon;
   const pokemonData: PokemonData = props.pokemonData;
 
-  console.log(Moves);
+  // console.log(Aliases);
   useEffect(() => {
     if (pokemon.pokemon1) {
       setTypesArray(
@@ -138,7 +180,7 @@ export const OpponentPokemonDataDisplay = (
   }, [pokemon.pokemon1]);
   if (pokemonData && pokemon.pokemon1 && pokemonData[pokemon.pokemon1]) {
     const { abilities, items, moves } = pokemonData[pokemon.pokemon1];
-    console.log(Items);
+    console.log(moves);
     return (
       <>
         <OuterBox>
@@ -155,39 +197,14 @@ export const OpponentPokemonDataDisplay = (
               ))}
             </TypeBox>
             <DamageDisplay typesArray={typesArray} />
-            <PropertiesContainer>
-              <AbilitiesDisplay>
-                Abilities:
-                {abilities.map((x) => (
-                  <>
-                    <Property>
-                      {x}
-                      <HiddenPropertyText>
-                        {Abilities[dexSearchPrepper(x)].shortDesc}
-                      </HiddenPropertyText>
-                    </Property>
-                  </>
-                ))}
-              </AbilitiesDisplay>
-              <ItemsDisplay>
-                Items:
-                {items.map((x) => (
-                  <Property>
-                    {x}
-                    <HiddenPropertyText>
-                      {Items[dexSearchPrepper(x)].desc}
-                    </HiddenPropertyText>
-                  </Property>
-                  // <Item>{x}</Item>
-                ))}
-              </ItemsDisplay>
-              <MovesDisplay>
-                Moves:
-                {pokemonData[pokemon.pokemon1].moves.map((x) => (
-                  <Property>{x}</Property>
-                ))}
-              </MovesDisplay>
-            </PropertiesContainer>
+
+            {props.isRandomBattle ? (
+              <RandomBattlePokemonDisplay
+                abilities={abilities}
+                items={items}
+                moves={pokemonData[pokemon.pokemon1].moves}
+              />
+            ) : null}
           </InnerBox>
         </OuterBox>
       </>
