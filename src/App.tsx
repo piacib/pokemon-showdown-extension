@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { ChromeMessage, Sender, PokemonResponse } from "./types";
+import { ChromeMessage, Sender, PokemonResponse, WebsiteInfo } from "./types";
 import { pokemonMessage, testMessage } from "./messages";
 import "./App.css";
 import { OpponentsTeamDisplay } from "./OpponentsTeamDisplay";
 import { TitleBar } from "./TitleBar";
 import styled from "styled-components";
-import { getBattleType, isDevelopmentMode } from "./functions";
+import { getBattleType, isRandomBattle, isDevelopmentMode } from "./functions";
 import { NotPokemonShowdownErrorScreen } from "./NotPokemonShowdownErrorScreen";
 import { NotInBattleErrorScreen } from "./NotInBattleErrorScreen";
 const AppDisplay = styled.div`
@@ -52,14 +52,12 @@ const isURLShowdown = (url: string) => {
 //   }
 //   return opponentsTeam.filter((x) => x.includes("fainted"));
 // };
-interface WebsiteInfo {
-  url: string;
-  battleType: string;
-}
+
 const App = () => {
   const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfo>({
     url: "",
     battleType: "",
+    isRandomBattle: null,
   });
   const [responseFromContent, setResponseFromContent] =
     useState<PokemonResponse>({
@@ -79,14 +77,22 @@ const App = () => {
   useEffect(() => {
     if (isDevelopmentMode) {
       const testUrl =
-        "https://play.pokemonshowdown.com/battle-gen8ou-1402224551";
-      setWebsiteInfo({ url: testUrl, battleType: getBattleType(testUrl) });
+        "https://play.pokemonshowdown.com/battle-gen8randombattle-1411331283";
+      setWebsiteInfo({
+        url: testUrl,
+        isRandomBattle: isRandomBattle(testUrl),
+        battleType: getBattleType(testUrl),
+      });
     } else {
       const queryInfo = { active: true, lastFocusedWindow: true };
       chrome.tabs &&
         chrome.tabs.query(queryInfo, (tabs) => {
           const url = tabs[0].url ? tabs[0].url : "";
-          setWebsiteInfo({ url: url, battleType: getBattleType(url) });
+          setWebsiteInfo({
+            url: url,
+            isRandomBattle: isRandomBattle(url),
+            battleType: getBattleType(url),
+          });
         });
     }
   }, []);
@@ -137,10 +143,10 @@ const App = () => {
         <TitleBar
           sendTestMessage={sendTestMessage}
           sendPokemonMessage={sendPokemonMessage}
-          battleType={websiteInfo.battleType}
         />
         <OpponentsTeamDisplay
           opponentsTeam={responseFromContent.opponentsTeam}
+          isRandomBattle={websiteInfo.isRandomBattle}
         />
       </AppDisplay>
     ) : (
