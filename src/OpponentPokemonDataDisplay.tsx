@@ -1,14 +1,11 @@
-import {
-  ActivePokemon,
-  PokemonData,
-  OpponentPokemonDataDisplayProps,
-} from "./types";
+import { OpponentPokemonDataDisplayProps, PokemonData } from "./types";
 import "./AppDesign.css";
 import styled from "styled-components";
 import { Dex } from "@pkmn/dex";
 import { DamageDisplay } from "./DamageDisplay";
 import { useEffect, useState } from "react";
 import { isRandomBattle } from "./functions";
+import { useCountRenders } from "./hooks/useCountRenders";
 // STYLED COMPONENTS CSS //
 const OuterBox = styled.div`
   width: 550px;
@@ -95,7 +92,7 @@ const PropertiesContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `;
-const TypeBox = styled.div`
+const TypeDisplay = styled.div`
   grid-row: 1/2;
   grid-column: 2;
   display: flex;
@@ -161,14 +158,43 @@ const RandomBattlePokemonDisplay = ({
     </PropertiesContainer>
   );
 };
-export const OpponentPokemonDataDisplay = (
-  props: OpponentPokemonDataDisplayProps
-) => {
+const OtherFormatsDisplay = () => {
+  return <div>not random </div>;
+};
+export const OpponentPokemonDataDisplay = ({
+  // pokemonData,
+  pokemon,
+  isRandomBattle,
+}: OpponentPokemonDataDisplayProps) => {
   const [typesArray, setTypesArray] = useState<string[] | null>(null);
-  const pokemon: ActivePokemon = props.pokemon;
-  const pokemonData: PokemonData = props.pokemonData;
+  const [pokemonData, setPokemonData] = useState<PokemonData>({
+    "": {
+      level: 0,
+      abilities: [],
+      items: [],
+      moves: [],
+    },
+  });
+  useCountRenders("OpponentPokemonDataDisplay");
 
-  // console.log(Aliases);
+  useEffect(() => {
+    console.log("isRandomBattle fetching");
+    async function asyncFetchRandomPokemonData() {
+      const fetchData = await fetch(
+        `https://pkmn.github.io/randbats/data/${isRandomBattle}.json`
+      );
+      const response = await fetchData.json();
+      setPokemonData(response);
+      await console.log("pokemonData", pokemonData);
+    }
+    if (isRandomBattle) {
+      asyncFetchRandomPokemonData();
+    }
+  }, [isRandomBattle]);
+
+  if (pokemon.pokemon1) {
+    console.log(Dex.species.get(pokemon.pokemon1));
+  }
   useEffect(() => {
     if (pokemon.pokemon1) {
       setTypesArray(
@@ -178,9 +204,11 @@ export const OpponentPokemonDataDisplay = (
       );
     }
   }, [pokemon.pokemon1]);
+  const isDataLoaded =
+    pokemonData && pokemon.pokemon1 && pokemonData[pokemon.pokemon1];
+
   if (pokemonData && pokemon.pokemon1 && pokemonData[pokemon.pokemon1]) {
     const { abilities, items, moves } = pokemonData[pokemon.pokemon1];
-    console.log(moves);
     return (
       <>
         <OuterBox>
@@ -191,20 +219,21 @@ export const OpponentPokemonDataDisplay = (
               {pokemon.pokemon1}
             </PokemonName>
 
-            <TypeBox>
+            <TypeDisplay>
               {Species[dexSearchPrepper(pokemon.pokemon1)].types.map((x) => (
                 <Type className={x.toLowerCase()}>{x}</Type>
               ))}
-            </TypeBox>
+            </TypeDisplay>
             <DamageDisplay typesArray={typesArray} />
 
-            {props.isRandomBattle ? (
+            {isRandomBattle ? (
               <RandomBattlePokemonDisplay
                 abilities={abilities}
                 items={items}
                 moves={pokemonData[pokemon.pokemon1].moves}
               />
             ) : null}
+            {isRandomBattle === false ? <OtherFormatsDisplay /> : null}
           </InnerBox>
         </OuterBox>
       </>

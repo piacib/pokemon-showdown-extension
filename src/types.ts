@@ -39,7 +39,7 @@ export interface ActivePokemon {
   pokemon2: POKEMON | null;
 }
 export interface OpponentPokemonDataDisplayProps {
-  pokemonData: PokemonData;
+  // pokemonData: PokemonData;
   pokemon: ActivePokemon;
   isRandomBattle: isRandomBattleReturn;
 }

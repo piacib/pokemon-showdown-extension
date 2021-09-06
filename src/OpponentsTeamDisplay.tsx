@@ -148,15 +148,15 @@ export const OpponentsTeamDisplay = ({
     setCurrentPokemon(getCurrentPokemon(opponentsTeam));
   }, [opponentsTeam]);
 
-  useEffect(() => {
-    if (isRandomBattle) {
-      fetch(`https://pkmn.github.io/randbats/data/${isRandomBattle}.json`)
-        .then((resp) => resp.json())
-        .then((data) => {
-          setPokemonData(data);
-        });
-    }
-  }, [isRandomBattle]);
+  // useEffect(() => {
+  //   if (isRandomBattle) {
+  //     fetch(`https://pkmn.github.io/randbats/data/${isRandomBattle}.json`)
+  //       .then((resp) => resp.json())
+  //       .then((data) => {
+  //         setPokemonData(data);
+  //       });
+  //   }
+  // }, [isRandomBattle]);
 
   return !opponentsTeam ? (
     <>
@@ -186,7 +186,7 @@ export const OpponentsTeamDisplay = ({
       </ButtonDisplay>
       {pokemonData ? (
         <OpponentPokemonDataDisplay
-          pokemonData={pokemonData}
+          // pokemonData={pokemonData}
           pokemon={currentPokemon}
           isRandomBattle={isRandomBattle}
         />
