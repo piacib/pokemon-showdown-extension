@@ -77,7 +77,7 @@ const App = () => {
   useEffect(() => {
     if (isDevelopmentMode) {
       const testUrl =
-        "https://play.pokemonshowdown.com/battle-gen8randombattle-1411331283";
+        "https://play.pokemonshowdown.com/battle-gen8ou-1411331283";
       setWebsiteInfo({
         url: testUrl,
         isRandomBattle: isRandomBattle(testUrl),

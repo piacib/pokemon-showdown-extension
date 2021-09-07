@@ -158,9 +158,40 @@ const RandomBattlePokemonDisplay = ({
     </PropertiesContainer>
   );
 };
-const OtherFormatsDisplay = () => {
-  return <div>not random </div>;
+interface OtherFormatsDisplayProps {
+  pokemon:string
+} 
+const OtherFormatsDisplay = ({
+  pokemon
+}: OtherFormatsDisplayProps) => {
+  const [stats,setStats] = useState<Stats>({
+    hp:  0,
+    atk: 0,
+    def: 0,
+    spa: 0,
+    spd: 0,
+    spe: 0
+})
+  useEffect(()=> {
+
+    if (pokemon) {
+      setStats(Dex.species.get(pokemon).baseStats)
+      console.log('stats',stats);
+    }
+  },[pokemon])
+  
+  
+  return <div>{pokemon}
+  {JSON.stringify(stats)}</div>;
 };
+type Stats = {
+  hp: number;
+  atk: number;
+  def: number;
+  spa: number;
+  spd: number;
+  spe: number;
+}
 export const OpponentPokemonDataDisplay = ({
   // pokemonData,
   pokemon,
@@ -175,6 +206,9 @@ export const OpponentPokemonDataDisplay = ({
       moves: [],
     },
   });
+  
+
+  
   useCountRenders("OpponentPokemonDataDisplay");
 
   useEffect(() => {
@@ -191,10 +225,13 @@ export const OpponentPokemonDataDisplay = ({
       asyncFetchRandomPokemonData();
     }
   }, [isRandomBattle]);
+  // useEffect(()=> {
 
-  if (pokemon.pokemon1) {
-    console.log(Dex.species.get(pokemon.pokemon1));
-  }
+  //   if (pokemon.pokemon1) {
+  //     setStats(Dex.species.get(pokemon.pokemon1).baseStats)
+  //     console.log('stats',stats);
+  //   }
+  // },[pokemon.pokemon1])
   useEffect(() => {
     if (pokemon.pokemon1) {
       setTypesArray(
@@ -204,11 +241,9 @@ export const OpponentPokemonDataDisplay = ({
       );
     }
   }, [pokemon.pokemon1]);
-  const isDataLoaded =
-    pokemonData && pokemon.pokemon1 && pokemonData[pokemon.pokemon1];
-
-  if (pokemonData && pokemon.pokemon1 && pokemonData[pokemon.pokemon1]) {
-    const { abilities, items, moves } = pokemonData[pokemon.pokemon1];
+  console.log(Species)
+   
+    if (pokemon.pokemon1) {    
     return (
       <>
         <OuterBox>
@@ -224,17 +259,19 @@ export const OpponentPokemonDataDisplay = ({
                 <Type className={x.toLowerCase()}>{x}</Type>
               ))}
             </TypeDisplay>
+
             <DamageDisplay typesArray={typesArray} />
 
-            {isRandomBattle ? (
+            {(pokemonData && pokemon.pokemon1 && pokemonData[pokemon.pokemon1] && isRandomBattle) ? (
               <RandomBattlePokemonDisplay
-                abilities={abilities}
-                items={items}
+                abilities={pokemonData[pokemon.pokemon1].abilities}
+                items={pokemonData[pokemon.pokemon1].items}
                 moves={pokemonData[pokemon.pokemon1].moves}
               />
             ) : null}
-            {isRandomBattle === false ? <OtherFormatsDisplay /> : null}
-          </InnerBox>
+            {(isRandomBattle === false) ? 
+            <OtherFormatsDisplay pokemon={pokemon.pokemon1}/> : null }
+            </InnerBox>
         </OuterBox>
       </>
     );
