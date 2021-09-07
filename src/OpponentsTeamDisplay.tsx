@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { OpponentPokemonDataDisplay } from "./OpponentPokemonDataDisplay";
-import { PokemonData, ActivePokemon, OpponentsProps } from "./types";
+import { ActivePokemon, OpponentsProps } from "./types";
 import { Sprites } from "@pkmn/img";
 import pokeball from "./media/pokeball.svg";
 import { OpponentsTeamUnavailable } from "./OpponentsTeamUnavailable";
@@ -131,14 +131,7 @@ export const OpponentsTeamDisplay = ({
   opponentsTeam,
   isRandomBattle,
 }: OpponentsProps) => {
-  const [pokemonData, setPokemonData] = useState<PokemonData>({
-    "": {
-      level: 0,
-      abilities: [],
-      items: [],
-      moves: [],
-    },
-  });
+
   const [currentPokemon, setCurrentPokemon] = useState<ActivePokemon>({
     pokemon1: null,
     pokemon2: null,
@@ -184,15 +177,13 @@ export const OpponentsTeamDisplay = ({
           </Button>
         ))}
       </ButtonDisplay>
-      {pokemonData ? (
+      
         <OpponentPokemonDataDisplay
           // pokemonData={pokemonData}
           pokemon={currentPokemon}
           isRandomBattle={isRandomBattle}
         />
-      ) : (
-        <div>loading</div>
-      )}
+      
     </>
   );
 };

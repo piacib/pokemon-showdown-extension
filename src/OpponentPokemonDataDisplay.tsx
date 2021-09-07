@@ -1,11 +1,9 @@
-import { OpponentPokemonDataDisplayProps, PokemonData } from "./types";
+import { OpponentPokemonDataDisplayProps,Stats, OtherFormatsDisplayProps ,RandbatsPokemonData, RandomBattlePokemonDisplayProps } from "./types";
 import "./AppDesign.css";
 import styled from "styled-components";
 import { Dex } from "@pkmn/dex";
 import { DamageDisplay } from "./DamageDisplay";
 import { useEffect, useState } from "react";
-import { isRandomBattle } from "./functions";
-import { useCountRenders } from "./hooks/useCountRenders";
 // STYLED COMPONENTS CSS //
 const OuterBox = styled.div`
   width: 550px;
@@ -113,16 +111,33 @@ const dexSearchPrepper = (str: string): string => {
 };
 
 const { Abilities, Aliases, Items, Moves, Species } = Dex.data;
-interface RandomBattlePokemonDisplayProps {
-  moves: string[];
-  abilities: string[];
-  items: string[];
-}
+
 const RandomBattlePokemonDisplay = ({
-  moves,
-  abilities,
-  items,
+  pokemon, isRandomBattle, stats
 }: RandomBattlePokemonDisplayProps) => {
+  const [randbatsPokemonData, setRandbatsPokemonData] = useState<RandbatsPokemonData>({
+    "": {
+      level: 0,
+      abilities: [],
+      items: [],
+      moves: [],
+    },
+  });
+  const {abilities,items,moves } = randbatsPokemonData[pokemon]
+  useEffect(() => {
+    console.log("isRandomBattle fetching");
+    async function asyncFetchRandomPokemonData() {
+      const fetchData = await fetch(
+        `https://pkmn.github.io/randbats/data/${isRandomBattle}.json`
+      );
+      const response = await fetchData.json();
+      setRandbatsPokemonData(response);
+      await console.log("pokemonData", randbatsPokemonData);
+    }
+    
+      asyncFetchRandomPokemonData();
+    
+  }, [isRandomBattle]);
   return (
     <PropertiesContainer>
       <AbilitiesDisplay>
@@ -158,12 +173,25 @@ const RandomBattlePokemonDisplay = ({
     </PropertiesContainer>
   );
 };
-interface OtherFormatsDisplayProps {
-  pokemon:string
-} 
+
+ 
 const OtherFormatsDisplay = ({
-  pokemon
-}: OtherFormatsDisplayProps) => {
+  pokemon,
+  stats
+}: OtherFormatsDisplayProps) => {  
+  const abilities = Dex.species.get(pokemon).abilities
+  return <> 
+  <div>{pokemon}</div>
+<div>  {JSON.stringify(stats)}</div>
+<div>{JSON.stringify(abilities)}</div> 
+</>
+};
+
+export const OpponentPokemonDataDisplay = ({
+  pokemon,
+  isRandomBattle,
+}: OpponentPokemonDataDisplayProps) => {
+  const [typesArray, setTypesArray] = useState<string[] | null>(null);
   const [stats,setStats] = useState<Stats>({
     hp:  0,
     atk: 0,
@@ -174,64 +202,12 @@ const OtherFormatsDisplay = ({
 })
   useEffect(()=> {
 
-    if (pokemon) {
-      setStats(Dex.species.get(pokemon).baseStats)
-      console.log('stats',stats);
+    if (pokemon.pokemon1) {
+      setStats(Dex.species.get(pokemon.pokemon1).baseStats)
+      // console.log('stats',stats);
     }
-  },[pokemon])
-  
-  
-  return <div>{pokemon}
-  {JSON.stringify(stats)}</div>;
-};
-type Stats = {
-  hp: number;
-  atk: number;
-  def: number;
-  spa: number;
-  spd: number;
-  spe: number;
-}
-export const OpponentPokemonDataDisplay = ({
-  // pokemonData,
-  pokemon,
-  isRandomBattle,
-}: OpponentPokemonDataDisplayProps) => {
-  const [typesArray, setTypesArray] = useState<string[] | null>(null);
-  const [pokemonData, setPokemonData] = useState<PokemonData>({
-    "": {
-      level: 0,
-      abilities: [],
-      items: [],
-      moves: [],
-    },
-  });
-  
+  },[pokemon.pokemon1])
 
-  
-  useCountRenders("OpponentPokemonDataDisplay");
-
-  useEffect(() => {
-    console.log("isRandomBattle fetching");
-    async function asyncFetchRandomPokemonData() {
-      const fetchData = await fetch(
-        `https://pkmn.github.io/randbats/data/${isRandomBattle}.json`
-      );
-      const response = await fetchData.json();
-      setPokemonData(response);
-      await console.log("pokemonData", pokemonData);
-    }
-    if (isRandomBattle) {
-      asyncFetchRandomPokemonData();
-    }
-  }, [isRandomBattle]);
-  // useEffect(()=> {
-
-  //   if (pokemon.pokemon1) {
-  //     setStats(Dex.species.get(pokemon.pokemon1).baseStats)
-  //     console.log('stats',stats);
-  //   }
-  // },[pokemon.pokemon1])
   useEffect(() => {
     if (pokemon.pokemon1) {
       setTypesArray(
@@ -241,7 +217,6 @@ export const OpponentPokemonDataDisplay = ({
       );
     }
   }, [pokemon.pokemon1]);
-  console.log(Species)
    
     if (pokemon.pokemon1) {    
     return (
@@ -262,15 +237,15 @@ export const OpponentPokemonDataDisplay = ({
 
             <DamageDisplay typesArray={typesArray} />
 
-            {(pokemonData && pokemon.pokemon1 && pokemonData[pokemon.pokemon1] && isRandomBattle) ? (
+            {(isRandomBattle) ? (
               <RandomBattlePokemonDisplay
-                abilities={pokemonData[pokemon.pokemon1].abilities}
-                items={pokemonData[pokemon.pokemon1].items}
-                moves={pokemonData[pokemon.pokemon1].moves}
+               pokemon={pokemon.pokemon1}
+               isRandomBattle={isRandomBattle}
+               stats={stats}
               />
             ) : null}
             {(isRandomBattle === false) ? 
-            <OtherFormatsDisplay pokemon={pokemon.pokemon1}/> : null }
+            <OtherFormatsDisplay stats={stats} pokemon={pokemon.pokemon1}/> : null }
             </InnerBox>
         </OuterBox>
       </>

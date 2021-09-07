@@ -15,7 +15,7 @@ export interface PokemonResponse {
   opponent: Array<string>;
   opponentsTeam: string[] | null;
 }
-export type PokemonData = {
+export type RandbatsPokemonData = {
   [key: string]: {
     level: Number;
     abilities: string[];
@@ -23,12 +23,29 @@ export type PokemonData = {
     moves: string[];
   };
 };
+export interface Stats {
+  hp: number;
+  atk: number;
+  def: number;
+  spa: number;
+  spd: number;
+  spe: number;
+}
+export interface OtherFormatsDisplayProps {
+  pokemon:string;
+  stats: Stats;
+}
 export type isRandomBattleReturn = null | false | string;
 export interface WebsiteInfo {
   url: string;
   battleType: string;
   isRandomBattle: isRandomBattleReturn;
 }
+export interface RandomBattlePokemonDisplayProps {
+  pokemon:string;
+  isRandomBattle:isRandomBattleReturn;
+  stats:Stats
+ }
 // export interface PokemonData {
 //   <string>:any;
 // }
