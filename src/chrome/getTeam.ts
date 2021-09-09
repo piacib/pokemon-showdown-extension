@@ -26,7 +26,9 @@ export const getTeam = (whichTeam: "opponent" | "user"): string[] | null => {
       ? rooms.filter((x) => x.style.display !== "none")[0]
       : rooms[0];
   const pkm = Array.from(
-    activeRoom.querySelectorAll<HTMLSpanElement>(`${teamsBar[whichTeam]}.picon`)
+    activeRoom.querySelectorAll<HTMLSpanElement>(
+      `${teamsBar[whichTeam]} .picon`
+    )
   );
   const names: (string | null)[] = pkm.map((x) => x.getAttribute("aria-label"));
 
