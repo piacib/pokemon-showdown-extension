@@ -3,12 +3,10 @@ import { Dex } from "@pkmn/dex";
 import styled from "styled-components";
 
 const DamageContainer = styled.div`
-  /* grid-column: -2/-1; */
   grid-row: 4;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* border: 1px solid black; */
   height: 240px;
 `;
 const DamageGroupContainer = styled.div`
@@ -99,16 +97,6 @@ export const DamageDisplay = (props: DamageDisplayProps) => {
   if (!damageObj) {
     return <div>Loading...</div>;
   }
-  const entries0 = Object.entries(damageObj).filter((entry) => entry[1] === 0);
-  const entries25 = Object.entries(damageObj).filter(
-    (entry) => entry[1] === 0.25
-  );
-  const entries12 = Object.entries(damageObj).filter(
-    (entry) => entry[1] === 0.5
-  );
-  const entries2 = Object.entries(damageObj).filter((entry) => entry[1] === 2);
-  const entries4 = Object.entries(damageObj).filter((entry) => entry[1] === 4);
-  const label = ["0", "1/4", "1/2", "2", "4"];
   const labels = ["No Effect", "Ineffective", "Super effective"];
   const noEffect = Object.entries(damageObj).filter((entry) => entry[1] === 0);
   const ineffective = Object.entries(damageObj).filter(
@@ -135,21 +123,5 @@ export const DamageDisplay = (props: DamageDisplayProps) => {
         </DamageGroupContainer>
       ))}
     </DamageContainer>
-    // <DamageContainer>
-    //   {[entries0, entries25, entries12, entries2, entries4].map(
-    //     (array, idx) => (
-    //       <DamageGroupContainer>
-    //         {Boolean(array.length) ? (
-    //           <TypeBoxContainer>
-    //             x{label[idx]}:
-    //             {array.map((x) => (
-    //               <TypeBox className={x[0].toLowerCase()}>{x[0]}</TypeBox>
-    //             ))}
-    //           </TypeBoxContainer>
-    //         ) : null}
-    //       </DamageGroupContainer>
-    //     )
-    //   )}
-    // </DamageContainer>
   );
 };
