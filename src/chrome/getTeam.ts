@@ -1,7 +1,11 @@
 const filteredNames = (arr: (string | null)[]): string[] => {
   return arr.map((x) => (x === null ? "" : x));
 };
-export const getTeam = (): string[] | null => {
+const teamsBar = {
+  opponent: ".rightbar",
+  user: ".leftbar",
+};
+export const getTeam = (whichTeam: "opponent" | "user"): string[] | null => {
   //gets opponents team from aria label on the images under the opponents sprite
 
   // rabs all battle rooms
@@ -21,13 +25,10 @@ export const getTeam = (): string[] | null => {
     rooms.length > 1
       ? rooms.filter((x) => x.style.display !== "none")[0]
       : rooms[0];
-  const opponentsPkm = Array.from(
-    activeRoom.querySelectorAll<HTMLSpanElement>(".rightbar .picon")
+  const pkm = Array.from(
+    activeRoom.querySelectorAll<HTMLSpanElement>(`${teamsBar[whichTeam]}.picon`)
   );
-
-  const names: (string | null)[] = opponentsPkm.map((x) =>
-    x.getAttribute("aria-label")
-  );
+  const names: (string | null)[] = pkm.map((x) => x.getAttribute("aria-label"));
 
   return filteredNames(names);
 };

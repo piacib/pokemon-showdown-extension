@@ -14,6 +14,7 @@ export interface PokemonResponse {
   user: Array<string>;
   opponent: Array<string>;
   opponentsTeam: string[] | null;
+  usersTeam: string[] | null;
 }
 export type RandbatsPokemonData = {
   [key: string]: {
@@ -55,7 +56,7 @@ export interface ActivePokemon {
 }
 export interface OpponentPokemonDataDisplayProps {
   // pokemonData: PokemonData;
-  pokemon: ActivePokemon;
+  pokemon: string;
   isRandomBattle: isRandomBattleReturn;
 }
 export interface OpponentsProps {

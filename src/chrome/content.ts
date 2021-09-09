@@ -55,7 +55,8 @@ const messagesFromReactAppListener = (
     console.log("chat", chat);
     const battleLog = document.getElementsByClassName("battle-log").item(0);
     console.log("turnCount", turnCount(battleLog));
-    const opponentsTeam = getTeam();
+    const opponentsTeam = getTeam("opponent");
+    const usersTeam = getTeam("user");
     console.log("content teams", opponentsTeam);
     const { user, opponent } = getPokemon(chat);
     console.log(getPokemon(chat));
@@ -63,6 +64,7 @@ const messagesFromReactAppListener = (
       user,
       opponent,
       opponentsTeam,
+      usersTeam,
     });
   }
 
