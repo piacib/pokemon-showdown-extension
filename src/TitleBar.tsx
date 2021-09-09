@@ -6,14 +6,15 @@ import { isDevelopmentMode } from "./functions";
 
 const Title = styled.h1`
   height: 1em;
-  margin-bottom: 0.25em;
+  grid-row: 1/2;
+  grid-column: 1;
 `;
 const PokeButton = styled.button`
-  grid-column: 3/4;
+  grid-column: -1;
   background-color: transparent;
   border: 2px solid black;
-  grid-row: 1/2;
-  justify-self: center;
+  grid-row: 1;
+  justify-self: end;
   align-self: center;
   width: 4em;
   height: 4em;
@@ -26,13 +27,11 @@ export const TitleBar = ({
   return (
     <>
       <Title>PokeInfo</Title>
-      <>
-        <PokeButton
-          onClick={isDevelopmentMode ? sendTestMessage : sendPokemonMessage}
-        >
-          <img alt="refresh" src={loading} className="pokeball-btn" />
-        </PokeButton>
-      </>
+      <PokeButton
+        onClick={isDevelopmentMode ? sendTestMessage : sendPokemonMessage}
+      >
+        <img alt="refresh" src={loading} className="pokeball-btn" />
+      </PokeButton>
     </>
   );
 };

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { ChromeMessage, Sender, PokemonResponse, WebsiteInfo } from "./types";
-import { pokemonMessage, testMessage } from "./messages";
+import { pokemonMessage } from "./messages";
+import loading from "./media/loading.svg";
 import "./App.css";
+import { Dex } from "@pkmn/dex";
 import { OpponentsTeamDisplay } from "./OpponentsTeamDisplay";
 import { TitleBar } from "./TitleBar";
 import styled from "styled-components";
@@ -12,9 +14,10 @@ const AppDisplay = styled.div`
   background-color: #282c34a4;
   background-color: #c5bfbf;
   display: grid;
+  grid-template-rows: 75px 61px 32px auto;
   width: 600px;
   height: 400px;
-  padding: 1em;
+  padding: 0 0.25em;
   overflow: hidden;
 `;
 const testDS = {
@@ -27,6 +30,14 @@ const testDS = {
     "Not revealed",
   ],
   user: ["Slowking", "Heracross", "Stoutland", "Amoonguss", "Stoutland"],
+  usersTeam: [
+    "Slowking (fainted)",
+    "Heracross",
+    "Stoutland (active)",
+    "Lycanroc (Lycanroc-Dusk) (91%)",
+    "Scizor",
+    "Not revealed",
+  ],
   opponent: [
     "Aggron",
     "Indeedee-F",
@@ -52,7 +63,32 @@ const isURLShowdown = (url: string) => {
 //   }
 //   return opponentsTeam.filter((x) => x.includes("fainted"));
 // };
-
+const Title = styled.h1`
+  height: 1em;
+  width: fit-content;
+  grid-row: 1/2;
+  grid-column: 1/2;
+`;
+const PokeButton = styled.button`
+  grid-column: 3/4;
+  background-color: transparent;
+  border: 2px solid black;
+  grid-row: 1;
+  justify-self: end;
+  align-self: center;
+  width: 4em;
+  height: 4em;
+`;
+const Button = styled.button`
+  width: 150px;
+  height: 40px;
+  grid-row: 1;
+  grid-column: 2;
+  border-radius: 20px;
+  font-size: 16px;
+  background-color: rgb(237, 85, 100);
+  align-self: center;
+`;
 const App = () => {
   const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfo>({
     url: "",
@@ -64,20 +100,16 @@ const App = () => {
       user: [""],
       opponent: [""],
       opponentsTeam: null,
+      usersTeam: null,
     });
-  // const [opponentsTeam, setOpponentsTeam] = useState<string[] | null>(null);
-  // const [opponentsCurrentPokemon, setOpponentsCurrentPokemon] =
-  //   useState<PokemonData>({});
-  // const battleType = useBattleType();
-  //
-
+  const [sendOpponentsTeam, setSendOpponentsTeam] = useState<Boolean>(true);
   /**
    * Get current URL
    */
   useEffect(() => {
     if (isDevelopmentMode) {
       const testUrl =
-        "https://play.pokemonshowdown.com/battle-gen8ou-1411331283";
+        "https://play.pokemonshowdown.com/battle-gen8randombattle-1411331283";
       setWebsiteInfo({
         url: testUrl,
         isRandomBattle: isRandomBattle(testUrl),
@@ -115,10 +147,10 @@ const App = () => {
    * Send message to the content script
    */
   const sendTestMessage = () => {
-    const message: ChromeMessage = {
-      from: Sender.React,
-      message: testMessage,
-    };
+    // const message: ChromeMessage = {
+    //   from: Sender.React,
+    //   message: testMessage,
+    // };
     setResponseFromContent(testDS);
   };
 
@@ -140,12 +172,25 @@ const App = () => {
   return isURLShowdown(websiteInfo.url) ? (
     websiteInfo.battleType ? (
       <AppDisplay>
-        <TitleBar
+        <Title>PokeInfo</Title>
+        <PokeButton
+          onClick={isDevelopmentMode ? sendTestMessage : sendPokemonMessage}
+        >
+          <img alt="refresh" src={loading} className="pokeball-btn" />
+        </PokeButton>
+        {/* <TitleBar
           sendTestMessage={sendTestMessage}
           sendPokemonMessage={sendPokemonMessage}
-        />
+        /> */}
+        <Button onClick={() => setSendOpponentsTeam(!sendOpponentsTeam)}>
+          Swap to {sendOpponentsTeam ? "Users Team" : "Opponents Team"}
+        </Button>
         <OpponentsTeamDisplay
-          opponentsTeam={responseFromContent.opponentsTeam}
+          opponentsTeam={
+            sendOpponentsTeam
+              ? responseFromContent.opponentsTeam
+              : responseFromContent.usersTeam
+          }
           isRandomBattle={websiteInfo.isRandomBattle}
         />
       </AppDisplay>

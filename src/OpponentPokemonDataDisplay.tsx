@@ -11,16 +11,7 @@ import { Dex } from "@pkmn/dex";
 import { DamageDisplay } from "./DamageDisplay";
 import { useEffect, useState } from "react";
 // STYLED COMPONENTS CSS //
-const OuterBox = styled.div`
-  width: 550px;
-  height: 380px;
-  grid-column: 1/4;
-  grid-row: 3/4;
-  /* border: 5px solid black; */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+
 const InnerBox = styled.div`
   width: 550px;
   height: 380px;
@@ -42,27 +33,67 @@ const PropertyDisplay = styled.div`
 const HiddenPropertyText = styled.div`
   display: none;
 `;
-const Property = styled.div`
+const PropertyBtn = styled.div`
   padding: 5px;
   text-align: center;
   margin: 2px;
   border: 2px solid black;
   font-size: 0.9rem;
+  position: relative;
 
   &:hover ${HiddenPropertyText} {
     display: block;
     position: absolute;
+    top: 30px;
+    right: 0;
     max-width: 250px;
+    min-width: 150px;
+    padding: 5px;
     text-align: start;
     font-size: 1.1rem;
     background: white;
+    z-index: 2;
+    border: 1px solid black;
+  }
+`;
+const MoveData = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+const MoveProperty = styled.li`
+  /* width: fit-content; */
+  white-space: nowrap;
+`;
+const MoveDescription = styled(MoveProperty)`
+  white-space: initial;
+`;
+const MoveBtn = styled.div`
+  padding: 5px;
+  text-align: center;
+  margin: 2px;
+  border: 2px solid black;
+  font-size: 0.9rem;
+  position: relative;
+
+  &:hover ${HiddenPropertyText} {
+    display: block;
+    position: absolute;
+    bottom: 30px;
+    right: 0;
+    /* max-width: 250px; */
+    /* min-width: 150px; */
+    padding: 5px;
+    text-align: start;
+    font-size: 1.1rem;
+    background: white;
+    z-index: 2;
     border: 1px solid black;
   }
 `;
 const PokemonName = styled.a`
   justify-self: start;
   margin-left: 1rem;
-  grid-row: 1/2;
+  grid-row: 3;
   grid-column: 1/2;
   font-size: 2rem;
   height: fit-content;
@@ -71,37 +102,38 @@ const PokemonName = styled.a`
 const NotRevealed = styled.h3`
   text-align: center;
   line-height: 2;
-  grid-row: 1/-1;
-  grid-column: 1/-1;
+  /* grid-row: 1/-1; */
+  /* grid-column: 1/-1; */
 `;
 const MovesDisplay = styled(PropertyDisplay)`
-  grid-row: 1/-1;
-  grid-column: 2;
+  /* grid-row: 1/-1; */
+  /* grid-column: 2; */
   display: flex;
 `;
 const AbilitiesDisplay = styled(PropertyDisplay)`
   /* height: fit-content; */
-  grid-row: 1;
-  grid-column: 1;
+  /* grid-row: 1; */
+  /* grid-column: 1; */
 `;
 const ItemsDisplay = styled(PropertyDisplay)`
-  grid-row: 2;
-  grid-column: 1;
+  /* grid-row: 2; */
+  /* grid-column: 1; */
 `;
 const PropertiesContainer = styled.div`
-  grid-row: 2;
-  grid-column: 1/-2;
+  grid-row: 4;
+  grid-column: 2/4;
   height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 `;
 const TypeDisplay = styled.div`
-  grid-row: 1/2;
-  grid-column: 2;
+  grid-row: 3;
+  grid-column: 1;
   display: flex;
   flex-direction: row;
-  margin-bottom: 10px;
+  align-self: center;
+  justify-self: end;
 `;
 const Type = styled.div`
   margin: 0 5px;
@@ -112,13 +144,25 @@ const Type = styled.div`
   align-items: center;
 `;
 const StatsDisplay = styled.div`
-  border: 1px solid black;
-  width: fit-content;
+  /* border: 1px solid black; */
+  grid-row: 2;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  font-size: 1.2em;
+  height: 60px;
+  /* width: 150px; */
+  /* position: absolute;
+  top: 60px;
+  left: 345px; */
 `;
 const StatBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 60px;
 `;
 const StatName = styled.div``;
 const StatValue = styled.div``;
@@ -129,7 +173,8 @@ const dexSearchPrepper = (str: string): string => {
 
 const {
   Abilities,
-  // Aliases, Moves,
+  // Aliases,
+  Moves,
   Items,
   Species,
 } = Dex.data;
@@ -163,37 +208,56 @@ const RandomBattlePokemonDisplay = ({
   }, [isRandomBattle]);
   if (randbatsPokemonData[pokemon]) {
     const { abilities, items, moves } = randbatsPokemonData[pokemon];
-    console.log({ abilities, items, moves });
+    const movesData = moves.map((move) => Moves[dexSearchPrepper(move)]);
+    console.log(movesData);
     return (
       <>
         <AbilitiesDisplay>
           Abilities:
           {abilities.map((x) => (
             <>
-              <Property>
+              <PropertyBtn>
                 {x}
                 <HiddenPropertyText>
                   {Abilities[dexSearchPrepper(x)].shortDesc}
                 </HiddenPropertyText>
-              </Property>
+              </PropertyBtn>
             </>
           ))}
         </AbilitiesDisplay>
         <ItemsDisplay>
           Items:
           {items.map((x) => (
-            <Property>
+            <PropertyBtn>
               {x}
               <HiddenPropertyText>
                 {Items[dexSearchPrepper(x)].desc}
               </HiddenPropertyText>
-            </Property>
+            </PropertyBtn>
           ))}
         </ItemsDisplay>
         <MovesDisplay>
           Moves:
-          {moves.map((x) => (
-            <Property>{x}</Property>
+          {movesData.map((move) => (
+            <MoveBtn>
+              {move.name}
+              <HiddenPropertyText>
+                <MoveData>
+                  <MoveDescription>{move.shortDesc}</MoveDescription>
+                  {typeof move.accuracy === "number" ? (
+                    <MoveProperty>Accuracy: {move.accuracy}</MoveProperty>
+                  ) : null}
+                  <MoveProperty>{move.type}</MoveProperty>
+                  <MoveProperty>Category: {move.category}</MoveProperty>
+                  {move.priority ? (
+                    <MoveProperty>Priority: {move.priority}</MoveProperty>
+                  ) : null}
+                  {move.basePower ? (
+                    <MoveProperty>Power: {move.basePower}</MoveProperty>
+                  ) : null}
+                </MoveData>
+              </HiddenPropertyText>
+            </MoveBtn>
           ))}
         </MovesDisplay>
       </>
@@ -218,19 +282,18 @@ const OtherFormatsDisplay = ({ pokemon }: OtherFormatsDisplayProps) => {
         Abilities:
         {abilities.map((x) => (
           <>
-            <Property>
+            <PropertyBtn>
               {x}
               <HiddenPropertyText>
                 {Abilities[dexSearchPrepper(x)].shortDesc}
               </HiddenPropertyText>
-            </Property>
+            </PropertyBtn>
           </>
         ))}
       </AbilitiesDisplay>
     </>
   );
 };
-
 export const OpponentPokemonDataDisplay = ({
   pokemon,
   isRandomBattle,
@@ -244,69 +307,48 @@ export const OpponentPokemonDataDisplay = ({
     spd: 0,
     spe: 0,
   });
+  console.log(Dex.species.get("add"));
   useEffect(() => {
-    if (pokemon.pokemon1) {
-      setStats(Dex.species.get(pokemon.pokemon1).baseStats);
-    }
-  }, [pokemon.pokemon1]);
-
-  useEffect(() => {
-    if (pokemon.pokemon1) {
+    if (Dex.species.get(pokemon).exists) {
+      setStats(Dex.species.get(pokemon).baseStats);
       setTypesArray(
-        Species[dexSearchPrepper(pokemon.pokemon1)].types.map((x) =>
-          x.toLowerCase()
-        )
+        Species[dexSearchPrepper(pokemon)].types.map((x) => x.toLowerCase())
       );
     }
-  }, [pokemon.pokemon1]);
+  }, [pokemon]);
 
-  if (pokemon.pokemon1) {
-    return (
-      <>
-        <OuterBox>
-          <InnerBox>
-            <PokemonName
-              href={`https://www.smogon.com/dex/ss/pokemon/${pokemon.pokemon1}/`}
-            >
-              {pokemon.pokemon1}
-            </PokemonName>
-
-            <TypeDisplay>
-              {Species[dexSearchPrepper(pokemon.pokemon1)].types.map((x) => (
-                <Type className={x.toLowerCase()}>{x}</Type>
-              ))}
-            </TypeDisplay>
-
-            <DamageDisplay typesArray={typesArray} />
-            <PropertiesContainer>
-              {isRandomBattle ? (
-                <RandomBattlePokemonDisplay
-                  pokemon={pokemon.pokemon1}
-                  isRandomBattle={isRandomBattle}
-                />
-              ) : null}
-              {isRandomBattle === false ? (
-                <OtherFormatsDisplay pokemon={pokemon.pokemon1} />
-              ) : null}
-              <StatsDisplay>
-                {Object.entries(stats).map((x) => (
-                  <StatBox>
-                    <StatName>{x[0]}:</StatName>
-                    <StatValue>{x[1]}</StatValue>
-                  </StatBox>
-                ))}
-              </StatsDisplay>
-            </PropertiesContainer>
-          </InnerBox>
-        </OuterBox>
-      </>
-    );
-  }
   return (
-    <OuterBox>
-      <InnerBox>
-        <NotRevealed>This Pokemon hasn't been revealed yet</NotRevealed>
-      </InnerBox>
-    </OuterBox>
+    <>
+      <PokemonName href={`https://www.smogon.com/dex/ss/pokemon/${pokemon}/`}>
+        {pokemon}
+      </PokemonName>
+
+      <TypeDisplay>
+        {Species[dexSearchPrepper(pokemon)].types.map((x) => (
+          <Type className={x.toLowerCase()}>{x}</Type>
+        ))}
+      </TypeDisplay>
+
+      <DamageDisplay typesArray={typesArray} />
+      <PropertiesContainer>
+        {isRandomBattle ? (
+          <RandomBattlePokemonDisplay
+            pokemon={pokemon}
+            isRandomBattle={isRandomBattle}
+          />
+        ) : null}
+        {isRandomBattle === false ? (
+          <OtherFormatsDisplay pokemon={pokemon} />
+        ) : null}
+      </PropertiesContainer>
+      <StatsDisplay>
+        {Object.entries(stats).map((x) => (
+          <StatBox>
+            <StatName>{x[0]}:</StatName>
+            <StatValue>{x[1]}</StatValue>
+          </StatBox>
+        ))}
+      </StatsDisplay>
+    </>
   );
 };

@@ -3,22 +3,18 @@ import { Dex } from "@pkmn/dex";
 import styled from "styled-components";
 
 const DamageContainer = styled.div`
-  grid-column: -2/-1;
-  grid-row: 1 / -1;
+  /* grid-column: -2/-1; */
+  grid-row: 4;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   /* border: 1px solid black; */
   height: 240px;
-  justify-self: end;
 `;
 const DamageGroupContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: space-around;
-  /* justify-content: center; */
-  /* width: 100%; */
-  padding-left: 20px;
 `;
 const TypeBox = styled.div`
   margin: 5px;
