@@ -32,8 +32,7 @@ export interface Stats {
   spe: number;
 }
 export interface OtherFormatsDisplayProps {
-  pokemon:string;
-  stats: Stats;
+  pokemon: string;
 }
 export type isRandomBattleReturn = null | false | string;
 export interface WebsiteInfo {
@@ -42,10 +41,9 @@ export interface WebsiteInfo {
   isRandomBattle: isRandomBattleReturn;
 }
 export interface RandomBattlePokemonDisplayProps {
-  pokemon:string;
-  isRandomBattle:isRandomBattleReturn;
-  stats:Stats
- }
+  pokemon: string;
+  isRandomBattle: isRandomBattleReturn;
+}
 // export interface PokemonData {
 //   <string>:any;
 // }
