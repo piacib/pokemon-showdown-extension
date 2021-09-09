@@ -8,20 +8,20 @@ import { OpponentsTeamUnavailable } from "./OpponentsTeamUnavailable";
 
 const ButtonDisplay = styled.div`
   grid-row: 2/3;
-  grid-column: 1/4;
+  grid-column: 1/2;
   display: flex;
   flex-direction: row;
-  place-self: center;
+  place-self: start;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1em;
-  /* width: 550px; */
+  width: 310px;
 `;
 const Button = styled.button`
   font-size: 10px;
   width: inherit;
   background: none;
-  height: 60px;
+  height: 40px;
   border-radius: 0;
   margin: 0.25em;
 `;
@@ -80,8 +80,9 @@ const getPokemonName = (nameStr: string): ActivePokemon => {
 type Name = {
   name: string;
 };
+
 const SpriteImage: React.FC<Name> = ({ name }) => {
-  const ButtonSize = 60;
+  const ButtonSize = 40;
   const ButtonSizePX = `${ButtonSize}px`;
   if (name === "Not revealed") {
     return (
@@ -107,8 +108,8 @@ const SpriteImage: React.FC<Name> = ({ name }) => {
         src={url}
         alt={"question mark"}
         style={{
-          width: "80px",
-          height: "80px",
+          width: ButtonSizePX,
+          height: ButtonSizePX,
         }}
       ></img>
     );
@@ -131,7 +132,6 @@ export const OpponentsTeamDisplay = ({
   opponentsTeam,
   isRandomBattle,
 }: OpponentsProps) => {
-
   const [currentPokemon, setCurrentPokemon] = useState<ActivePokemon>({
     pokemon1: null,
     pokemon2: null,
@@ -140,16 +140,6 @@ export const OpponentsTeamDisplay = ({
   useEffect(() => {
     setCurrentPokemon(getCurrentPokemon(opponentsTeam));
   }, [opponentsTeam]);
-
-  // useEffect(() => {
-  //   if (isRandomBattle) {
-  //     fetch(`https://pkmn.github.io/randbats/data/${isRandomBattle}.json`)
-  //       .then((resp) => resp.json())
-  //       .then((data) => {
-  //         setPokemonData(data);
-  //       });
-  //   }
-  // }, [isRandomBattle]);
 
   return !opponentsTeam ? (
     <>
@@ -177,13 +167,16 @@ export const OpponentsTeamDisplay = ({
           </Button>
         ))}
       </ButtonDisplay>
-      
+
+      {currentPokemon.pokemon1 ? (
         <OpponentPokemonDataDisplay
           // pokemonData={pokemonData}
-          pokemon={currentPokemon}
+          pokemon={currentPokemon.pokemon1}
           isRandomBattle={isRandomBattle}
         />
-      
+      ) : (
+        <OpponentsTeamUnavailable />
+      )}
     </>
   );
 };
