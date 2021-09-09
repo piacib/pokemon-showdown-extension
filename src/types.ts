@@ -1,3 +1,4 @@
+import { TypeName } from "@pkmn/dex";
 export enum Sender {
   React,
   Content,
@@ -76,4 +77,10 @@ export interface OpponentsTeamData {
     items: Properties[];
     moves: Properties[];
   };
+}
+export type TypeColorObjType = {
+  [key in TypeName]: string;
+};
+export interface TypeColorInterface {
+  background: keyof TypeColorObjType;
 }

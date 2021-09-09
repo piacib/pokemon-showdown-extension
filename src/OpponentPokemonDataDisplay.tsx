@@ -4,25 +4,17 @@ import {
   OtherFormatsDisplayProps,
   RandbatsPokemonData,
   RandomBattlePokemonDisplayProps,
+  TypeColorObjType,
+  TypeColorInterface,
 } from "./types";
 import "./AppDesign.css";
 import styled from "styled-components";
 import { Dex } from "@pkmn/dex";
 import { DamageDisplay } from "./DamageDisplay";
 import { useEffect, useState } from "react";
+import { typeColorConverter } from "./pokemonTypeColorConverter";
 // STYLED COMPONENTS CSS //
 
-const InnerBox = styled.div`
-  width: 550px;
-  height: 380px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 280px;
-  grid-template-rows: repeat(10, auto);
-  justify-items: center;
-  margin: 5px;
-  font-size: 1.2rem;
-  /* border: 5px solid black; */
-`;
 const PropertyDisplay = styled.div`
   height: fit-content;
   display: flex;
@@ -58,6 +50,7 @@ const PropertyBtn = styled.div`
 `;
 const MoveData = styled.ul`
   list-style: none;
+  width: 100%;
   padding: 0;
 `;
 const MoveProperty = styled.li`
@@ -81,7 +74,7 @@ const MoveBtn = styled.div`
     bottom: 30px;
     right: 0;
     /* max-width: 250px; */
-    /* min-width: 150px; */
+    min-width: 170px;
     padding: 5px;
     text-align: start;
     font-size: 1.1rem;
@@ -167,6 +160,12 @@ const StatBox = styled.div`
 const StatName = styled.div``;
 const StatValue = styled.div``;
 
+const MoveType = styled(MoveProperty)<TypeColorInterface>`
+  background-color: ${(props) => typeColorConverter[props.background]};
+  padding: 2px 6px;
+  width: fit-content;
+  margin: 0 auto;
+`;
 const dexSearchPrepper = (str: string): string => {
   return str.toLowerCase().replace(/\W+/g, "");
 };
@@ -244,17 +243,17 @@ const RandomBattlePokemonDisplay = ({
               <HiddenPropertyText>
                 <MoveData>
                   <MoveDescription>{move.shortDesc}</MoveDescription>
+                  <MoveType background={move.type}>{move.type}</MoveType>
                   {typeof move.accuracy === "number" ? (
-                    <MoveProperty>Accuracy: {move.accuracy}</MoveProperty>
+                    <MoveProperty>Accuracy: {move.accuracy}%</MoveProperty>
                   ) : null}
-                  <MoveProperty>{move.type}</MoveProperty>
-                  <MoveProperty>Category: {move.category}</MoveProperty>
                   {move.priority ? (
                     <MoveProperty>Priority: {move.priority}</MoveProperty>
                   ) : null}
                   {move.basePower ? (
                     <MoveProperty>Power: {move.basePower}</MoveProperty>
                   ) : null}
+                  <MoveProperty>{move.category}</MoveProperty>
                 </MoveData>
               </HiddenPropertyText>
             </MoveBtn>
