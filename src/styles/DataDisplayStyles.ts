@@ -11,27 +11,39 @@ export const PropertyDisplay = styled.div`
 export const HiddenPropertyText = styled.div`
   display: none;
 `;
-export const PropertyBtn = styled.div`
+const HoverDisplay = styled.div`
   padding: 5px;
   text-align: center;
   margin: 2px;
   border: 2px solid black;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   position: relative;
-
   &:hover ${HiddenPropertyText} {
     display: block;
     position: absolute;
+    text-align: start;
+    background: white;
+    z-index: 2;
+    border: 1px solid black;
+  }
+`;
+export const PropertyBtn = styled(HoverDisplay)`
+  &:hover ${HiddenPropertyText} {
     top: 30px;
     right: 0;
     max-width: 250px;
     min-width: 150px;
     padding: 5px;
-    text-align: start;
+    font-size: inherit;
+  }
+`;
+export const MoveBtn = styled(HoverDisplay)`
+  &:hover ${HiddenPropertyText} {
+    bottom: 30px;
+    right: 0;
+    min-width: 170px;
+    padding: 5px;
     font-size: 1.1rem;
-    background: white;
-    z-index: 2;
-    border: 1px solid black;
   }
 `;
 export const MoveData = styled.ul`
@@ -46,29 +58,7 @@ export const MoveProperty = styled.li`
 export const MoveDescription = styled(MoveProperty)`
   white-space: initial;
 `;
-export const MoveBtn = styled.div`
-  padding: 5px;
-  text-align: center;
-  margin: 2px;
-  border: 2px solid black;
-  font-size: 0.9rem;
-  position: relative;
 
-  &:hover ${HiddenPropertyText} {
-    display: block;
-    position: absolute;
-    bottom: 30px;
-    right: 0;
-    /* max-width: 250px; */
-    min-width: 170px;
-    padding: 5px;
-    text-align: start;
-    font-size: 1.1rem;
-    background: white;
-    z-index: 2;
-    border: 1px solid black;
-  }
-`;
 export const AbilitiesDisplay = styled(PropertyDisplay)``;
 export const MovesDisplay = styled(PropertyDisplay)`
   display: flex;
@@ -82,10 +72,9 @@ export const MoveType = styled(MoveProperty)<TypeColorInterface>`
 `;
 export const PokemonName = styled.a`
   justify-self: start;
-  margin-left: 1rem;
   grid-row: 3;
   grid-column: 1/2;
-  font-size: 2rem;
+  font-size: 32px;
   height: fit-content;
   text-align: start;
 `;
@@ -104,6 +93,7 @@ export const TypeDisplay = styled.div`
   flex-direction: row;
   align-self: center;
   justify-self: end;
+  height: 100%;
 `;
 export const Type = styled.div`
   margin: 0 5px;
@@ -114,20 +104,22 @@ export const Type = styled.div`
   align-items: center;
 `;
 export const StatsDisplay = styled.div`
-  grid-row: 2;
-  grid-column: 2;
+  grid-row: 2/4;
+  grid-column: 2/4;
+  width: 200px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  border: 3px solid black;
   flex-wrap: wrap;
   font-size: 1.2em;
-  height: 60px;
 `;
 export const StatBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 60px;
+  width: 70px;
 `;
 export const StatName = styled.div``;
 export const StatValue = styled.div``;
