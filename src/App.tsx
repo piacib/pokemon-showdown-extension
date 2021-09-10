@@ -12,6 +12,7 @@ const AppDisplay = styled.div`
   background-color: #282c34a4;
   background-color: #c5bfbf;
   display: grid;
+  grid-column-gap: 10px;
   grid-template-rows: 75px 61px 32px auto;
   width: 600px;
   height: 400px;
@@ -30,7 +31,7 @@ const testDS = {
   user: ["Slowking", "Heracross", "Stoutland", "Amoonguss", "Stoutland"],
   usersTeam: [
     "Slowking (fainted)",
-    "Heracross",
+    "Type: Null",
     "Stoutland (active)",
     "Lycanroc (Lycanroc-Dusk) (91%)",
     "Scizor",
@@ -83,7 +84,8 @@ const Button = styled.button`
   grid-row: 1;
   grid-column: 2;
   border-radius: 20px;
-  font-size: 16px;
+  font-size: inherit;
+  justify-self: center;
   background-color: rgb(237, 85, 100);
   align-self: center;
 `;

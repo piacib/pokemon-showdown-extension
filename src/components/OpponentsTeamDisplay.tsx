@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { OpponentPokemonDataDisplay } from "./OpponentPokemonDataDisplay";
-import { ActivePokemon, OpponentsProps } from "./types";
+import { ActivePokemon, OpponentsProps } from "../types";
 import { Sprites } from "@pkmn/img";
-import pokeball from "./media/pokeball.svg";
+import pokeball from "../media/pokeball.svg";
 import { OpponentsTeamUnavailable } from "./OpponentsTeamUnavailable";
 
 const ButtonDisplay = styled.div`
@@ -18,17 +18,18 @@ const ButtonDisplay = styled.div`
   width: 310px;
 `;
 const Button = styled.button`
-  font-size: 10px;
+  /* font-size: 10px; */
   width: inherit;
   background: none;
   height: 40px;
   border-radius: 0;
   margin: 0.25em;
 `;
+
 const activePokemonRegEx = (name: string): string => {
   const nameMatched = name.match(/[^(]+/);
-  const activePokemonName = nameMatched ? nameMatched[0] : name;
-  return activePokemonName;
+  const activePokemonName = nameMatched ? nameMatched[0] : "";
+  return activePokemonName.slice(0, activePokemonName.length - 1);
 };
 const activePokemonNames = (arr: string[]): string[] => {
   // takes in active pokemon (potentailly 2 for double battles)
@@ -61,8 +62,25 @@ const pokemonNameFilter = (name: string): string => {
   if (name === "Not revealed") {
     return name;
   }
-  const activePokemon = name.match(/^([\w-]+)/);
-  const activePokemonName = activePokemon ? activePokemon[0] : name;
+  const parenthesis = name.match(/\(([^\)]+)\)/);
+
+  const activePokemon = name.match(
+    // /^([\w-]+)/
+    /[^(]+/
+  );
+  let activePokemonName = activePokemon ? activePokemon[0] : name;
+  if (activePokemonName[activePokemonName.length - 1] === " ") {
+    activePokemonName = activePokemonName.slice(
+      0,
+      activePokemonName.length - 1
+    );
+  }
+  const regex = new RegExp(`(${activePokemonName}.*){2}`);
+  if (parenthesis) {
+    if (name.match(regex)) {
+      return parenthesis[1];
+    }
+  }
 
   return activePokemonName;
 };
@@ -124,14 +142,40 @@ const SpriteImage: React.FC<Name> = ({ name }) => {
     <img
       src={url}
       alt={name}
-      style={{ width: width, height: ButtonSize }}
+      style={{ width: width, height: ButtonSizePX, maxWidth: "50px" }}
     ></img>
   );
 };
-// const spriteSrc = url;
-// const spriteWidth = w;
-// const spriteHeight = h;
-
+const testTeam = [
+  "Slowking (fainted)",
+  "Type: Null",
+  "Stoutland (active)",
+  "Lycanroc (Lycanroc-Dusk) (91%)",
+  "Scizor (91%)",
+  "Not revealed",
+  "Aggron",
+  "Indeedee-F",
+  "Regice",
+  "Runerigus",
+  "Landorus-Therian",
+  "Heatmor",
+  "Jirachi",
+];
+const testResults = [
+  "Slowking",
+  "Type: Null",
+  "Stoutland",
+  "Lycanroc-Dusk",
+  "Scizor",
+  "Not revealed",
+  "Aggron",
+  "Indeedee-F",
+  "Regice",
+  "Runerigus",
+  "Landorus-Therian",
+  "Heatmor",
+  "Jirachi",
+];
 //fetches latest pokemon data from auto updating dataset
 export const OpponentsTeamDisplay = ({
   opponentsTeam,
@@ -140,7 +184,8 @@ export const OpponentsTeamDisplay = ({
   const [currentPokemon, setCurrentPokemon] = useState<ActivePokemon>(
     getCurrentPokemon(opponentsTeam)
   );
-
+  const testFilter = testTeam.map((x) => pokemonNameFilter(x));
+  console.log(testFilter.filter((x, idx) => x !== testResults[idx]));
   useEffect(() => {
     setCurrentPokemon(getCurrentPokemon(opponentsTeam));
   }, [opponentsTeam]);

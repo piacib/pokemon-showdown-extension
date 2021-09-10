@@ -49,21 +49,21 @@ export const RandomBattlePokemonDisplay = ({
       const response = await fetchData.json();
       setRandbatsPokemonData(response);
     }
-
     asyncFetchRandomPokemonData();
   }, [isRandomBattle]);
+
   useEffect(() => {
+    console.log("setpkdata", pokemon, randbatsPokemonData[pokemon]);
     if (randbatsPokemonData[pokemon]) {
-      console.log("setpkdata");
       const { abilities, items, moves } = randbatsPokemonData[pokemon];
       setPokemonData({ abilities: abilities, items: items, moves: moves });
     }
   }, [pokemon, randbatsPokemonData]);
+
   const movesData = pokemonData.moves.map(
     (move) => Moves[dexSearchPrepper(move)]
   );
-  if (randbatsPokemonData[pokemon]) {
-  }
+
   return (
     <>
       <AbilitiesDisplay>
