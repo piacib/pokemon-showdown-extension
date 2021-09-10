@@ -16,10 +16,10 @@ button {
   font-family: var(--font-family2);
 }
 div {
-  font-size: 1em;
+  /* font-size: 1em; */
 }
 button {
-  font-size: 0.6rem;
+  /* font-size: 0.6rem; */
 }
 body {
   margin: 0;
