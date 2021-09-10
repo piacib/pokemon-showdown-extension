@@ -114,6 +114,7 @@ export const StatsDisplay = styled.div`
   border: 3px solid black;
   flex-wrap: wrap;
   font-size: 1.2em;
+  height: 70px;
 `;
 export const StatBox = styled.div`
   display: flex;
