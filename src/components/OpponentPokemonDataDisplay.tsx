@@ -1,7 +1,11 @@
-import { OpponentPokemonDataDisplayProps, Stats } from "../types";
-import "./AppDesign.css";
+import {
+  OpponentPokemonDataDisplayProps,
+  RandbatsPokemonData,
+  Stats,
+} from "../types";
+import "../AppDesign.css";
 import { Dex } from "@pkmn/dex";
-import { DamageDisplay } from "../DamageDisplay";
+import { DamageDisplay } from "./DamageDisplay";
 import { useEffect, useState } from "react";
 import { dexSearchPrepper } from "../functions";
 import { RandomBattlePokemonDisplay } from "./RandomBattlePokemonDisplay";
