@@ -59,7 +59,6 @@ const messagesFromReactAppListener = (
     const usersTeam = getTeam("user");
     console.log("content teams", opponentsTeam);
     const { user, opponent } = getPokemon(chat);
-    console.log(getPokemon(chat));
     response({
       user,
       opponent,
