@@ -25,10 +25,15 @@ const Button = styled.button`
   border-radius: 0;
   margin: 0.25em;
 `;
+const activePokemonRegEx = (name: string): string => {
+  const nameMatched = name.match(/[^(]+/);
+  const activePokemonName = nameMatched ? nameMatched[0] : name;
+  return activePokemonName;
+};
 const activePokemonNames = (arr: string[]): string[] => {
   // takes in active pokemon (potentailly 2 for double battles)
-  // and returns name with active sliced off
-  return arr.map((x) => x.slice(0, x.length - 9));
+  // and returns name with up  sliced off
+  return arr.map((x) => activePokemonRegEx(x));
 };
 
 const getCurrentPokemon = (opponentsTeam: string[] | null): ActivePokemon => {
@@ -132,10 +137,9 @@ export const OpponentsTeamDisplay = ({
   opponentsTeam,
   isRandomBattle,
 }: OpponentsProps) => {
-  const [currentPokemon, setCurrentPokemon] = useState<ActivePokemon>({
-    pokemon1: null,
-    pokemon2: null,
-  });
+  const [currentPokemon, setCurrentPokemon] = useState<ActivePokemon>(
+    getCurrentPokemon(opponentsTeam)
+  );
 
   useEffect(() => {
     setCurrentPokemon(getCurrentPokemon(opponentsTeam));

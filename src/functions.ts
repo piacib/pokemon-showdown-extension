@@ -32,3 +32,6 @@ export const isRandomBattle = (url: string): isRandomBattleReturn => {
   }
   return randomDataBattleTypes.includes(battleType[0]) ? battleType[0] : false;
 };
+export const dexSearchPrepper = (str: string): string => {
+  return str.toLowerCase().replace(/\W+/g, "");
+};

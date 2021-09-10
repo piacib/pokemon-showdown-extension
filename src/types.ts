@@ -84,3 +84,31 @@ export type TypeColorObjType = {
 export interface TypeColorInterface {
   background: keyof TypeColorObjType;
 }
+export interface PokemonData {
+  moves: string[];
+  abilities: string[];
+  items: string[];
+}
+export interface DamageDisplayProps {
+  typesArray: string[] | null;
+}
+export type DamageObj = {
+  Bug: number;
+  Dark: number;
+  Dragon: number;
+  Electric: number;
+  Fairy: number;
+  Fighting: number;
+  Fire: number;
+  Flying: number;
+  Ghost: number;
+  Grass: number;
+  Ground: number;
+  Ice: number;
+  Normal: number;
+  Poison: number;
+  Psychic: number;
+  Rock: number;
+  Steel: number;
+  Water: number;
+};

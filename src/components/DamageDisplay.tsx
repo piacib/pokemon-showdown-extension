@@ -1,35 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Dex } from "@pkmn/dex";
-import styled from "styled-components";
+import { DamageDisplayProps, DamageObj } from "../types";
+import {
+  DamageContainer,
+  DamageGroupContainer,
+  TypeBox,
+  TypeBoxContainer,
+} from "../styles/DamageDisplayStyles";
 
-const DamageContainer = styled.div`
-  grid-row: 4;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 240px;
-`;
-const DamageGroupContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: space-around;
-`;
-const TypeBox = styled.div`
-  margin: 5px;
-  padding: 2px 5px;
-  border-radius: 10px;
-`;
-const TypeBoxContainer = styled.div`
-  height: 100%;
-  width: 280px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-`;
-const DamageMultiplier = styled.p`
-  height: 100%;
-  vertical-align: middle;
-`;
 const Types = Dex.data.Types;
 const damageAdjustor = (objectEntries: [string, number]): [string, number] => {
   if (!objectEntries[1]) {
@@ -61,29 +39,7 @@ const damageCalculator = (typesArray: string[]) => {
   ]);
   return Object.fromEntries(damageObjectEntries);
 };
-interface DamageDisplayProps {
-  typesArray: string[] | null;
-}
-type DamageObj = {
-  Bug: number;
-  Dark: number;
-  Dragon: number;
-  Electric: number;
-  Fairy: number;
-  Fighting: number;
-  Fire: number;
-  Flying: number;
-  Ghost: number;
-  Grass: number;
-  Ground: number;
-  Ice: number;
-  Normal: number;
-  Poison: number;
-  Psychic: number;
-  Rock: number;
-  Steel: number;
-  Water: number;
-};
+
 export const DamageDisplay = (props: DamageDisplayProps) => {
   const [damageObj, setDamageObj] = useState<DamageObj | null>(null);
 
@@ -105,7 +61,6 @@ export const DamageDisplay = (props: DamageDisplayProps) => {
   const superEffective = Object.entries(damageObj).filter(
     (entry) => entry[1] === 2 || entry[1] === 4
   );
-  console.log([noEffect, ineffective, superEffective]);
   return (
     <DamageContainer>
       {[noEffect, ineffective, superEffective].map((array, idx) => (

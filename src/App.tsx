@@ -3,13 +3,11 @@ import { ChromeMessage, Sender, PokemonResponse, WebsiteInfo } from "./types";
 import { pokemonMessage } from "./messages";
 import loading from "./media/loading.svg";
 import "./App.css";
-import { Dex } from "@pkmn/dex";
-import { OpponentsTeamDisplay } from "./OpponentsTeamDisplay";
-import { TitleBar } from "./TitleBar";
+import { OpponentsTeamDisplay } from "./components/OpponentsTeamDisplay";
 import styled from "styled-components";
 import { getBattleType, isRandomBattle, isDevelopmentMode } from "./functions";
-import { NotPokemonShowdownErrorScreen } from "./NotPokemonShowdownErrorScreen";
-import { NotInBattleErrorScreen } from "./NotInBattleErrorScreen";
+import { NotPokemonShowdownErrorScreen } from "./components/NotPokemonShowdownErrorScreen";
+import { NotInBattleErrorScreen } from "./components/NotInBattleErrorScreen";
 const AppDisplay = styled.div`
   background-color: #282c34a4;
   background-color: #c5bfbf;
@@ -103,6 +101,21 @@ const App = () => {
       usersTeam: null,
     });
   const [sendOpponentsTeam, setSendOpponentsTeam] = useState<Boolean>(true);
+  const sendPokemonMessage = () => {
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: pokemonMessage,
+    };
+    console.log(message);
+    chrome.tabs &&
+      chrome.tabs.query(queryInfo, (tabs) => {
+        console.log(responseFromContent);
+        const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
+        chrome.tabs.sendMessage(currentTabId, message, (response) => {
+          setResponseFromContent(response);
+        });
+      });
+  };
   /**
    * Get current URL
    */
@@ -128,24 +141,6 @@ const App = () => {
         });
     }
   }, []);
-
-  // useEffect(() => {
-  //   const currentPokemon = getCurrentPokemon(responseFromContent.opponentsTeam);
-  //   if (currentPokemon !== null) {
-  //     setOpponentsCurrentPokemon(pokemonData[currentPokemon[0]]);
-  //   }
-  // }, [responseFromContent, pokemonData]);
-  // useEffect(() => {
-  //   setOpponentsCurrentPokemon(
-  //     pokemonData[
-  //       responseFromContent.opponent[responseFromContent.opponent.length - 1]
-  //     ]
-  //   );
-  //   console.log(responseFromContent);
-  // }, [responseFromContent, pokemonData]);
-  /**
-   * Send message to the content script
-   */
   const sendTestMessage = () => {
     // const message: ChromeMessage = {
     //   from: Sender.React,
@@ -153,22 +148,28 @@ const App = () => {
     // };
     setResponseFromContent(testDS);
   };
+  console.log(isURLShowdown(websiteInfo.url) && websiteInfo.battleType);
+  useEffect(() => {
+    if (isURLShowdown(websiteInfo.url) && websiteInfo.battleType) {
+      if (!isDevelopmentMode) {
+        console.log("startup sendPokemonMessage");
+        sendPokemonMessage();
+      } else {
+        console.log("startup sendTestMessage");
 
-  const sendPokemonMessage = () => {
-    const message: ChromeMessage = {
-      from: Sender.React,
-      message: pokemonMessage,
-    };
-    console.log(message);
-    chrome.tabs &&
-      chrome.tabs.query(queryInfo, (tabs) => {
-        console.log(responseFromContent);
-        const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
-        chrome.tabs.sendMessage(currentTabId, message, (response) => {
-          setResponseFromContent(response);
-        });
-      });
-  };
+        sendTestMessage();
+      }
+    }
+  }, [websiteInfo]);
+  /**
+   * Send message to the content script
+   */
+
+  console.log(
+    sendOpponentsTeam
+      ? responseFromContent.opponentsTeam
+      : responseFromContent.usersTeam
+  );
   return isURLShowdown(websiteInfo.url) ? (
     websiteInfo.battleType ? (
       <AppDisplay>
