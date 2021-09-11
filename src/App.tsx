@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { getBattleType, isRandomBattle, isDevelopmentMode } from "./functions";
 import { NotPokemonShowdownErrorScreen } from "./components/NotPokemonShowdownErrorScreen";
 import { NotInBattleErrorScreen } from "./components/NotInBattleErrorScreen";
+import { Title, PokeButton, Button } from "./styles/AppStyles";
 const AppDisplay = styled.div`
   background-color: #282c34a4;
   background-color: #c5bfbf;
@@ -62,33 +63,7 @@ const isURLShowdown = (url: string) => {
 //   }
 //   return opponentsTeam.filter((x) => x.includes("fainted"));
 // };
-const Title = styled.h1`
-  height: 1em;
-  width: fit-content;
-  grid-row: 1/2;
-  grid-column: 1/2;
-`;
-const PokeButton = styled.button`
-  grid-column: 3/4;
-  background-color: transparent;
-  border: 2px solid black;
-  grid-row: 1;
-  justify-self: end;
-  align-self: center;
-  width: 4em;
-  height: 4em;
-`;
-const Button = styled.button`
-  width: 150px;
-  height: 40px;
-  grid-row: 1;
-  grid-column: 2;
-  border-radius: 20px;
-  font-size: inherit;
-  justify-self: center;
-  background-color: rgb(237, 85, 100);
-  align-self: center;
-`;
+
 const App = () => {
   const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfo>({
     url: "",
