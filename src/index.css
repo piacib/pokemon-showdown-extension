@@ -3,12 +3,6 @@
   --font-family: "Press Start 2P", cursive;
   --font-family2: "VT323", monospace;
 }
-
-div,
-button {
-  font-family: var(--font-family);
-}
-
 .normal {
   background-color: rgb(168, 167, 120);
 }
