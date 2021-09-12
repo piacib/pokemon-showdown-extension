@@ -13,25 +13,11 @@ import {
   Refresh,
   RefreshButton,
 } from "./styles/AppStyles";
-
+import { makeRandomTeam } from "./testTeam";
 const testDS = {
-  opponentsTeam: [
-    "Aggron",
-    "Azelf (52%|tox)",
-    "Marowak-Alola",
-    "Runerigus (active)",
-    "Scizor",
-    "Not revealed",
-  ],
+  opponentsTeam: makeRandomTeam(),
   user: ["Slowking", "Heracross", "Stoutland", "Amoonguss", "Stoutland"],
-  usersTeam: [
-    "Slowking (fainted)",
-    "Type: Null",
-    "Stoutland (active)",
-    "Lycanroc (Lycanroc-Dusk) (91%)",
-    "Scizor",
-    "Not revealed",
-  ],
+  usersTeam: makeRandomTeam(),
   opponent: [
     "Aggron",
     "Indeedee-F",
