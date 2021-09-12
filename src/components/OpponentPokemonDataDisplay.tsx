@@ -53,7 +53,7 @@ export const OpponentPokemonDataDisplay = ({
 
       <TypeDisplay>
         {Species[dexSearchPrepper(pokemon)].types.map((x) => (
-          <Type className={x.toLowerCase()}>{x}</Type>
+          <Type background={x}>{x}</Type>
         ))}
       </TypeDisplay>
 

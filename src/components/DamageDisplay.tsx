@@ -69,7 +69,7 @@ export const DamageDisplay = (props: DamageDisplayProps) => {
             <TypeBoxContainer>
               {labels[idx]}:
               {array.map((x) => (
-                <TypeBox className={x[0].toLowerCase()}>
+                <TypeBox background={x[0]}>
                   x{x[1]} {x[0]}
                 </TypeBox>
               ))}

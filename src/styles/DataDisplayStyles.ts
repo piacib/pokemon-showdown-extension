@@ -8,6 +8,9 @@ export const PropertyDisplay = styled.div`
   flex-wrap: wrap;
   align-items: center;
 `;
+const TypeColoredComponent = styled.div<TypeColorInterface>`
+  background-color: ${(props) => typeColorConverter[props.background]};
+`;
 export const HiddenPropertyText = styled.div`
   display: none;
 `;
@@ -64,12 +67,14 @@ export const MovesDisplay = styled(PropertyDisplay)`
   display: flex;
 `;
 export const ItemsDisplay = styled(PropertyDisplay)``;
+
 export const MoveType = styled(MoveProperty)<TypeColorInterface>`
   background-color: ${(props) => typeColorConverter[props.background]};
   padding: 2px 6px;
   width: fit-content;
   margin: 0 auto;
 `;
+
 export const PokemonName = styled.a`
   justify-self: start;
   grid-row: 3;
@@ -95,11 +100,11 @@ export const TypeDisplay = styled.div`
   justify-self: end;
   height: 100%;
 `;
-export const Type = styled.div`
+
+export const Type = styled(TypeColoredComponent)`
   margin: 0 5px;
   padding: 1px 15px;
   border-radius: 20px;
-
   display: flex;
   align-items: center;
 `;
