@@ -1,8 +1,4 @@
-import {
-  OpponentPokemonDataDisplayProps,
-  RandbatsPokemonData,
-  Stats,
-} from "../types";
+import { OpponentPokemonDataDisplayProps, Stats } from "../types";
 import "../AppDesign.css";
 import { Dex } from "@pkmn/dex";
 import { DamageDisplay } from "./DamageDisplay";

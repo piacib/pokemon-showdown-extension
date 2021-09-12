@@ -15,6 +15,7 @@ html {
 }
 body {
   margin: 0;
+  width: 650px;
 }
 h1 {
   font-family: var(--font-family);

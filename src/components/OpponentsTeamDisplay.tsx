@@ -21,6 +21,8 @@ const Button = styled.button`
   /* font-size: 10px; */
   width: inherit;
   background: none;
+  border: none;
+
   height: 40px;
   border-radius: 0;
   margin: 0.25em;
@@ -62,7 +64,7 @@ const pokemonNameFilter = (name: string): string => {
   if (name === "Not revealed") {
     return name;
   }
-  const parenthesis = name.match(/\(([^\)]+)\)/);
+  const parenthesis = name.match(/\(([^)]+)\)/);
 
   const activePokemon = name.match(
     // /^([\w-]+)/

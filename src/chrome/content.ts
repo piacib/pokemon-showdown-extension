@@ -1,6 +1,6 @@
 import { ChromeMessage, Sender } from "../types";
 import { pokemonMessage, testMessage } from "../messages";
-import { getPokemon, turnCount } from "./utils";
+import { getPokemon } from "./utils";
 import { getTeam } from "./getTeam";
 type MessageResponse = (response?: any) => void;
 const testDS = {
@@ -52,12 +52,9 @@ const messagesFromReactAppListener = (
   if (isValidated && message.message === pokemonMessage) {
     const chat: HTMLCollection =
       document.getElementsByClassName("battle-history");
-    console.log("chat", chat);
     const battleLog = document.getElementsByClassName("battle-log").item(0);
-    console.log("turnCount", turnCount(battleLog));
     const opponentsTeam = getTeam("opponent");
     const usersTeam = getTeam("user");
-    console.log("content teams", opponentsTeam);
     const { user, opponent } = getPokemon(chat);
     response({
       user,
