@@ -5,6 +5,7 @@ import { ActivePokemon, OpponentsProps } from "../types";
 import { Sprites } from "@pkmn/img";
 import pokeball from "../media/pokeball.svg";
 import { OpponentsTeamUnavailable } from "./OpponentsTeamUnavailable";
+import { PokemonUnavailable } from "./PokemonUnavailable";
 
 const ButtonDisplay = styled.div`
   grid-row: 2/3;
@@ -15,7 +16,7 @@ const ButtonDisplay = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1em;
-  width: 310px;
+  width: 300px;
 `;
 const Button = styled.button`
   /* font-size: 10px; */
@@ -221,12 +222,11 @@ export const OpponentsTeamDisplay = ({
 
       {currentPokemon.pokemon1 ? (
         <OpponentPokemonDataDisplay
-          // pokemonData={pokemonData}
           pokemon={currentPokemon.pokemon1}
           isRandomBattle={isRandomBattle}
         />
       ) : (
-        <OpponentsTeamUnavailable />
+        <PokemonUnavailable />
       )}
     </>
   );
