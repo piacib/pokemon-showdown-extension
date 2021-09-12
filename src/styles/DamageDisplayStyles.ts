@@ -5,8 +5,7 @@ export const DamageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 0.9rem;
-  height: 240px;
+  font-size: 0.95rem;
 `;
 export const DamageGroupContainer = styled.div`
   display: flex;

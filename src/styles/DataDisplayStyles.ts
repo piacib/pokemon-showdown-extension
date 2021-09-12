@@ -106,12 +106,12 @@ export const Type = styled.div`
 export const StatsDisplay = styled.div`
   grid-row: 2/4;
   grid-column: 2/4;
-  width: 200px;
+  width: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border: 3px solid black;
+  /* border: 3px solid black; */
   flex-wrap: wrap;
   font-size: 1.2em;
   height: 70px;
@@ -120,7 +120,7 @@ export const StatBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 70px;
+  width: 60px;
 `;
 export const StatName = styled.div``;
 export const StatValue = styled.div``;
