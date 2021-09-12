@@ -1,30 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ChromeMessage, Sender, PokemonResponse, WebsiteInfo } from "./types";
 import { pokemonMessage } from "./messages";
 import loading from "./media/loading.svg";
-import "./App.css";
 import { OpponentsTeamDisplay } from "./components/OpponentsTeamDisplay";
-import styled from "styled-components";
 import { getBattleType, isRandomBattle, isDevelopmentMode } from "./functions";
 import { NotPokemonShowdownErrorScreen } from "./components/NotPokemonShowdownErrorScreen";
 import { NotInBattleErrorScreen } from "./components/NotInBattleErrorScreen";
-import { Title, PokeButton, Button } from "./styles/AppStyles";
-const AppDisplay = styled.div`
-  background-color: #282c34a4;
-  background-color: #c5bfbf;
-  display: grid;
-  grid-column-gap: 10px;
-  grid-template-rows: 75px 61px 32px auto;
-  width: 600px;
-  height: 400px;
-  padding: 0 0.25em;
-  overflow: hidden;
-`;
+import {
+  TypeWriterContainer,
+  AppDisplay,
+  Button,
+  Refresh,
+  RefreshButton,
+} from "./styles/AppStyles";
+
 const testDS = {
   opponentsTeam: [
     "Aggron",
     "Azelf (52%|tox)",
-    "Toxicroak",
+    "Marowak-Alola",
     "Runerigus (active)",
     "Scizor",
     "Not revealed",
@@ -56,14 +50,6 @@ const queryInfo: chrome.tabs.QueryInfo = {
 const isURLShowdown = (url: string) => {
   return url.includes("play.pokemonshowdown.com");
 };
-
-// const getFaintedPokemon = (opponentsTeam: string[] | null): null | string[] => {
-//   if (!opponentsTeam) {
-//     return null;
-//   }
-//   return opponentsTeam.filter((x) => x.includes("fainted"));
-// };
-
 const App = () => {
   const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfo>({
     url: "",
@@ -78,21 +64,19 @@ const App = () => {
       usersTeam: null,
     });
   const [sendOpponentsTeam, setSendOpponentsTeam] = useState<Boolean>(true);
-  const sendPokemonMessage = () => {
+  const sendPokemonMessage = useCallback(() => {
     const message: ChromeMessage = {
       from: Sender.React,
       message: pokemonMessage,
     };
-    console.log(message);
     chrome.tabs &&
       chrome.tabs.query(queryInfo, (tabs) => {
-        console.log(responseFromContent);
         const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
         chrome.tabs.sendMessage(currentTabId, message, (response) => {
           setResponseFromContent(response);
         });
       });
-  };
+  }, []);
   /**
    * Get current URL
    */
@@ -137,7 +121,7 @@ const App = () => {
         sendTestMessage();
       }
     }
-  }, [websiteInfo]);
+  }, [sendPokemonMessage, websiteInfo]);
   /**
    * Send message to the content script
    */
@@ -150,16 +134,14 @@ const App = () => {
   return isURLShowdown(websiteInfo.url) ? (
     websiteInfo.battleType ? (
       <AppDisplay>
-        <Title>PokeInfo</Title>
-        <PokeButton
+        <TypeWriterContainer>
+          <h1>PokeInfo</h1>
+        </TypeWriterContainer>
+        <RefreshButton
           onClick={isDevelopmentMode ? sendTestMessage : sendPokemonMessage}
         >
-          <img alt="refresh" src={loading} className="pokeball-btn" />
-        </PokeButton>
-        {/* <TitleBar
-          sendTestMessage={sendTestMessage}
-          sendPokemonMessage={sendPokemonMessage}
-        /> */}
+          <Refresh alt="refresh" src={loading} />
+        </RefreshButton>
         <Button onClick={() => setSendOpponentsTeam(!sendOpponentsTeam)}>
           Swap to {sendOpponentsTeam ? "Users Team" : "Opponents Team"}
         </Button>
