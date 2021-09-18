@@ -24,14 +24,12 @@ export const Button = styled.button`
   background-color: rgb(237, 85, 100);
   align-self: center;
 `;
+export const backgroundColor = "#c5bfbf";
 export const AppDisplay = styled.div`
-  background-color: #282c34a4;
   background-color: #c5bfbf;
   display: grid;
   grid-column-gap: 10px;
   grid-template-rows: 75px 61px 32px auto;
-  width: 600px;
-  height: 400px;
   padding: 0 0.25em;
   overflow: hidden;
 `;
