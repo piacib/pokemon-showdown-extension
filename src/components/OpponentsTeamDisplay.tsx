@@ -26,7 +26,7 @@ const Button = styled.button`
 
   height: 40px;
   border-radius: 0;
-  margin: 0.25em;
+  margin: 0.15em;
 `;
 
 const activePokemonRegEx = (name: string): string => {
@@ -118,7 +118,6 @@ const SpriteImage: React.FC<Name> = ({ name }) => {
         style={{
           width: ButtonSizePX,
           height: ButtonSizePX,
-          imageRendering: "pixelated",
         }}
       ></img>
     );
