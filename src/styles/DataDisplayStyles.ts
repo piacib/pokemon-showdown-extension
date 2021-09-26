@@ -5,6 +5,7 @@ export const PropertyDisplay = styled.div`
   height: fit-content;
   display: flex;
   flex-direction: row;
+  padding-bottom:10px;
   flex-wrap: wrap;
   align-items: center;
 `;
@@ -79,14 +80,13 @@ export const PokemonName = styled.a`
   justify-self: start;
   grid-row: 3;
   grid-column: 1/2;
-  font-size: 32px;
+  font-size: 36px;
   height: fit-content;
   text-align: start;
 `;
 export const PropertiesContainer = styled.div`
   grid-row: 4;
   grid-column: 2/4;
-  height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

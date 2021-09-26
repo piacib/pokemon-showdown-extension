@@ -13,9 +13,11 @@ export const RefreshButton = styled.button`
   height: 4em;
 `;
 export const Button = styled.button`
-  width: 150px;
+  width: 200px;
   border: none;
   height: 40px;
+  white-space: 0;
+  
   grid-row: 1;
   grid-column: 2;
   border-radius: 20px;
@@ -28,7 +30,8 @@ export const backgroundColor = "#c5bfbf";
 export const AppDisplay = styled.div`
   display: grid;
   grid-column-gap: 10px;
-  grid-template-rows: 75px 61px 32px auto;
+  grid-template-rows: 55px 61px 32px auto;
+  height: fit-content;
   margin: 0.25rem;
   padding: 0.25rem;
   overflow: hidden;

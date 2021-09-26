@@ -1,18 +1,24 @@
 import { createGlobalStyle } from "styled-components";
 // import theme from "./theme";
 export const GlobalStyle = createGlobalStyle`
-  html {
+@font-face {
+    font-family: "VT323";
+    font-weight: 400;
+    font-style: normal;
+    src: url("fonts/VT323-Regular.woff2") format("woff2"),
+  url("fonts/VT323-Regular.woff") format("woff");
+  }
+html {
   font-size: 20px;
+  font-family: 'VT323', monospace;
 }
 body {
   margin: 0;
   width: 650px;
 }
-h1,
-h2,
-div,
+
 button {
-  font-family: var(--font-family2);
+  font-family: inherit
 }
 #root {
   display: flex;
