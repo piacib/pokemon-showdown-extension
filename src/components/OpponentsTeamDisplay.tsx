@@ -148,36 +148,7 @@ const SpriteImage: React.FC<Name> = ({ name }) => {
     ></img>
   );
 };
-const testTeam = [
-  "Slowking (fainted)",
-  "Type: Null",
-  "Stoutland (active)",
-  "Lycanroc (Lycanroc-Dusk) (91%)",
-  "Scizor (91%)",
-  "Not revealed",
-  "Aggron",
-  "Indeedee-F",
-  "Regice",
-  "Runerigus",
-  "Landorus-Therian",
-  "Heatmor",
-  "Jirachi",
-];
-const testResults = [
-  "Slowking",
-  "Type: Null",
-  "Stoutland",
-  "Lycanroc-Dusk",
-  "Scizor",
-  "Not revealed",
-  "Aggron",
-  "Indeedee-F",
-  "Regice",
-  "Runerigus",
-  "Landorus-Therian",
-  "Heatmor",
-  "Jirachi",
-];
+
 //fetches latest pokemon data from auto updating dataset
 export const OpponentsTeamDisplay = ({
   opponentsTeam,
@@ -186,8 +157,7 @@ export const OpponentsTeamDisplay = ({
   const [currentPokemon, setCurrentPokemon] = useState<ActivePokemon>(
     getCurrentPokemon(opponentsTeam)
   );
-  const testFilter = testTeam.map((x) => pokemonNameFilter(x));
-  console.log(testFilter.filter((x, idx) => x !== testResults[idx]));
+
   useEffect(() => {
     setCurrentPokemon(getCurrentPokemon(opponentsTeam));
   }, [opponentsTeam]);

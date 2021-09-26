@@ -18,7 +18,6 @@ import {
   ItemsDisplay,
   MoveType,
 } from "../styles/DataDisplayStyles";
-console.log(Move);
 const { Moves, Items, Abilities } = Dex.data;
 
 export const RandomBattlePokemonDisplay = ({

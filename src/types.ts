@@ -13,6 +13,7 @@ export interface ChromeMessage {
 export interface PokemonResponse {
   user: Array<string>;
   opponent: Array<string>;
+  turnNumber: number;
   opponentsTeam: string[] | null;
   usersTeam: string[] | null;
 }

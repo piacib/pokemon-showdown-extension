@@ -1,6 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { ChromeMessage, Sender, PokemonResponse, WebsiteInfo } from "./types";
-import { pokemonMessage } from "./messages";
+import {
+  mutationObserverMessage,
+  mutationObserverUnmountMessage,
+  pokemonMessage,
+} from "./messages";
 import loading from "./media/loading.svg";
 import { OpponentsTeamDisplay } from "./components/OpponentsTeamDisplay";
 import { getBattleType, isRandomBattle, isDevelopmentMode } from "./functions";
@@ -16,6 +20,7 @@ import {
 import { makeRandomTeam } from "./testTeam";
 const testDS = {
   opponentsTeam: makeRandomTeam(),
+  turnNumber: 1,
   user: ["Slowking", "Heracross", "Stoutland", "Amoonguss", "Stoutland"],
   usersTeam: makeRandomTeam(),
   opponent: [
@@ -46,10 +51,13 @@ const App = () => {
     useState<PokemonResponse>({
       user: [""],
       opponent: [""],
+      turnNumber: 0,
       opponentsTeam: null,
       usersTeam: null,
     });
+  // for toggle between teams button
   const [sendOpponentsTeam, setSendOpponentsTeam] = useState<Boolean>(true);
+
   const sendPokemonMessage = useCallback(() => {
     const message: ChromeMessage = {
       from: Sender.React,
@@ -64,8 +72,39 @@ const App = () => {
       });
   }, []);
   /**
-   * Get current URL
+   * Establish mutation observer on first load
    */
+  const sendMutationObserverMessage = useCallback(() => {
+    console.log(mutationObserverMessage + " in app callback");
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: mutationObserverMessage,
+    };
+    chrome.tabs &&
+      chrome.tabs.query(queryInfo, (tabs) => {
+        const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
+        chrome.tabs.sendMessage(currentTabId, message, (response) => {
+          setResponseFromContent(response);
+        });
+      });
+  }, []);
+  const sendMutationObserverUnmountMessage = useCallback(() => {
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: mutationObserverUnmountMessage,
+    };
+    chrome.tabs &&
+      chrome.tabs.query(queryInfo, (tabs) => {
+        const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
+        chrome.tabs.sendMessage(currentTabId, message);
+      });
+  }, []);
+  useEffect(() => {
+    sendMutationObserverMessage();
+    return () => {
+      sendMutationObserverUnmountMessage();
+    };
+  }, [sendMutationObserverMessage, sendMutationObserverUnmountMessage]);
   useEffect(() => {
     if (isDevelopmentMode) {
       const testUrl =
@@ -95,7 +134,7 @@ const App = () => {
     // };
     setResponseFromContent(testDS);
   };
-  console.log(isURLShowdown(websiteInfo.url) && websiteInfo.battleType);
+  console.log("responseFromContent", responseFromContent);
   useEffect(() => {
     if (isURLShowdown(websiteInfo.url) && websiteInfo.battleType) {
       if (!isDevelopmentMode) {
@@ -103,20 +142,10 @@ const App = () => {
         sendPokemonMessage();
       } else {
         console.log("startup sendTestMessage");
-
         sendTestMessage();
       }
     }
   }, [sendPokemonMessage, websiteInfo]);
-  /**
-   * Send message to the content script
-   */
-
-  console.log(
-    sendOpponentsTeam
-      ? responseFromContent.opponentsTeam
-      : responseFromContent.usersTeam
-  );
   return isURLShowdown(websiteInfo.url) ? (
     websiteInfo.battleType ? (
       <AppDisplay>
