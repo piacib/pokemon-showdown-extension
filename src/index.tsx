@@ -5,10 +5,11 @@ import App from "./App";
 import { GlobalStyle } from "./styles/GlobalStyles";
 // import AppDesign from "./AppDesign";
 import reportWebVitals from "./reportWebVitals";
+import theme from "./styles/theme";
 
 ReactDOM.render(
   <React.StrictMode>
-    <GlobalStyle />
+    <GlobalStyle theme={theme}/>
     <App />
   </React.StrictMode>,
   document.getElementById("root")
