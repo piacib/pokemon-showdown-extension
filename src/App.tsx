@@ -13,21 +13,7 @@ import {
   Refresh,
   RefreshButton,
 } from "./styles/AppStyles";
-import { makeRandomTeam } from "./testTeam";
-const testDS = {
-  opponentsTeam: makeRandomTeam(),
-  user: ["Slowking", "Heracross", "Stoutland", "Amoonguss", "Stoutland"],
-  usersTeam: makeRandomTeam(),
-  opponent: [
-    "Aggron",
-    "Indeedee-F",
-    "Regice",
-    "Runerigus",
-    "Landorus-Therian",
-    "Heatmor",
-    "Jirachi",
-  ],
-};
+import testDS from "./testObjects";
 
 const queryInfo: chrome.tabs.QueryInfo = {
   active: true,
