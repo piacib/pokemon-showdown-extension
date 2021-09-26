@@ -49,9 +49,6 @@ const App = () => {
         });
       });
   }, []);
-  /**
-   * Get current URL
-   */
   useEffect(() => {
     if (isDevelopmentMode) {
       const testUrl =
@@ -92,15 +89,6 @@ const App = () => {
       }
     }
   }, [sendPokemonMessage, websiteInfo]);
-  /**
-   * Send message to the content script
-   */
-
-  console.log(
-    sendOpponentsTeam
-      ? responseFromContent.opponentsTeam
-      : responseFromContent.usersTeam
-  );
   return <AppDisplay>
   {
   isURLShowdown(websiteInfo.url) ? (
