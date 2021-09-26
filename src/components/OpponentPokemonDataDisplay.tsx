@@ -44,11 +44,11 @@ export const OpponentPokemonDataDisplay = ({
       );
     }
   }, [pokemon]);
-
+  const regExPokemonName = pokemon.match(/^([\w]+)-/)
   return (
     <>
       <PokemonName href={`https://www.smogon.com/dex/ss/pokemon/${pokemon}/`}>
-        {pokemon}
+        {regExPokemonName ? regExPokemonName[1] : pokemon}
       </PokemonName>
 
       <TypeDisplay>
