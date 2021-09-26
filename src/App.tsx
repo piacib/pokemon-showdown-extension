@@ -95,7 +95,6 @@ const App = () => {
     // };
     setResponseFromContent(testDS);
   };
-  console.log(isURLShowdown(websiteInfo.url) && websiteInfo.battleType);
   useEffect(() => {
     if (isURLShowdown(websiteInfo.url) && websiteInfo.battleType) {
       if (!isDevelopmentMode) {
@@ -103,7 +102,6 @@ const App = () => {
         sendPokemonMessage();
       } else {
         console.log("startup sendTestMessage");
-
         sendTestMessage();
       }
     }
@@ -117,9 +115,11 @@ const App = () => {
       ? responseFromContent.opponentsTeam
       : responseFromContent.usersTeam
   );
-  return isURLShowdown(websiteInfo.url) ? (
-    websiteInfo.battleType ? (
-      <AppDisplay>
+  return <AppDisplay>
+  {
+  isURLShowdown(websiteInfo.url) ? (
+    websiteInfo.battleType ? 
+        <>
         <TypeWriterContainer>
           <h1>PokeInfo</h1>
         </TypeWriterContainer>
@@ -139,12 +139,13 @@ const App = () => {
           }
           isRandomBattle={websiteInfo.isRandomBattle}
         />
-      </AppDisplay>
-    ) : (
-      <NotInBattleErrorScreen />
-    )
+        </>
+    : 
+      <NotInBattleErrorScreen /> 
   ) : (
     <NotPokemonShowdownErrorScreen />
-  );
+  )
+  }
+      </AppDisplay>
 };
 export default App;
