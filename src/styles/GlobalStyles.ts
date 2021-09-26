@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+// import theme from "./theme";
 export const GlobalStyle = createGlobalStyle`
   html {
   font-size: 20px;
@@ -19,6 +20,8 @@ button {
   justify-content: center;
   width: 100%;
   height: 100%;
+  border:5px solid black;
+  background-color: #c5bfbf;
 }
 
 h1 {

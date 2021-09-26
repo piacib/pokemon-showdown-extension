@@ -26,12 +26,14 @@ export const Button = styled.button`
 `;
 export const backgroundColor = "#c5bfbf";
 export const AppDisplay = styled.div`
-  background-color: #c5bfbf;
   display: grid;
   grid-column-gap: 10px;
   grid-template-rows: 75px 61px 32px auto;
-  padding: 0 0.25em;
+  margin: 0.25rem;
+  padding: 0.25rem;
   overflow: hidden;
+  border: 5px solid black;
+
 `;
 const typing = keyframes`
   from {
