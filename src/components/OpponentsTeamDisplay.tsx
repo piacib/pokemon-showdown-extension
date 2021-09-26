@@ -37,7 +37,6 @@ const activePokemonNames = (arr: string[]): string[] => {
   // and returns name with up  sliced off
   return arr.map((x) => activePokemonRegEx(x));
 };
-
 const getCurrentPokemon = (opponentsTeam: string[] | null): ActivePokemon => {
   if (!opponentsTeam) {
     return {
