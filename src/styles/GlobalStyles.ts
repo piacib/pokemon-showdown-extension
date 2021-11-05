@@ -6,7 +6,7 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     font-style: normal;
     src: url("fonts/VT323-Regular.woff2") format("woff2"),
-  url("fonts/VT323-Regular.woff") format("woff");
+    url("fonts/VT323-Regular.woff") format("woff");
   }
 html {
   font-size: 20px;
@@ -16,9 +16,8 @@ body {
   margin: 0;
   width: 650px;
 }
-
 button {
-  font-family: inherit
+  font-family: inherit;
 }
 #root {
   display: flex;
@@ -26,11 +25,12 @@ button {
   justify-content: center;
   width: 100%;
   height: 100%;
-  border:5px solid black;
-  background-color: #c5bfbf;
-}
+  border: ${props => props.theme.outerBorder};
+  background-color: ${props => props.theme.backgroundColor};
 
+}
 h1 {
   font-family: var(--font-family);
+  font-size:2.7rem;
 }
 `;
