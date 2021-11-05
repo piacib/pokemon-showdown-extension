@@ -6,8 +6,8 @@ import { OpponentsTeamDisplay } from "./components/OpponentsTeamDisplay";
 import { getBattleType, isRandomBattle, isDevelopmentMode } from "./functions";
 import { NotPokemonShowdownErrorScreen } from "./components/NotPokemonShowdownErrorScreen";
 import { NotInBattleErrorScreen } from "./components/NotInBattleErrorScreen";
+import {TypeWriterContainer} from './styles/TypeWriterContainer'
 import {
-  TypeWriterContainer,
   AppDisplay,
   Button,
   Refresh,
@@ -52,7 +52,7 @@ const App = () => {
   useEffect(() => {
     if (isDevelopmentMode) {
       const testUrl =
-        "https://play.pokemonshowdown.com/battle-gen8randombattle-1411331283";
+      "https://play.pokemonshowdown.com/battle-gen8randombattle-1411331283";
       setWebsiteInfo({
         url: testUrl,
         isRandomBattle: isRandomBattle(testUrl),
@@ -72,10 +72,6 @@ const App = () => {
     }
   }, []);
   const sendTestMessage = () => {
-    // const message: ChromeMessage = {
-    //   from: Sender.React,
-    //   message: testMessage,
-    // };
     setResponseFromContent(testDS);
   };
   useEffect(() => {
