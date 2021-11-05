@@ -43,8 +43,6 @@ const messagesFromReactAppListener = (
   response: MessageResponse
 ) => {
   const isValidated = validateSender(message, sender);
-
-  //
   if (isValidated && message.message === testMessage) {
     console.log(testDS);
     response(testDS);
@@ -52,7 +50,6 @@ const messagesFromReactAppListener = (
   if (isValidated && message.message === pokemonMessage) {
     const chat: HTMLCollection =
       document.getElementsByClassName("battle-history");
-    const battleLog = document.getElementsByClassName("battle-log").item(0);
     const opponentsTeam = getTeam("opponent");
     const usersTeam = getTeam("user");
     const { user, opponent } = getPokemon(chat);
@@ -63,13 +60,7 @@ const messagesFromReactAppListener = (
       usersTeam,
     });
   }
-
-  if (isValidated && message.message === "delete logo") {
-    const logo = document.getElementById("hplogo");
-    logo?.parentElement?.removeChild(logo);
-  }
 };
-
 const main = () => {
   console.log("[content.ts] Main");
   /**
