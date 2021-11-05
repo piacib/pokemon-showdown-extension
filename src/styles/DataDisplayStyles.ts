@@ -10,7 +10,7 @@ export const PropertyDisplay = styled.div`
   align-items: center;
 `;
 const TypeColoredComponent = styled.div<TypeColorInterface>`
-  background-color: ${(props) => typeColorConverter[props.background]};
+  background-color: ${(props) => props.theme.color.typeColors[props.background]};
 `;
 export const HiddenPropertyText = styled.div`
   display: none;
@@ -113,6 +113,7 @@ export const StatsDisplay = styled.div`
   grid-column: 2/4;
   width: 250px;
   display: flex;
+  justify-self: end;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
