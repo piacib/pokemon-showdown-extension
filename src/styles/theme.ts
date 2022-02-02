@@ -1,7 +1,9 @@
 import { DefaultTheme } from "styled-components";
 
-const theme: DefaultTheme = {
-    outerBorder: "5px solid black",
+const theme: DefaultTheme = {    
+    outerBorderWidth: '5px',
+    outerBorderColor: 'solid',
+    outerBorderStyle: 'black',
     backgroundColor: '#c5bfbf',
     secondaryBorderMargin: '0.25rem',
     color: {
