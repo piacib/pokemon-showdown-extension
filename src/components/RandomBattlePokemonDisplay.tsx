@@ -4,7 +4,7 @@ import {
   PokemonData,
   RandbatsPokemonData,
 } from "../types";
-import { Dex, Move } from "@pkmn/dex";
+import { Dex } from "@pkmn/dex";
 import { dexSearchPrepper } from "../functions";
 import {
   HiddenPropertyText,
@@ -18,7 +18,6 @@ import {
   ItemsDisplay,
   MoveType,
 } from "../styles/DataDisplayStyles";
-console.log(Move);
 const { Moves, Items, Abilities } = Dex.data;
 
 export const RandomBattlePokemonDisplay = ({
@@ -53,7 +52,6 @@ export const RandomBattlePokemonDisplay = ({
   }, [isRandomBattle]);
 
   useEffect(() => {
-    console.log("setpkdata", pokemon, randbatsPokemonData[pokemon]);
     if (randbatsPokemonData[pokemon]) {
       const { abilities, items, moves } = randbatsPokemonData[pokemon];
       setPokemonData({ abilities: abilities, items: items, moves: moves });
