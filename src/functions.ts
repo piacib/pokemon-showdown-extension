@@ -24,7 +24,6 @@ export const getBattleType = (url: string) => {
     ? battleType[0]
     : "Not a random battle";
 };
-
 export const isRandomBattle = (url: string): isRandomBattleReturn => {
   const battleType = url.match(/(?<=-).+?(?=-)/g);
   if (!battleType) {
