@@ -6,14 +6,9 @@ import { OpponentsTeamDisplay } from "./components/OpponentsTeamDisplay";
 import { getBattleType, isRandomBattle, isDevelopmentMode } from "./functions";
 import { NotPokemonShowdownErrorScreen } from "./components/NotPokemonShowdownErrorScreen";
 import { NotInBattleErrorScreen } from "./components/NotInBattleErrorScreen";
-import {TypeWriterContainer} from './styles/TypeWriterContainer'
-import {
-  AppDisplay,
-  Button,
-  Refresh,
-  RefreshButton,
-} from "./styles/AppStyles";
-import testDS from "./testObjects";
+import { TypeWriterContainer } from "./styles/TypeWriterContainer";
+import { AppDisplay, Button, Refresh, RefreshButton } from "./styles/AppStyles";
+import testDS from "./functions/testObjects";
 
 const queryInfo: chrome.tabs.QueryInfo = {
   active: true,
@@ -49,10 +44,11 @@ const App = () => {
         });
       });
   }, []);
+
   useEffect(() => {
     if (isDevelopmentMode) {
       const testUrl =
-      "https://play.pokemonshowdown.com/battle-gen8randombattle-1411331283";
+        "https://play.pokemonshowdown.com/battle-gen8randombattle-1411331283";
       setWebsiteInfo({
         url: testUrl,
         isRandomBattle: isRandomBattle(testUrl),
@@ -85,37 +81,38 @@ const App = () => {
       }
     }
   }, [sendPokemonMessage, websiteInfo]);
-  return <AppDisplay>
-  {
-  isURLShowdown(websiteInfo.url) ? (
-    websiteInfo.battleType ? 
-        <>
-        <TypeWriterContainer>
-          <h1>PokeInfo</h1>
-        </TypeWriterContainer>
-        <RefreshButton
-          onClick={isDevelopmentMode ? sendTestMessage : sendPokemonMessage}
-        >
-          <Refresh alt="refresh" src={loading} />
-        </RefreshButton>
-        <Button onClick={() => setSendOpponentsTeam(!sendOpponentsTeam)}>
-          Swap to {sendOpponentsTeam ? "Users Team" : "Opponents Team"}
-        </Button>
-        <OpponentsTeamDisplay
-          opponentsTeam={
-            sendOpponentsTeam
-              ? responseFromContent.opponentsTeam
-              : responseFromContent.usersTeam
-          }
-          isRandomBattle={websiteInfo.isRandomBattle}
-        />
-        </>
-    : 
-      <NotInBattleErrorScreen /> 
-  ) : (
-    <NotPokemonShowdownErrorScreen />
-  )
-  }
-      </AppDisplay>
+  return (
+    <AppDisplay>
+      {isURLShowdown(websiteInfo.url) ? (
+        websiteInfo.battleType !== "No Battle Type Found" ? (
+          <>
+            <TypeWriterContainer>
+              <h1>PokeInfo</h1>
+            </TypeWriterContainer>
+            <RefreshButton
+              onClick={isDevelopmentMode ? sendTestMessage : sendPokemonMessage}
+            >
+              <Refresh alt="refresh" src={loading} />
+            </RefreshButton>
+            <Button onClick={() => setSendOpponentsTeam(!sendOpponentsTeam)}>
+              Swap to {sendOpponentsTeam ? "Users Team" : "Opponents Team"}
+            </Button>
+            <OpponentsTeamDisplay
+              opponentsTeam={
+                sendOpponentsTeam
+                  ? responseFromContent.opponentsTeam
+                  : responseFromContent.usersTeam
+              }
+              isRandomBattle={websiteInfo.isRandomBattle}
+            />
+          </>
+        ) : (
+          <NotInBattleErrorScreen />
+        )
+      ) : (
+        <NotPokemonShowdownErrorScreen />
+      )}
+    </AppDisplay>
+  );
 };
 export default App;
