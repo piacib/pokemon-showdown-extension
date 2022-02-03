@@ -1,6 +1,6 @@
 import { OpponentPokemonDataDisplayProps, Stats } from "../types";
 import { Dex } from "@pkmn/dex";
-import { DamageDisplay } from "./DamageDisplay";
+import { DamageDisplay } from "./DamageDisplay/DamageDisplay";
 import { useEffect, useState } from "react";
 import { dexSearchPrepper } from "../functions";
 import { RandomBattlePokemonDisplay } from "./RandomBattlePokemonDisplay";
@@ -16,10 +16,6 @@ import {
 } from "../styles/DataDisplayStyles";
 import { OtherFormatsDisplay } from "./OtherFormatsDisplay";
 const {
-  // Abilities,
-  // Aliases,
-  // Moves,
-  // Items,
   Species,
 } = Dex.data;
 
