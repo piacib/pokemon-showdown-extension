@@ -28,15 +28,19 @@ export const Button = styled.button`
   align-self: center;
 `;
 export const AppDisplay = styled.div`
+  width: 100%;
+  height: 100%;
+  max-width: 640px;
+  min-height: 250px;
   display: grid;
   grid-column-gap: 10px;
   grid-template-rows: 55px 61px 32px auto;
   height: fit-content;
-  margin: ${props => props.theme.secondaryBorderMargin};
+  margin: ${(props) => props.theme.secondaryBorderMargin};
   padding: 0.25rem;
   overflow: hidden;
-  background-color: ${props => props.theme.backgroundColor};
-  border: ${props=> props.theme.outerBorder};
-
+  background-color: ${(props) => props.theme.backgroundColor};
+  border: ${(props) => `${props.theme.outerBorderWidth}
+   ${props.theme.outerBorderColor}
+   ${props.theme.outerBorderStyle}`};
 `;
-

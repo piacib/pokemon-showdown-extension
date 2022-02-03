@@ -23,10 +23,12 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: calc(100% - calc(2 * ${(props) => props.theme.outerBorderWidth}));
   height: 100%;
-  border: ${props => props.theme.outerBorder};
-  background-color: ${props => props.theme.backgroundColor};
+  border: ${(props) => `${props.theme.outerBorderWidth}
+   ${props.theme.outerBorderColor}
+   ${props.theme.outerBorderStyle}`};
+  background-color: ${(props) => props.theme.backgroundColor};
 
 }
 h1 {
