@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { typeColorConverter } from "../pokemonTypeColorConverter";
+import { typeColorConverter } from "./pokemonTypeColorConverter";
 import { TypeColorInterface } from "../types";
 
 export const DamageContainer = styled.div`
