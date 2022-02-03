@@ -49,11 +49,7 @@ export interface RandomBattlePokemonDisplayProps {
   pokemon: string;
   isRandomBattle: isRandomBattleReturn;
 }
-// export interface PokemonData {
-//   <string>:any;
-// }
-// export type POKEMON = [string, string?];
-type POKEMON = string; //keyof PokemonData;
+type POKEMON = string;
 export interface ActivePokemon {
   pokemon1: POKEMON | null;
   pokemon2: POKEMON | null;
