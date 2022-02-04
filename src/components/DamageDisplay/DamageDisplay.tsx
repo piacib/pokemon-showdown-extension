@@ -10,7 +10,7 @@ import { damageCalculator } from "../../functions/damageFunctions";
 import { LoadingScreen } from "../LoadingScreen";
 
 const labels = ["No Effect", "Ineffective", "Super effective"];
-export const DamageDisplay = (props: DamageDisplayProps) => {
+export const DamageDisplay: React.FC<DamageDisplayProps> = (props) => {
   const [damageObj, setDamageObj] = useState<DamageObj | null>(null);
 
   useEffect(() => {
@@ -20,10 +20,11 @@ export const DamageDisplay = (props: DamageDisplayProps) => {
   }, [props.typesArray]);
   if (!damageObj) {
     return (
-    <DamageContainer>
-      <LoadingScreen />;
-    </DamageContainer>
-  )}
+      <DamageContainer>
+        <LoadingScreen />;
+      </DamageContainer>
+    );
+  }
   const noEffect = Object.entries(damageObj).filter((entry) => entry[1] === 0);
   const ineffective = Object.entries(damageObj).filter(
     (entry) => entry[1] === 0.25 || entry[1] === 0.5
