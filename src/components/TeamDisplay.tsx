@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { OpponentPokemonDataDisplay } from "./OpponentPokemonDataDisplay";
-import { ActivePokemon, OpponentsProps } from "../types";
+import { ActivePokemon, TeamProps } from "../types";
 import { OpponentsTeamUnavailable } from "./OpponentsTeamUnavailable";
 import { PokemonUnavailable } from "./PokemonUnavailable";
 import SpriteImage from "./SpriteImage";
@@ -130,20 +130,18 @@ const testResults = [
   "Jirachi",
 ];
 //fetches latest pokemon data from auto updating dataset
-export const OpponentsTeamDisplay = ({
-  opponentsTeam,
-  isRandomBattle,
-}: OpponentsProps) => {
+export const TeamDisplay = ({ team, isRandomBattle }: TeamProps) => {
+  console.log("team", team);
   const [currentPokemon, setCurrentPokemon] = useState<ActivePokemon>(
-    getCurrentPokemon(opponentsTeam)
+    getCurrentPokemon(team)
   );
   const testFilter = testTeam.map((x) => pokemonNameFilter(x));
   console.log(testFilter.filter((x, idx) => x !== testResults[idx]));
   useEffect(() => {
-    setCurrentPokemon(getCurrentPokemon(opponentsTeam));
-  }, [opponentsTeam]);
+    setCurrentPokemon(getCurrentPokemon(team));
+  }, [team]);
 
-  return !opponentsTeam ? (
+  return !team ? (
     <>
       <ButtonDisplay>
         <SpriteImage name={pokemonNameFilter("")} />
@@ -158,10 +156,11 @@ export const OpponentsTeamDisplay = ({
   ) : (
     <>
       <ButtonDisplay>
-        {opponentsTeam.map((x, idx) => (
+        {team.map((x, idx) => (
           <Button
             key={pokemonNameFilter(x) + idx}
             onClick={() => {
+              console.log(getPokemonName(x));
               setCurrentPokemon(getPokemonName(x));
             }}
           >
