@@ -59,8 +59,8 @@ export interface OpponentPokemonDataDisplayProps {
   pokemon: string;
   isRandomBattle: isRandomBattleReturn;
 }
-export interface OpponentsProps {
-  opponentsTeam: string[] | null;
+export interface TeamProps {
+  team: string[] | null;
   isRandomBattle: isRandomBattleReturn;
 }
 type Properties = {

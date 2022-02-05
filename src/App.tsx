@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { ChromeMessage, Sender, PokemonResponse, WebsiteInfo } from "./types";
 import { pokemonMessage } from "./messages";
 import loading from "./media/loading.svg";
-import { OpponentsTeamDisplay } from "./components/OpponentsTeamDisplay";
+import { TeamDisplay } from "./components/TeamDisplay";
 import { getBattleType, isRandomBattle, isDevelopmentMode } from "./functions";
 import { NotPokemonShowdownErrorScreen } from "./components/ErrorScreens/NotPokemonShowdownErrorScreen";
 import { NotInBattleErrorScreen } from "./components/ErrorScreens/NotInBattleErrorScreen";
@@ -97,8 +97,8 @@ const App = () => {
             <Button onClick={() => setSendOpponentsTeam(!sendOpponentsTeam)}>
               Swap to {sendOpponentsTeam ? "Users Team" : "Opponents Team"}
             </Button>
-            <OpponentsTeamDisplay
-              opponentsTeam={
+            <TeamDisplay
+              team={
                 sendOpponentsTeam
                   ? responseFromContent.opponentsTeam
                   : responseFromContent.usersTeam
