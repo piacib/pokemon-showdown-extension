@@ -20,10 +20,9 @@ import {
 } from "../styles/DataDisplayStyles";
 const { Moves, Items, Abilities } = Dex.data;
 
-export const RandomBattlePokemonDisplay = ({
-  pokemon,
-  isRandomBattle,
-}: RandomBattlePokemonDisplayProps) => {
+export const RandomBattlePokemonDisplay: React.FC<
+  RandomBattlePokemonDisplayProps
+> = ({ pokemon, isRandomBattle }) => {
   const [pokemonData, setPokemonData] = useState<PokemonData>({
     moves: [],
     abilities: [],
@@ -38,9 +37,8 @@ export const RandomBattlePokemonDisplay = ({
         moves: [],
       },
     });
-
+  // fetchs random pokemon data only on startup
   useEffect(() => {
-    console.log("isRandomBattle fetching");
     async function asyncFetchRandomPokemonData() {
       const fetchData = await fetch(
         `https://pkmn.github.io/randbats/data/${isRandomBattle}.json`
@@ -50,18 +48,16 @@ export const RandomBattlePokemonDisplay = ({
     }
     asyncFetchRandomPokemonData();
   }, [isRandomBattle]);
-
+  // sets pokemon data when new pokemon is selected
   useEffect(() => {
     if (randbatsPokemonData[pokemon]) {
       const { abilities, items, moves } = randbatsPokemonData[pokemon];
       setPokemonData({ abilities: abilities, items: items, moves: moves });
     }
   }, [pokemon, randbatsPokemonData]);
-
   const movesData = pokemonData.moves.map(
     (move) => Moves[dexSearchPrepper(move)]
   );
-
   return (
     <>
       <AbilitiesDisplay>
@@ -97,15 +93,15 @@ export const RandomBattlePokemonDisplay = ({
               <MoveData>
                 <MoveDescription>{move.shortDesc}</MoveDescription>
                 <MoveType background={move.type}>{move.type}</MoveType>
-                {typeof move.accuracy === "number" ? (
+                {typeof move.accuracy === "number" && (
                   <MoveProperty>Accuracy: {move.accuracy}%</MoveProperty>
-                ) : null}
-                {move.priority ? (
+                )}
+                {Boolean(move.priority) && (
                   <MoveProperty>Priority: {move.priority}</MoveProperty>
-                ) : null}
-                {move.basePower ? (
+                )}
+                {Boolean(move.basePower) && (
                   <MoveProperty>Power: {move.basePower}</MoveProperty>
-                ) : null}
+                )}
                 <MoveProperty>Category: {move.category}</MoveProperty>
               </MoveData>
             </HiddenPropertyText>
