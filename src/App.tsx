@@ -70,6 +70,21 @@ const App = () => {
   const sendTestMessage = () => {
     setResponseFromContent(testDS);
   };
+  // sends pokemon message every 5 seconds
+  // to load new pokemon data
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("auto refresh 5 sec");
+      if (
+        isURLShowdown(websiteInfo.url) &&
+        websiteInfo.battleType !== "No Battle Type Found"
+      ) {
+        isDevelopmentMode ? sendTestMessage() : sendPokemonMessage();
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [sendPokemonMessage, websiteInfo.battleType, websiteInfo.url]);
+  
   useEffect(() => {
     if (isURLShowdown(websiteInfo.url) && websiteInfo.battleType) {
       if (!isDevelopmentMode) {
