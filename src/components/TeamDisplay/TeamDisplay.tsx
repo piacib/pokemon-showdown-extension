@@ -14,14 +14,12 @@ import {
 } from './TeamDisplay.functions';
 //fetches latest pokemon data from auto updating dataset
 export const TeamDisplay = ({ team, isRandomBattle }: TeamProps) => {
-  console.log('team', team);
   const [currentPokemon, setCurrentPokemon] = useState<ActivePokemon>(getCurrentPokemon(team));
   const testFilter = testTeam.map((x) => pokemonNameFilter(x));
   console.log(testFilter.filter((x, idx) => x !== testResults[idx]));
   useEffect(() => {
     setCurrentPokemon(getCurrentPokemon(team));
   }, [team]);
-
   return !team ? (
     <>
       <ButtonDisplay>
@@ -41,7 +39,6 @@ export const TeamDisplay = ({ team, isRandomBattle }: TeamProps) => {
           <Button
             key={pokemonNameFilter(x) + idx}
             onClick={() => {
-              console.log(getPokemonName(x));
               setCurrentPokemon(getPokemonName(x));
             }}
           >
