@@ -84,7 +84,7 @@ const App = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, [sendPokemonMessage, websiteInfo.battleType, websiteInfo.url]);
-  
+  // sends messages to content.ts
   useEffect(() => {
     if (isURLShowdown(websiteInfo.url) && websiteInfo.battleType) {
       if (!isDevelopmentMode) {
