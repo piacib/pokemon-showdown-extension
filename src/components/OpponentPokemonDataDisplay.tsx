@@ -15,9 +15,7 @@ import {
   PokemonName,
 } from "../styles/DataDisplayStyles";
 import { OtherFormatsDisplay } from "./OtherFormatsDisplay";
-const {
-  Species,
-} = Dex.data;
+const { Species } = Dex.data;
 
 export const OpponentPokemonDataDisplay = ({
   pokemon,
@@ -40,7 +38,7 @@ export const OpponentPokemonDataDisplay = ({
       );
     }
   }, [pokemon]);
-  const regExPokemonName = pokemon.match(/^([\w]+)-/)
+  const regExPokemonName = pokemon.match(/^([\w]+)-/);
   return (
     <>
       <PokemonName href={`https://www.smogon.com/dex/ss/pokemon/${pokemon}/`}>
