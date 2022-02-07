@@ -9,7 +9,7 @@ import { NotInBattleErrorScreen } from "./components/ErrorScreens/NotInBattleErr
 import { TypeWriterContainer } from "./styles/TypeWriterContainer";
 import { AppDisplay, Button, Refresh, RefreshButton } from "./styles/AppStyles";
 import testDS from "./functions/testObjects";
-
+import { useTimer } from "./hooks/useTimer";
 const queryInfo: chrome.tabs.QueryInfo = {
   active: true,
   currentWindow: true,
@@ -70,20 +70,17 @@ const App = () => {
   const sendTestMessage = () => {
     setResponseFromContent(testDS);
   };
+  const isInBattle = Boolean(
+    isURLShowdown(websiteInfo.url) &&
+      websiteInfo.battleType !== "No Battle Type Found"
+  );
+  const actionFunction = () => {
+    isDevelopmentMode ? sendTestMessage() : sendPokemonMessage();
+    console.log("5 second interval");
+  };
   // sends pokemon message every 5 seconds
   // to load new pokemon data
-  useEffect(() => {
-    const interval = setInterval(() => {
-      console.log("auto refresh 5 sec");
-      if (
-        isURLShowdown(websiteInfo.url) &&
-        websiteInfo.battleType !== "No Battle Type Found"
-      ) {
-        isDevelopmentMode ? sendTestMessage() : sendPokemonMessage();
-      }
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [sendPokemonMessage, websiteInfo.battleType, websiteInfo.url]);
+  useTimer({ timer: 5000, actionFunction, exitCondition: !isInBattle });
   // sends messages to content.ts
   useEffect(() => {
     if (isURLShowdown(websiteInfo.url) && websiteInfo.battleType) {
