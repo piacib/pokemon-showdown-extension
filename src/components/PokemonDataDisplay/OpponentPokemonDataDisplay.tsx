@@ -13,7 +13,7 @@ import {
   StatName,
   StatValue,
   PokemonName,
-} from './DataDisplayStyles';
+} from './DataDisplay.styles';
 import { OtherFormatsDisplay } from './OtherFormatsDisplay';
 const { Species } = Dex.data;
 
