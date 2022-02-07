@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Button, ButtonDisplay } from './TeamDisplay.style';
 import { OpponentPokemonDataDisplay } from '../PokemonDataDisplay/OpponentPokemonDataDisplay';
 import { ActivePokemon, TeamProps } from '../../types';
-import { OpponentsTeamUnavailable } from '../OpponentsTeamUnavailable';
-import { PokemonUnavailable } from '../PokemonUnavailable';
+import { OpponentsTeamUnavailable } from '../ErrorScreens/OpponentsTeamUnavailable';
+import { PokemonUnavailable } from '../ErrorScreens/PokemonUnavailable';
 import SpriteImage from '../SpriteImage';
 import {
   getCurrentPokemon,

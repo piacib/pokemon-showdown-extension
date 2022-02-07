@@ -6,7 +6,7 @@ import { TeamDisplay } from './components/TeamDisplay/TeamDisplay';
 import { getBattleType, isURLShowdown, isRandomBattle, isDevelopmentMode } from './functions';
 import { NotPokemonShowdownErrorScreen } from './components/ErrorScreens/NotPokemonShowdownErrorScreen';
 import { NotInBattleErrorScreen } from './components/ErrorScreens/NotInBattleErrorScreen';
-import { TypeWriterContainer } from './styles/TypeWriterContainer';
+import { TypeWriterContainer } from './TypeWriterContainer.style';
 import { AppDisplay, Button, Refresh, RefreshButton } from './App.styles';
 import testDS from './functions/testObjects';
 const queryInfo: chrome.tabs.QueryInfo = {
