@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, ButtonDisplay } from './TeamDisplay.style';
-import { OpponentPokemonDataDisplay } from '../OpponentPokemonDataDisplay';
+import { OpponentPokemonDataDisplay } from '../PokemonDataDisplay/OpponentPokemonDataDisplay';
 import { ActivePokemon, TeamProps } from '../../types';
 import { OpponentsTeamUnavailable } from '../OpponentsTeamUnavailable';
 import { PokemonUnavailable } from '../PokemonUnavailable';
