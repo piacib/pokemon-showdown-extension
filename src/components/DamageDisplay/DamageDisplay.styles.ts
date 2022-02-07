@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { typeColorConverter } from "./pokemonTypeColorConverter";
-import { TypeColorInterface } from "../types";
+import { typeColorConverter } from "../PokemonDataDisplay/pokemonTypeColorConverter";
+import { TypeColorInterface } from "../../types";
 
 export const DamageContainer = styled.div`
   grid-row: 4;

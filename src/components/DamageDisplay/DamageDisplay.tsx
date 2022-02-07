@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { DamageDisplayProps, DamageObj } from "../../types";
+import React, { useEffect, useState } from 'react';
+import { DamageDisplayProps, DamageObj } from '../../types';
 import {
   DamageContainer,
   DamageGroupContainer,
   TypeBox,
   TypeBoxContainer,
-} from "../../styles/DamageDisplayStyles";
-import { damageCalculator } from "../../functions/damageFunctions";
-import { LoadingScreen } from "../LoadingScreen";
+} from './DamageDisplay.styles';
+import { damageCalculator } from '../../functions/damageFunctions';
+import { LoadingScreen } from '../LoadingScreen';
 interface EffectivnessProps {
-  damage: "0" | "1/4" | "1/2" | "2" | "4";
+  damage: '0' | '1/4' | '1/2' | '2' | '4';
   effectivenessArray: [string, number][];
 }
-const EffectivnessDisplay: React.FC<EffectivnessProps> = ({
-  damage,
-  effectivenessArray,
-}) => {
+const EffectivnessDisplay: React.FC<EffectivnessProps> = ({ damage, effectivenessArray }) => {
   return (
     <DamageGroupContainer>
       {effectivenessArray.length ? (
@@ -46,31 +43,17 @@ export const DamageDisplay: React.FC<DamageDisplayProps> = (props) => {
     );
   }
   const noEffect = Object.entries(damageObj).filter((entry) => entry[1] === 0);
-  const ineffective = Object.entries(damageObj).filter(
-    (entry) => entry[1] === 0.5
-  );
-  const superEffective = Object.entries(damageObj).filter(
-    (entry) => entry[1] === 2
-  );
-  const veryIneffective = Object.entries(damageObj).filter(
-    (entry) => entry[1] === 0.25
-  );
-  const superDuperEffective = Object.entries(damageObj).filter(
-    (entry) => entry[1] === 4
-  );
+  const ineffective = Object.entries(damageObj).filter((entry) => entry[1] === 0.5);
+  const superEffective = Object.entries(damageObj).filter((entry) => entry[1] === 2);
+  const veryIneffective = Object.entries(damageObj).filter((entry) => entry[1] === 0.25);
+  const superDuperEffective = Object.entries(damageObj).filter((entry) => entry[1] === 4);
   return (
     <DamageContainer>
-      <EffectivnessDisplay damage={"0"} effectivenessArray={noEffect} />
-      <EffectivnessDisplay
-        damage={"1/4"}
-        effectivenessArray={veryIneffective}
-      />
-      <EffectivnessDisplay damage={"1/2"} effectivenessArray={ineffective} />
-      <EffectivnessDisplay damage={"2"} effectivenessArray={superEffective} />
-      <EffectivnessDisplay
-        damage={"4"}
-        effectivenessArray={superDuperEffective}
-      />
+      <EffectivnessDisplay damage={'0'} effectivenessArray={noEffect} />
+      <EffectivnessDisplay damage={'1/4'} effectivenessArray={veryIneffective} />
+      <EffectivnessDisplay damage={'1/2'} effectivenessArray={ineffective} />
+      <EffectivnessDisplay damage={'2'} effectivenessArray={superEffective} />
+      <EffectivnessDisplay damage={'4'} effectivenessArray={superDuperEffective} />
     </DamageContainer>
   );
 };

@@ -34,3 +34,6 @@ export const isRandomBattle = (url: string): isRandomBattleReturn => {
 export const dexSearchPrepper = (str: string): string => {
   return str.toLowerCase().replace(/\W+/g, "");
 };
+export const isURLShowdown = (url: string) => {
+  return url.includes("play.pokemonshowdown.com");
+};
