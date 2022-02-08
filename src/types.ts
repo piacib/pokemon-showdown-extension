@@ -54,11 +54,6 @@ export interface ActivePokemon {
   pokemon1: POKEMON | null;
   pokemon2: POKEMON | null;
 }
-export interface OpponentPokemonDataDisplayProps {
-  // pokemonData: PokemonData;
-  pokemon: string;
-  isRandomBattle: isRandomBattleReturn;
-}
 export interface TeamProps {
   team: string[] | null;
   isRandomBattle: isRandomBattleReturn;
@@ -77,9 +72,7 @@ export interface OpponentsTeamData {
     moves: Properties[];
   };
 }
-export type TypeColorObjType = {
-  [key: string]: string;
-};
+
 export interface TypeColorInterface {
   background: string;
 }

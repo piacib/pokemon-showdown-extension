@@ -1,9 +1,9 @@
-import { OpponentPokemonDataDisplayProps, Stats } from "../types";
-import { Dex } from "@pkmn/dex";
-import { DamageDisplay } from "./DamageDisplay/DamageDisplay";
-import { useEffect, useState } from "react";
-import { dexSearchPrepper } from "../functions";
-import { RandomBattlePokemonDisplay } from "./RandomBattlePokemonDisplay";
+import { Stats, isRandomBattleReturn } from '../../types';
+import { Dex } from '@pkmn/dex';
+import { DamageDisplay } from '../DamageDisplay/DamageDisplay';
+import { useEffect, useState } from 'react';
+import { dexSearchPrepper } from '../../functions';
+import { RandomBattlePokemonDisplay } from './RandomBattlePokemonDisplay';
 import {
   PropertiesContainer,
   TypeDisplay,
@@ -13,10 +13,14 @@ import {
   StatName,
   StatValue,
   PokemonName,
-} from "../styles/DataDisplayStyles";
-import { OtherFormatsDisplay } from "./OtherFormatsDisplay";
+} from './DataDisplay.styles';
+import { OtherFormatsDisplay } from './OtherFormatsDisplay';
 const { Species } = Dex.data;
 
+interface OpponentPokemonDataDisplayProps {
+  pokemon: string;
+  isRandomBattle: isRandomBattleReturn;
+}
 export const OpponentPokemonDataDisplay = ({
   pokemon,
   isRandomBattle,
@@ -33,9 +37,7 @@ export const OpponentPokemonDataDisplay = ({
   useEffect(() => {
     if (Dex.species.get(pokemon).exists) {
       setStats(Dex.species.get(pokemon).baseStats);
-      setTypesArray(
-        Species[dexSearchPrepper(pokemon)].types.map((x) => x.toLowerCase())
-      );
+      setTypesArray(Species[dexSearchPrepper(pokemon)].types.map((x) => x.toLowerCase()));
     }
   }, [pokemon]);
   const regExPokemonName = pokemon.match(/^([\w]+)-/);
@@ -44,24 +46,17 @@ export const OpponentPokemonDataDisplay = ({
       <PokemonName href={`https://www.smogon.com/dex/ss/pokemon/${pokemon}/`}>
         {regExPokemonName ? regExPokemonName[1] : pokemon}
       </PokemonName>
-
       <TypeDisplay>
         {Species[dexSearchPrepper(pokemon)].types.map((x) => (
           <Type background={x}>{x}</Type>
         ))}
       </TypeDisplay>
-
       <DamageDisplay typesArray={typesArray} />
       <PropertiesContainer>
         {isRandomBattle ? (
-          <RandomBattlePokemonDisplay
-            pokemon={pokemon}
-            isRandomBattle={isRandomBattle}
-          />
+          <RandomBattlePokemonDisplay pokemon={pokemon} isRandomBattle={isRandomBattle} />
         ) : null}
-        {isRandomBattle === false ? (
-          <OtherFormatsDisplay pokemon={pokemon} />
-        ) : null}
+        {isRandomBattle === false ? <OtherFormatsDisplay pokemon={pokemon} /> : null}
       </PropertiesContainer>
       <StatsDisplay>
         {Object.entries(stats).map((x) => (

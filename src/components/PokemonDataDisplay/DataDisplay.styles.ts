@@ -1,11 +1,11 @@
-import styled from "styled-components";
-import { typeColorConverter } from "./pokemonTypeColorConverter";
-import { TypeColorInterface } from "../types";
+import styled from 'styled-components';
+import { typeColorConverter } from './pokemonTypeColorConverter';
+import { TypeColorInterface } from '../../types';
 export const PropertyDisplay = styled.div`
   height: fit-content;
   display: flex;
   flex-direction: row;
-  padding-bottom:10px;
+  padding-bottom: 10px;
   flex-wrap: wrap;
   align-items: center;
 `;
