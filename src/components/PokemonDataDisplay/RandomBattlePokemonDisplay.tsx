@@ -54,28 +54,28 @@ export const RandomBattlePokemonDisplay: React.FC<RandomBattlePokemonDisplayProp
     <>
       <AbilitiesDisplay>
         Abilities:
-        {pokemonData.abilities.map((x) => (
-          <>
-            <PropertyBtn>
-              {x}
-              <HiddenPropertyText>{Abilities[dexSearchPrepper(x)].shortDesc}</HiddenPropertyText>
-            </PropertyBtn>
-          </>
+        {pokemonData.abilities.map((ability) => (
+          <PropertyBtn key={ability}>
+            {ability}
+            <HiddenPropertyText>
+              {Abilities[dexSearchPrepper(ability)].shortDesc}
+            </HiddenPropertyText>
+          </PropertyBtn>
         ))}
       </AbilitiesDisplay>
       <ItemsDisplay>
         Items:
-        {pokemonData.items.map((x) => (
-          <PropertyBtn>
-            {x}
-            <HiddenPropertyText>{Items[dexSearchPrepper(x)].desc}</HiddenPropertyText>
+        {pokemonData.items.map((item) => (
+          <PropertyBtn key={item}>
+            {item}
+            <HiddenPropertyText>{Items[dexSearchPrepper(item)].desc}</HiddenPropertyText>
           </PropertyBtn>
         ))}
       </ItemsDisplay>
       <MovesDisplay>
         Moves:
         {movesData.map((move) => (
-          <MoveBtn>
+          <MoveBtn key={move.name}>
             {move.name}
             <HiddenPropertyText>
               <MoveData>
