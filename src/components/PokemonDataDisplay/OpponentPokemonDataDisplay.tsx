@@ -48,7 +48,9 @@ export const OpponentPokemonDataDisplay = ({
       </PokemonName>
       <TypeDisplay>
         {Species[dexSearchPrepper(pokemon)].types.map((x) => (
-          <Type background={x}>{x}</Type>
+          <Type key={x} background={x}>
+            {x}
+          </Type>
         ))}
       </TypeDisplay>
       <DamageDisplay typesArray={typesArray} />
@@ -60,7 +62,7 @@ export const OpponentPokemonDataDisplay = ({
       </PropertiesContainer>
       <StatsDisplay>
         {Object.entries(stats).map((x) => (
-          <StatBox>
+          <StatBox key={`${x[0]}`}>
             <StatName>{x[0]}:</StatName>
             <StatValue>{x[1]}</StatValue>
           </StatBox>

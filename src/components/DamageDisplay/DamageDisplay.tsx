@@ -20,7 +20,9 @@ const EffectivnessDisplay: React.FC<EffectivnessProps> = ({ damage, effectivenes
           <TypeBoxContainer>
             x{damage}:
             {effectivenessArray.map((x) => (
-              <TypeBox background={x[0]}>{x[0]}</TypeBox>
+              <TypeBox key={x[0]} background={x[0]}>
+                {x[0]}
+              </TypeBox>
             ))}
           </TypeBoxContainer>
         </>
