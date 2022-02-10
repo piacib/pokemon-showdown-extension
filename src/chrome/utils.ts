@@ -1,11 +1,9 @@
 const getPokemonName = (arr: Array<string>) => {
   const pokemonArray = arr.map((x) => x.match(/(?<=<strong>)(.*?)(?=<)/));
-  return pokemonArray.map((x) => (x ? x[0] : ""));
+  return pokemonArray.map((x) => (x ? x[0] : ''));
 };
 const filteredBattleHistory = (battleHistory: HTMLCollection) => {
-  return Array.from(battleHistory).filter(
-    (history) => history.classList.length === 1
-  );
+  return Array.from(battleHistory).filter((history) => history.classList.length === 1);
 };
 const getHTML = (arr: Array<Element>) => {
   return arr.map((x) => x.innerHTML);
@@ -15,13 +13,12 @@ export const getPokemon = (battleHistory: HTMLCollection) => {
   // user and opponents pokemon in the order they came out
   const filteredArray = filteredBattleHistory(battleHistory);
   const filterPokemonObj = {
-    opponent: filteredArray.filter((entry) =>
-      entry.innerHTML.includes("sent out")
-    ),
-    user: filteredArray.filter((entry) => entry.innerHTML.includes("Go!")),
+    opponent: filteredArray.filter((entry) => entry.innerHTML.includes('sent out')),
+    user: filteredArray.filter((entry) => entry.innerHTML.includes('Go!')),
   };
   const userHTML = getHTML(filterPokemonObj.user);
   const opponentHTML = getHTML(filterPokemonObj.opponent);
+  console.log(opponentHTML);
   return {
     user: getPokemonName(userHTML),
     opponent: getPokemonName(opponentHTML),
@@ -34,7 +31,7 @@ export const turnCount = (battleLog: Element | null) => {
   if (!battleLog) {
     return;
   }
-  const turnArray: HTMLCollection = battleLog.getElementsByTagName("h2");
+  const turnArray: HTMLCollection = battleLog.getElementsByTagName('h2');
   const turn = turnArray[turnArray.length - 1].innerHTML.slice(5);
   return Number(turn);
 };
