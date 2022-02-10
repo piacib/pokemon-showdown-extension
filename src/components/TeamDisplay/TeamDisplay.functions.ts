@@ -9,27 +9,6 @@ const activePokemonNames = (arr: string[]): string[] => {
   // and returns name with up  sliced off
   return arr.map((x) => activePokemonRegEx(x));
 };
-export const getCurrentPokemon = (opponentsTeam: string[] | null): ActivePokemon => {
-  if (!opponentsTeam) {
-    return {
-      pokemon1: null,
-      pokemon2: null,
-    };
-  }
-  const activePokemon = opponentsTeam.filter((x) => x.includes('active'));
-  const activePokemonFilteredName: string[] = activePokemonNames(activePokemon);
-
-  if (activePokemon.length === 1) {
-    return {
-      pokemon1: activePokemonFilteredName[0],
-      pokemon2: null,
-    };
-  }
-  return {
-    pokemon1: activePokemonFilteredName[0],
-    pokemon2: activePokemonFilteredName[1],
-  };
-};
 export const pokemonNameFilter = (name: string): string => {
   if (name === 'Not revealed') {
     return name;
@@ -55,18 +34,24 @@ export const pokemonNameFilter = (name: string): string => {
 };
 // converts string to just pokemon name for the button component
 //  by pulling out first word
-export const getPokemonName = (nameStr: string): ActivePokemon => {
+
+export const getPokemonName = (nameStr: string): null | string => {
   if (nameStr.includes('Not revealed')) {
-    return {
-      pokemon1: null,
-      pokemon2: null,
-    };
+    return null;
   }
   const activePokemonName = pokemonNameFilter(nameStr);
-  return {
-    pokemon1: activePokemonName,
-    pokemon2: null,
-  };
+  return activePokemonName;
+};
+export const getCurrentPokemon = (opponentsTeam: string[] | null): null | string => {
+  if (!opponentsTeam || !opponentsTeam.length) {
+    return null;
+  }
+  const activePokemon = opponentsTeam.filter((x) => x.includes('active'));
+  if (!activePokemon.length) {
+    return null;
+  }
+  const activePokemonFilteredName = getPokemonName(activePokemon[0]);
+  return activePokemonFilteredName;
 };
 export const testTeam = [
   'Slowking (fainted)',

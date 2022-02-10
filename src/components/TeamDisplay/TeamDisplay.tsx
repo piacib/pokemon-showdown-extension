@@ -8,7 +8,7 @@ import SpriteImage from '../SpriteImage';
 import { getCurrentPokemon, pokemonNameFilter, getPokemonName } from './TeamDisplay.functions';
 //fetches latest pokemon data from auto updating dataset
 export const TeamDisplay = ({ team, isRandomBattle }: TeamProps) => {
-  const [activePokemon, setActivePokemon] = useState<ActivePokemon>(getCurrentPokemon(team));
+  const [activePokemon, setActivePokemon] = useState<string | null>(getCurrentPokemon(team));
   const [selectedPokemon, setSelectedPokemon] = useState<string | null>(null);
   const [displayedPokemon, setDisplayedPokemon] = useState<string | null>(null);
   useEffect(() => {
@@ -21,15 +21,15 @@ export const TeamDisplay = ({ team, isRandomBattle }: TeamProps) => {
   // different pokemon
   useEffect(() => {
     if (selectedPokemon === null) {
-      setDisplayedPokemon(activePokemon?.pokemon1);
-    } else if (selectedPokemon === activePokemon?.pokemon1) {
+      if (activePokemon) {
+        setDisplayedPokemon(getPokemonName(activePokemon));
+      }
+    } else if (selectedPokemon === activePokemon) {
       setSelectedPokemon(null);
     } else {
       setDisplayedPokemon(selectedPokemon);
     }
   }, [selectedPokemon, activePokemon]);
-  console.log('activePokemon', activePokemon?.pokemon1);
-  console.log('selectedPokemon', selectedPokemon);
   return !team ? (
     <>
       <ButtonDisplay>
@@ -49,7 +49,7 @@ export const TeamDisplay = ({ team, isRandomBattle }: TeamProps) => {
           <Button
             key={pokemonNameFilter(x) + idx}
             onClick={() => {
-              setSelectedPokemon(getPokemonName(x).pokemon1);
+              setSelectedPokemon(getPokemonName(x));
             }}
           >
             <SpriteImage name={pokemonNameFilter(x)} />

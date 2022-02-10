@@ -50,3 +50,23 @@ export const refreshTestObj = () => {
     ],
   };
 };
+export const alolaTestObj = {
+  user: ['Beartic', 'Marowak-Alola', 'Liepard', 'Marowak-Alola', 'Liepard', 'Vileplume'],
+  opponent: ['Malamar', 'Rhyperior'],
+  opponentsTeam: [
+    'Corsola (Corsola-Galar)',
+    'Marowak (Marowak-Alola) (active)',
+    'Liepard (71.2%)',
+    'Vileplume',
+    'Not revealed',
+    'Not revealed',
+  ],
+  usersTeam: [
+    'Beartic',
+    'Marowak (Marowak-Alola) (active)',
+    'Liepard (71.2%)',
+    'Vileplume',
+    'Not revealed',
+    'Not revealed',
+  ],
+};
