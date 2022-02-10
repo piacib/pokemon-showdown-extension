@@ -8,7 +8,7 @@ import { NotPokemonShowdownErrorScreen } from './components/ErrorScreens/NotPoke
 import { NotInBattleErrorScreen } from './components/ErrorScreens/NotInBattleErrorScreen';
 import { TypeWriterContainer } from './TypeWriterContainer.style';
 import { AppDisplay, Button, Refresh, RefreshButton } from './App.styles';
-import { testDS, refreshTestObj } from './functions/testObjects';
+import { testDS, refreshTestObj, alolaTestObj } from './functions/testObjects';
 import { useTimer } from './hooks/useTimer';
 const queryInfo: chrome.tabs.QueryInfo = {
   active: true,
@@ -41,6 +41,19 @@ const App = () => {
       });
   }, []);
 
+  const sendTestMessage = () => {
+    setResponseFromContent(testDS);
+  };
+  const sendRefreshMessage = () => {
+    setResponseFromContent(refreshTestObj);
+  };
+  const sendAlolaMessage = () => {
+    setResponseFromContent(alolaTestObj);
+  };
+
+  const isInBattle = Boolean(
+    isURLShowdown(websiteInfo.url) && websiteInfo.battleType !== 'No Battle Type Found',
+  );
   useEffect(() => {
     if (isDevelopmentMode) {
       const testUrl = 'https://play.pokemonshowdown.com/battle-gen8randombattle-1411331283';
@@ -62,18 +75,8 @@ const App = () => {
         });
     }
   }, []);
-  const sendTestMessage = () => {
-    setResponseFromContent(testDS);
-  };
-  const sendRefreshMessage = () => {
-    setResponseFromContent(refreshTestObj);
-  };
-  const isInBattle = Boolean(
-    isURLShowdown(websiteInfo.url) && websiteInfo.battleType !== 'No Battle Type Found',
-  );
   const actionFunction = () => {
-    isDevelopmentMode ? sendRefreshMessage() : sendPokemonMessage();
-    console.log('5 second interval');
+    !isDevelopmentMode && sendPokemonMessage();
   };
   // sends pokemon message every 5 seconds
   // to load new pokemon data
