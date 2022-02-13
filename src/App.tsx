@@ -100,7 +100,8 @@ const App = () => {
       </AppDisplay>
     );
   }
-  return (
+  console.log('responseFromContent', responseFromContent);
+  return !responseFromContent ? (
     <AppDisplay>
       {websiteInfo.battleType !== 'No Battle Type Found' ? (
         <>
@@ -124,6 +125,8 @@ const App = () => {
         <NotInBattleErrorScreen />
       )}
     </AppDisplay>
+  ) : (
+    <></>
   );
 };
 export default App;
