@@ -40,8 +40,8 @@ const messagesFromReactAppListener = (
     const chat: HTMLCollection = document.getElementsByClassName('battle-history');
     const opponentsTeam = getTeam('opponent');
     const usersTeam = getTeam('user');
-    const usersTeamInitial = getUsersTeam();
-    console.log('usersTeamInitial', usersTeamInitial);
+    // const usersTeamInitial = getUsersTeam();
+    // console.log('usersTeamInitial', usersTeamInitial);
     const { user, opponent } = getPokemon(chat);
     response({
       user,

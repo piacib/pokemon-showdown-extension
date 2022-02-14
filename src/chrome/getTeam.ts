@@ -19,9 +19,11 @@ export const getUsersTeam = () => {
   // so it cannot filter by display: block
   const activeRoom =
     rooms.length > 1 ? rooms.filter((x) => x.style.display !== 'none')[0] : rooms[0];
-  const usersPokemonElements = Array.from(
-    activeRoom.getElementsByClassName('switchmenu')[0]?.children,
-  );
+  const pokemonMenu = activeRoom.getElementsByClassName('switchmenu');
+  if (!pokemonMenu.length) {
+    return null;
+  }
+  const usersPokemonElements = Array.from(pokemonMenu[0]?.children);
   if (usersPokemonElements.length === 0 || usersPokemonElements === undefined) {
     return null;
   }
