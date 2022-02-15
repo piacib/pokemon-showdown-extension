@@ -18,7 +18,6 @@ export const getPokemon = (battleHistory: HTMLCollection) => {
   };
   const userHTML = getHTML(filterPokemonObj.user);
   const opponentHTML = getHTML(filterPokemonObj.opponent);
-  console.log(opponentHTML);
   return {
     user: getPokemonName(userHTML),
     opponent: getPokemonName(opponentHTML),
