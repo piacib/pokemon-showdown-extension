@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ChromeMessage, Sender, PokemonResponse, WebsiteInfo } from './types';
-import { pokemonMessage } from './messages';
+import { initialMessage, pokemonMessage } from './messages';
 import loading from './media/loading.svg';
 import { TeamDisplay } from './components/TeamDisplay/TeamDisplay';
 import { getBattleType, isURLShowdown, isRandomBattle, isDevelopmentMode } from './functions';
@@ -10,6 +10,7 @@ import { TypeWriterContainer } from './TypeWriterContainer.style';
 import { AppDisplay, Button, Refresh, RefreshButton } from './App.styles';
 import { testDS, refreshTestObj, alolaTestObj } from './functions/testObjects';
 import { useTimer } from './hooks/useTimer';
+import { getPokemonName } from './components/TeamDisplay/TeamDisplay.functions';
 const queryInfo: chrome.tabs.QueryInfo = {
   active: true,
   currentWindow: true,
@@ -21,11 +22,11 @@ const App = () => {
     isRandomBattle: null,
   });
   const [responseFromContent, setResponseFromContent] = useState<PokemonResponse>({
-    user: [''],
-    opponent: [''],
     opponentsTeam: null,
     usersTeam: null,
   });
+  const [usersInitialTeam, setUsersInitialTeam] = useState<(string | null)[] | null>(null);
+  const [usersUpdatedTeam, setUsersUpdatedTeam] = useState<(string | null)[] | null>(null);
   const [sendOpponentsTeam, setSendOpponentsTeam] = useState<Boolean>(true);
   const sendPokemonMessage = useCallback(() => {
     const message: ChromeMessage = {
@@ -37,6 +38,20 @@ const App = () => {
         const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
         chrome.tabs.sendMessage(currentTabId, message, (response) => {
           setResponseFromContent(response);
+        });
+      });
+  }, []);
+  const sendInitialMessage = useCallback(() => {
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: initialMessage,
+    };
+    chrome.tabs &&
+      chrome.tabs.query(queryInfo, (tabs) => {
+        const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
+        chrome.tabs.sendMessage(currentTabId, message, (response) => {
+          setUsersInitialTeam(response);
+          console.log('initialTeam', usersInitialTeam);
         });
       });
   }, []);
@@ -75,24 +90,55 @@ const App = () => {
         });
     }
   }, []);
-  const actionFunction = () => {
-    !isDevelopmentMode && sendPokemonMessage();
-  };
+  const actionFunction = useCallback(() => {
+    if (!isDevelopmentMode) {
+      console.log('startup sendPokemonMessage');
+      sendPokemonMessage();
+      if (!usersInitialTeam) {
+        console.log('finding user team');
+        sendInitialMessage();
+      }
+    } else {
+      console.log('startup sendTestMessage');
+      sendTestMessage();
+    }
+  }, [sendInitialMessage, sendPokemonMessage, usersInitialTeam]);
+  useEffect(() => {
+    if (
+      usersInitialTeam &&
+      responseFromContent?.usersTeam &&
+      responseFromContent?.usersTeam.length
+    ) {
+      const usersTeamChecked: string[] = [];
+      console.log('usersInitialTeam', usersInitialTeam);
+      console.log('usersTeam', responseFromContent.usersTeam);
+      const filteredInitial = usersInitialTeam.map((pokemon) =>
+        pokemon ? getPokemonName(pokemon) : null,
+      );
+      const filteredChecked = responseFromContent.usersTeam?.map((pokemon) =>
+        getPokemonName(pokemon),
+      );
+      filteredInitial.forEach((pokemon, idx) => {
+        if (pokemon && filteredChecked[idx] === null) {
+          usersTeamChecked.push(pokemon);
+        }
+        if (pokemon !== null && pokemon === filteredChecked[idx]) {
+          usersTeamChecked.push(pokemon);
+        }
+        usersTeamChecked.push(responseFromContent.usersTeam[idx]);
+        setUsersUpdatedTeam(usersTeamChecked);
+      });
+    }
+  }, [responseFromContent, usersInitialTeam]);
   // sends pokemon message every 5 seconds
   // to load new pokemon data
-  useTimer({ timer: 5000, actionFunction, exitCondition: !isInBattle });
+  useTimer({ timer: 10000, actionFunction, exitCondition: !isInBattle });
   // sends messages to content.ts
   useEffect(() => {
     if (isURLShowdown(websiteInfo.url) && websiteInfo.battleType) {
-      if (!isDevelopmentMode) {
-        console.log('startup sendPokemonMessage');
-        sendPokemonMessage();
-      } else {
-        console.log('startup sendTestMessage');
-        sendTestMessage();
-      }
+      actionFunction();
     }
-  }, [sendPokemonMessage, websiteInfo]);
+  }, [actionFunction, websiteInfo.battleType, websiteInfo.url]);
   if (!isURLShowdown(websiteInfo.url)) {
     return (
       <AppDisplay>

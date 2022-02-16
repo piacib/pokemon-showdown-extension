@@ -19,12 +19,12 @@ export const getUsersTeam = () => {
   // so it cannot filter by display: block
   const activeRoom =
     rooms.length > 1 ? rooms.filter((x) => x.style.display !== 'none')[0] : rooms[0];
-  const pokemonMenu = activeRoom.getElementsByClassName('switchmenu');
-  if (!pokemonMenu.length) {
+  const pokemonMenu = activeRoom.getElementsByClassName('switchmenu')[0];
+  if (!pokemonMenu) {
     return null;
   }
-  const usersPokemonElements = Array.from(pokemonMenu[0]?.children);
-  if (usersPokemonElements.length === 0 || usersPokemonElements === undefined) {
+  const usersPokemonElements = Array.from(pokemonMenu.children);
+  if (usersPokemonElements.length === 0) {
     return null;
   }
   return usersPokemonElements.map((x) => x.textContent);
