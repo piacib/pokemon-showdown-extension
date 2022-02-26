@@ -1,14 +1,3 @@
-import { ActivePokemon } from '../../types';
-const activePokemonRegEx = (name: string): string => {
-  const nameMatched = name.match(/[^(]+/);
-  const activePokemonName = nameMatched ? nameMatched[0] : '';
-  return activePokemonName.slice(0, activePokemonName.length - 1);
-};
-const activePokemonNames = (arr: string[]): string[] => {
-  // takes in active pokemon (potentailly 2 for double battles)
-  // and returns name with up  sliced off
-  return arr.map((x) => activePokemonRegEx(x));
-};
 export const pokemonNameFilter = (name: string): string => {
   if (name === 'Not revealed') {
     return name;
