@@ -8,7 +8,11 @@ import { NotPokemonShowdownErrorScreen } from './components/ErrorScreens/NotPoke
 import { NotInBattleErrorScreen } from './components/ErrorScreens/NotInBattleErrorScreen';
 import { TypeWriterContainer } from './TypeWriterContainer.style';
 import { AppDisplay, Button, Refresh, RefreshButton } from './App.styles';
-import { testDS, refreshTestObj, alolaTestObj } from './functions/testObjects';
+import {
+  testDS,
+  // refreshTestObj,
+  // alolaTestObj
+} from './functions/testObjects';
 import { useTimer } from './hooks/useTimer';
 const queryInfo: chrome.tabs.QueryInfo = {
   active: true,
@@ -40,17 +44,24 @@ const App = () => {
         });
       });
   }, []);
-
-  const sendTestMessage = () => {
-    setResponseFromContent(testDS);
-  };
-  const sendRefreshMessage = () => {
-    setResponseFromContent(refreshTestObj);
-  };
-  const sendAlolaMessage = () => {
-    setResponseFromContent(alolaTestObj);
-  };
-
+  const queryWebsite = useCallback(() => {
+    const queryInfo = { active: true, lastFocusedWindow: true };
+    chrome.tabs &&
+      chrome.tabs.query(queryInfo, (tabs) => {
+        const url = tabs[0].url ? tabs[0].url : '';
+        setWebsiteInfo({
+          url: url,
+          isRandomBattle: isRandomBattle(url),
+          battleType: getBattleType(url),
+        });
+      });
+  }, []);
+  // const sendRefreshMessage = () => {
+  //   setResponseFromContent(refreshTestObj);
+  // };
+  // const sendAlolaMessage = () => {
+  //   setResponseFromContent(alolaTestObj);
+  // };
   const isInBattle = Boolean(
     isURLShowdown(websiteInfo.url) && websiteInfo.battleType !== 'No Battle Type Found',
   );
@@ -63,21 +74,41 @@ const App = () => {
         battleType: getBattleType(testUrl),
       });
     } else {
-      const queryInfo = { active: true, lastFocusedWindow: true };
-      chrome.tabs &&
-        chrome.tabs.query(queryInfo, (tabs) => {
-          const url = tabs[0].url ? tabs[0].url : '';
-          setWebsiteInfo({
-            url: url,
-            isRandomBattle: isRandomBattle(url),
-            battleType: getBattleType(url),
-          });
-        });
+      queryWebsite();
     }
-  }, []);
+  }, [queryWebsite]);
   const actionFunction = () => {
     !isDevelopmentMode && sendPokemonMessage();
   };
+  const checkWebsiteStatus = () => {
+    const queryInfo = { active: true, lastFocusedWindow: true };
+    chrome.tabs &&
+      chrome.tabs.query(queryInfo, (tabs) => {
+        const url = tabs[0].url ? tabs[0].url : '';
+        console.log('url', url);
+        setWebsiteInfo({
+          url: url,
+          isRandomBattle: isRandomBattle(url),
+          battleType: getBattleType(url),
+        });
+      });
+    console.log('website', websiteInfo);
+    // if (!isInBattle && !isDevelopmentMode) {
+    //   console.log('websiteInfo', websiteInfo);
+    //   const queryInfo = { active: true, lastFocusedWindow: true };
+    //   chrome.tabs &&
+    //     chrome.tabs.query(queryInfo, (tabs) => {
+    //       const url = tabs[0].url ? tabs[0].url : '';
+    //       setWebsiteInfo({
+    //         url: url,
+    //         isRandomBattle: isRandomBattle(url),
+    //         battleType: getBattleType(url),
+    //       });
+    //     });
+    // } else console.log('youre in battle goodluck!');
+  };
+  useTimer({ timer: 5000, actionFunction: checkWebsiteStatus, exitCondition: false });
+
   // sends pokemon message every 5 seconds
   // to load new pokemon data
   useTimer({ timer: 5000, actionFunction, exitCondition: !isInBattle });
@@ -89,7 +120,7 @@ const App = () => {
         sendPokemonMessage();
       } else {
         console.log('startup sendTestMessage');
-        sendTestMessage();
+        setResponseFromContent(testDS);
       }
     }
   }, [sendPokemonMessage, websiteInfo]);
@@ -107,7 +138,7 @@ const App = () => {
           <TypeWriterContainer>
             <h1>PokeInfo</h1>
           </TypeWriterContainer>
-          <RefreshButton onClick={isDevelopmentMode ? sendTestMessage : sendPokemonMessage}>
+          <RefreshButton onClick={isDevelopmentMode ? undefined : sendPokemonMessage}>
             <Refresh alt="refresh" src={loading} />
           </RefreshButton>
           <Button onClick={() => setSendOpponentsTeam(!sendOpponentsTeam)}>
