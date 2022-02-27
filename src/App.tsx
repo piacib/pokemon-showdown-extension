@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ChromeMessage, Sender, PokemonResponse, WebsiteInfo } from './types';
-import { pokemonMessage } from './messages';
+import { pokemonMessage, urlMessage } from './messages';
 import loading from './media/loading.svg';
 import { TeamDisplay } from './components/TeamDisplay/TeamDisplay';
 import { getBattleType, isURLShowdown, isRandomBattle, isDevelopmentMode } from './functions';
@@ -14,10 +14,6 @@ import {
   // alolaTestObj
 } from './functions/testObjects';
 import { useTimer } from './hooks/useTimer';
-const queryInfo: chrome.tabs.QueryInfo = {
-  active: true,
-  currentWindow: true,
-};
 const App = () => {
   const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfo>({
     url: '',
@@ -32,6 +28,10 @@ const App = () => {
   });
   const [sendOpponentsTeam, setSendOpponentsTeam] = useState<Boolean>(true);
   const sendPokemonMessage = useCallback(() => {
+    const queryInfo: chrome.tabs.QueryInfo = {
+      active: true,
+      currentWindow: true,
+    };
     const message: ChromeMessage = {
       from: Sender.React,
       message: pokemonMessage,
@@ -44,18 +44,30 @@ const App = () => {
         });
       });
   }, []);
-  const queryWebsite = useCallback(() => {
-    const queryInfo = { active: true, lastFocusedWindow: true };
+
+  const queryWebsite = () => {
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: urlMessage,
+    };
+    const queryInfo: chrome.tabs.QueryInfo = {
+      active: true,
+      currentWindow: true,
+    };
     chrome.tabs &&
       chrome.tabs.query(queryInfo, (tabs) => {
-        const url = tabs[0].url ? tabs[0].url : '';
-        setWebsiteInfo({
-          url: url,
-          isRandomBattle: isRandomBattle(url),
-          battleType: getBattleType(url),
+        const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
+        chrome.tabs.sendMessage(currentTabId, message, (response) => {
+          if (response !== websiteInfo.url) {
+            setWebsiteInfo({
+              url: response,
+              isRandomBattle: isRandomBattle(response),
+              battleType: getBattleType(response),
+            });
+          }
         });
       });
-  }, []);
+  };
   // const sendRefreshMessage = () => {
   //   setResponseFromContent(refreshTestObj);
   // };
@@ -74,41 +86,25 @@ const App = () => {
         battleType: getBattleType(testUrl),
       });
     } else {
-      queryWebsite();
+      const queryInfo = { active: true, lastFocusedWindow: true };
+      chrome.tabs &&
+        chrome.tabs.query(queryInfo, (tabs) => {
+          const url = tabs[0].url ? tabs[0].url : '';
+          setWebsiteInfo({
+            url: url,
+            isRandomBattle: isRandomBattle(url),
+            battleType: getBattleType(url),
+          });
+        });
     }
-  }, [queryWebsite]);
+  }, []);
   const actionFunction = () => {
     !isDevelopmentMode && sendPokemonMessage();
   };
   const checkWebsiteStatus = () => {
-    const queryInfo = { active: true, lastFocusedWindow: true };
-    chrome.tabs &&
-      chrome.tabs.query(queryInfo, (tabs) => {
-        const url = tabs[0].url ? tabs[0].url : '';
-        console.log('url', url);
-        setWebsiteInfo({
-          url: url,
-          isRandomBattle: isRandomBattle(url),
-          battleType: getBattleType(url),
-        });
-      });
-    console.log('website', websiteInfo);
-    // if (!isInBattle && !isDevelopmentMode) {
-    //   console.log('websiteInfo', websiteInfo);
-    //   const queryInfo = { active: true, lastFocusedWindow: true };
-    //   chrome.tabs &&
-    //     chrome.tabs.query(queryInfo, (tabs) => {
-    //       const url = tabs[0].url ? tabs[0].url : '';
-    //       setWebsiteInfo({
-    //         url: url,
-    //         isRandomBattle: isRandomBattle(url),
-    //         battleType: getBattleType(url),
-    //       });
-    //     });
-    // } else console.log('youre in battle goodluck!');
+    queryWebsite();
   };
-  useTimer({ timer: 5000, actionFunction: checkWebsiteStatus, exitCondition: false });
-
+  useTimer({ timer: 5000, actionFunction: () => queryWebsite(), exitCondition: false });
   // sends pokemon message every 5 seconds
   // to load new pokemon data
   useTimer({ timer: 5000, actionFunction, exitCondition: !isInBattle });
