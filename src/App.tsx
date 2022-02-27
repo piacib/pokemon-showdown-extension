@@ -21,8 +21,6 @@ const App = () => {
     isRandomBattle: null,
   });
   const [responseFromContent, setResponseFromContent] = useState<PokemonResponse>({
-    user: [''],
-    opponent: [''],
     opponentsTeam: null,
     usersTeam: null,
   });
@@ -100,9 +98,6 @@ const App = () => {
   }, []);
   const actionFunction = () => {
     !isDevelopmentMode && sendPokemonMessage();
-  };
-  const checkWebsiteStatus = () => {
-    queryWebsite();
   };
   useTimer({ timer: 5000, actionFunction: () => queryWebsite(), exitCondition: false });
   // sends pokemon message every 5 seconds
