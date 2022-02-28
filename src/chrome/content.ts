@@ -34,13 +34,9 @@ const messagesFromReactAppListener = (
       console.log(testDS);
       response(testDS);
     } else if (message.message === pokemonMessage) {
-      // const chat: HTMLCollection = document.getElementsByClassName('battle-history');
       const opponentsTeam = getTeam('opponent');
       const usersTeam = getTeam('user');
-      // const { user, opponent } = getPokemon(chat);
       response({
-        // user,
-        // opponent,
         opponentsTeam,
         usersTeam,
       });
