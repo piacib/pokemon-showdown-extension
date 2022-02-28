@@ -14,6 +14,7 @@ import {
   // alolaTestObj
 } from './functions/testObjects';
 import { useTimer } from './hooks/useTimer';
+import { LoadingScreen } from './components/LoadingScreen';
 const App = () => {
   const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfo>({
     url: '',
@@ -135,12 +136,18 @@ const App = () => {
           <Button onClick={() => setSendOpponentsTeam(!sendOpponentsTeam)}>
             Swap to {sendOpponentsTeam ? 'Users Team' : 'Opponents Team'}
           </Button>
-          <TeamDisplay
-            team={
-              sendOpponentsTeam ? responseFromContent.opponentsTeam : responseFromContent.usersTeam
-            }
-            isRandomBattle={websiteInfo.isRandomBattle}
-          />
+          {responseFromContent.opponentsTeam && responseFromContent.usersTeam ? (
+            <TeamDisplay
+              team={
+                sendOpponentsTeam
+                  ? responseFromContent.opponentsTeam
+                  : responseFromContent.usersTeam
+              }
+              isRandomBattle={websiteInfo.isRandomBattle}
+            />
+          ) : (
+            <LoadingScreen />
+          )}
         </>
       ) : (
         <NotInBattleErrorScreen />
