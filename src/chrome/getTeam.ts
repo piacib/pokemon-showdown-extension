@@ -13,7 +13,7 @@ export const getTeam = (whichTeam: 'opponent' | 'user'): string[] | null => {
     document.getElementsByClassName('ps-room-opaque') as HTMLCollectionOf<HTMLElement>,
   );
   //exit condition
-  if (!rooms) {
+  if (!rooms.length) {
     return null;
   }
   // gets active room since all the others are display:none

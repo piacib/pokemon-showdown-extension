@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ChromeMessage, Sender, PokemonResponse, WebsiteInfo } from './types';
-import { pokemonMessage } from './messages';
+import { pokemonMessage, urlMessage } from './messages';
 import loading from './media/loading.svg';
 import { TeamDisplay } from './components/TeamDisplay/TeamDisplay';
 import { getBattleType, isURLShowdown, isRandomBattle, isDevelopmentMode } from './functions';
@@ -8,12 +8,13 @@ import { NotPokemonShowdownErrorScreen } from './components/ErrorScreens/NotPoke
 import { NotInBattleErrorScreen } from './components/ErrorScreens/NotInBattleErrorScreen';
 import { TypeWriterContainer } from './TypeWriterContainer.style';
 import { AppDisplay, Button, Refresh, RefreshButton } from './App.styles';
-import { testDS, refreshTestObj, alolaTestObj } from './functions/testObjects';
+import {
+  testDS,
+  // refreshTestObj,
+  // alolaTestObj
+} from './functions/testObjects';
 import { useTimer } from './hooks/useTimer';
-const queryInfo: chrome.tabs.QueryInfo = {
-  active: true,
-  currentWindow: true,
-};
+import { LoadingScreen } from './components/LoadingScreen';
 const App = () => {
   const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfo>({
     url: '',
@@ -21,13 +22,15 @@ const App = () => {
     isRandomBattle: null,
   });
   const [responseFromContent, setResponseFromContent] = useState<PokemonResponse>({
-    user: [''],
-    opponent: [''],
     opponentsTeam: null,
     usersTeam: null,
   });
   const [sendOpponentsTeam, setSendOpponentsTeam] = useState<Boolean>(true);
   const sendPokemonMessage = useCallback(() => {
+    const queryInfo: chrome.tabs.QueryInfo = {
+      active: true,
+      currentWindow: true,
+    };
     const message: ChromeMessage = {
       from: Sender.React,
       message: pokemonMessage,
@@ -41,16 +44,35 @@ const App = () => {
       });
   }, []);
 
-  const sendTestMessage = () => {
-    setResponseFromContent(testDS);
+  const queryWebsite = () => {
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: urlMessage,
+    };
+    const queryInfo: chrome.tabs.QueryInfo = {
+      active: true,
+      currentWindow: true,
+    };
+    chrome.tabs &&
+      chrome.tabs.query(queryInfo, (tabs) => {
+        const currentTabId: number = tabs[0].id ? tabs[0].id : 0;
+        chrome.tabs.sendMessage(currentTabId, message, (response) => {
+          if (response !== websiteInfo.url) {
+            setWebsiteInfo({
+              url: response,
+              isRandomBattle: isRandomBattle(response),
+              battleType: getBattleType(response),
+            });
+          }
+        });
+      });
   };
-  const sendRefreshMessage = () => {
-    setResponseFromContent(refreshTestObj);
-  };
-  const sendAlolaMessage = () => {
-    setResponseFromContent(alolaTestObj);
-  };
-
+  // const sendRefreshMessage = () => {
+  //   setResponseFromContent(refreshTestObj);
+  // };
+  // const sendAlolaMessage = () => {
+  //   setResponseFromContent(alolaTestObj);
+  // };
   const isInBattle = Boolean(
     isURLShowdown(websiteInfo.url) && websiteInfo.battleType !== 'No Battle Type Found',
   );
@@ -78,6 +100,7 @@ const App = () => {
   const actionFunction = () => {
     !isDevelopmentMode && sendPokemonMessage();
   };
+  useTimer({ timer: 5000, actionFunction: () => queryWebsite(), exitCondition: false });
   // sends pokemon message every 5 seconds
   // to load new pokemon data
   useTimer({ timer: 5000, actionFunction, exitCondition: !isInBattle });
@@ -89,7 +112,7 @@ const App = () => {
         sendPokemonMessage();
       } else {
         console.log('startup sendTestMessage');
-        sendTestMessage();
+        setResponseFromContent(testDS);
       }
     }
   }, [sendPokemonMessage, websiteInfo]);
@@ -107,18 +130,24 @@ const App = () => {
           <TypeWriterContainer>
             <h1>PokeInfo</h1>
           </TypeWriterContainer>
-          <RefreshButton onClick={isDevelopmentMode ? sendTestMessage : sendPokemonMessage}>
+          <RefreshButton onClick={isDevelopmentMode ? undefined : sendPokemonMessage}>
             <Refresh alt="refresh" src={loading} />
           </RefreshButton>
           <Button onClick={() => setSendOpponentsTeam(!sendOpponentsTeam)}>
             Swap to {sendOpponentsTeam ? 'Users Team' : 'Opponents Team'}
           </Button>
-          <TeamDisplay
-            team={
-              sendOpponentsTeam ? responseFromContent.opponentsTeam : responseFromContent.usersTeam
-            }
-            isRandomBattle={websiteInfo.isRandomBattle}
-          />
+          {responseFromContent.opponentsTeam && responseFromContent.usersTeam ? (
+            <TeamDisplay
+              team={
+                sendOpponentsTeam
+                  ? responseFromContent.opponentsTeam
+                  : responseFromContent.usersTeam
+              }
+              isRandomBattle={websiteInfo.isRandomBattle}
+            />
+          ) : (
+            <LoadingScreen />
+          )}
         </>
       ) : (
         <NotInBattleErrorScreen />
