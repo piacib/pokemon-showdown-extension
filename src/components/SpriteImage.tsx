@@ -6,7 +6,11 @@ interface SpriteImageProps {
   buttonSize?: number;
   maxButtonWidth?: number;
 }
-const SpriteImage: React.FC<SpriteImageProps> = ({ name, buttonSize = 40, maxButtonWidth = 50 }) => {
+const SpriteImage: React.FC<SpriteImageProps> = ({
+  name,
+  buttonSize = 40,
+  maxButtonWidth = 50,
+}) => {
   const ButtonSizePX = `${buttonSize}px`;
   if (name === 'Not revealed') {
     return (
