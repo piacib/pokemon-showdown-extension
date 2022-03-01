@@ -1,12 +1,13 @@
 import React from 'react';
 import pokeball from '../media/pokeball.svg';
 import { Sprites } from '@pkmn/img';
-interface Name {
+interface SpriteImageProps {
   name: string;
+  buttonSize?: number;
+  maxButtonWidth?: number;
 }
-const SpriteImage: React.FC<Name> = ({ name }) => {
-  const ButtonSize = 40;
-  const ButtonSizePX = `${ButtonSize}px`;
+const SpriteImage: React.FC<SpriteImageProps> = ({ name, buttonSize = 40, maxButtonWidth = 50 }) => {
+  const ButtonSizePX = `${buttonSize}px`;
   if (name === 'Not revealed') {
     return (
       <img
@@ -36,12 +37,12 @@ const SpriteImage: React.FC<Name> = ({ name }) => {
       ></img>
     );
   }
-  const width = `${(w / h) * ButtonSize}px`;
+  const width = `${(w / h) * buttonSize}px`;
   return (
     <img
       src={url}
       alt={name}
-      style={{ width: width, height: ButtonSizePX, maxWidth: '50px' }}
+      style={{ width: width, height: ButtonSizePX, maxWidth: `${maxButtonWidth}px` }}
     ></img>
   );
 };
