@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { DamageDisplayProps, DamageObj } from '../../types';
 import {
   DamageContainer,
   DamageGroupContainer,
@@ -8,6 +7,28 @@ import {
 } from './DamageDisplay.styles';
 import { damageCalculator } from '../../functions/damageFunctions';
 import { LoadingScreen } from '../LoadingScreen';
+
+type DamageObj = {
+  Bug: number;
+  Dark: number;
+  Dragon: number;
+  Electric: number;
+  Fairy: number;
+  Fighting: number;
+  Fire: number;
+  Flying: number;
+  Ghost: number;
+  Grass: number;
+  Ground: number;
+  Ice: number;
+  Normal: number;
+  Poison: number;
+  Psychic: number;
+  Rock: number;
+  Steel: number;
+  Water: number;
+};
+
 interface EffectivnessProps {
   damage: '0' | '1/4' | '1/2' | '2' | '4';
   effectivenessArray: [string, number][];
@@ -30,6 +51,9 @@ const EffectivnessDisplay: React.FC<EffectivnessProps> = ({ damage, effectivenes
     </DamageGroupContainer>
   );
 };
+interface DamageDisplayProps {
+  typesArray: string[] | null;
+}
 export const DamageDisplay: React.FC<DamageDisplayProps> = (props) => {
   const [damageObj, setDamageObj] = useState<DamageObj | null>(null);
   useEffect(() => {
