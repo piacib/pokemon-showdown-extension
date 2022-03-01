@@ -93,7 +93,7 @@ const App = () => {
   const actionFunction = () => {
     !isDevelopmentMode && sendPokemonMessage();
   };
-  useTimer({ timer: 5000, actionFunction: () => queryWebsite(), exitCondition: false });
+  useTimer({ timer: 5000, actionFunction: () => queryWebsite() });
   // sends pokemon message every 5 seconds
   // to load new pokemon data
   useTimer({ timer: 5000, actionFunction, exitCondition: !isInBattle });
