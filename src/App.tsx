@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ChromeMessage, Sender, PokemonResponse, WebsiteInfo } from './types';
+import { ChromeMessage, Sender, PokemonResponse, isRandomBattleReturn } from './types';
 import { pokemonMessage, urlMessage } from './messages';
 import loading from './media/loading.svg';
 import { TeamDisplay } from './components/TeamDisplay/TeamDisplay';
@@ -15,7 +15,11 @@ const queryInfo: chrome.tabs.QueryInfo = {
   active: true,
   currentWindow: true,
 };
-
+interface WebsiteInfo {
+  url: string;
+  battleType: string;
+  isRandomBattle: isRandomBattleReturn;
+}
 const App = () => {
   const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfo>({
     url: '',
