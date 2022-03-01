@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Button, ButtonDisplay } from './TeamDisplay.style';
 import { OpponentPokemonDataDisplay } from '../PokemonDataDisplay/OpponentPokemonDataDisplay';
-import { TeamProps } from '../../types';
+import { isRandomBattleReturn } from '../../types';
 import { OpponentsTeamUnavailable } from '../ErrorScreens/OpponentsTeamUnavailable';
 import { PokemonUnavailable } from '../ErrorScreens/PokemonUnavailable';
 import SpriteImage from '../SpriteImage';
 import { getCurrentPokemon, pokemonNameFilter, getPokemonName } from './TeamDisplay.functions';
+interface TeamProps {
+  team: string[] | null;
+  isRandomBattle: isRandomBattleReturn;
+}
 //fetches latest pokemon data from auto updating dataset
 export const TeamDisplay = ({ team, isRandomBattle }: TeamProps) => {
   const [activePokemon, setActivePokemon] = useState<string | null>(getCurrentPokemon(team));

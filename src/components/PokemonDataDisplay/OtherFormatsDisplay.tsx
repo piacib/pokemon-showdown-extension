@@ -1,7 +1,10 @@
 import { Dex } from '@pkmn/dex';
 import { dexSearchPrepper } from '../../functions';
 import { AbilitiesDisplay, HiddenPropertyText, PropertyBtn } from './DataDisplay.styles';
-import { OtherFormatsDisplayProps } from '../../types';
+
+interface OtherFormatsDisplayProps {
+  pokemon: string;
+}
 
 export const OtherFormatsDisplay = ({ pokemon }: OtherFormatsDisplayProps) => {
   const abilities = Object.entries(Dex.species.get(pokemon).abilities).map((x) => x[1]);

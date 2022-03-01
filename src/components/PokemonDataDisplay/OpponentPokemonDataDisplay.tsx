@@ -1,4 +1,4 @@
-import { Stats, isRandomBattleReturn } from '../../types';
+import { isRandomBattleReturn } from '../../types';
 import { Dex } from '@pkmn/dex';
 import { DamageDisplay } from '../DamageDisplay/DamageDisplay';
 import { useEffect, useState } from 'react';
@@ -16,7 +16,14 @@ import {
 } from './DataDisplay.styles';
 import { OtherFormatsDisplay } from './OtherFormatsDisplay';
 const { Species } = Dex.data;
-
+interface Stats {
+  hp: number;
+  atk: number;
+  def: number;
+  spa: number;
+  spd: number;
+  spe: number;
+}
 interface OpponentPokemonDataDisplayProps {
   pokemon: string;
   isRandomBattle: isRandomBattleReturn;
