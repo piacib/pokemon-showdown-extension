@@ -22,10 +22,6 @@ export type RandbatsPokemonData = {
     moves: string[];
   };
 };
-export type Name = {
-  name: string;
-};
-
 export interface Stats {
   hp: number;
   atk: number;
