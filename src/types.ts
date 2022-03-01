@@ -2,10 +2,7 @@ export enum Sender {
   React,
   Content,
 }
-export interface TitleBarType {
-  sendTestMessage: () => void;
-  sendPokemonMessage: () => void;
-}
+
 export interface ChromeMessage {
   from: Sender;
   message: any;
@@ -34,15 +31,6 @@ export interface OtherFormatsDisplayProps {
   pokemon: string;
 }
 export type isRandomBattleReturn = null | false | string;
-export interface WebsiteInfo {
-  url: string;
-  battleType: string;
-  isRandomBattle: isRandomBattleReturn;
-}
-export interface RandomBattlePokemonDisplayProps {
-  pokemon: string;
-  isRandomBattle: isRandomBattleReturn;
-}
 export interface ActivePokemon {
   pokemon1: string | null;
   pokemon2: string | null;
