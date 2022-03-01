@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { RandomBattlePokemonDisplayProps, PokemonData, RandbatsPokemonData } from '../../types';
+import { PokemonData, isRandomBattleReturn } from '../../types';
 import { Dex } from '@pkmn/dex';
 import { dexSearchPrepper } from '../../functions';
 import {
@@ -15,6 +15,19 @@ import {
   MoveType,
 } from './DataDisplay.styles';
 const { Moves, Items, Abilities } = Dex.data;
+type RandbatsPokemonData = {
+  [key: string]: {
+    level: Number;
+    abilities: string[];
+    items: string[];
+    moves: string[];
+  };
+};
+
+interface RandomBattlePokemonDisplayProps {
+  pokemon: string;
+  isRandomBattle: isRandomBattleReturn;
+}
 
 export const RandomBattlePokemonDisplay: React.FC<RandomBattlePokemonDisplayProps> = ({
   pokemon,

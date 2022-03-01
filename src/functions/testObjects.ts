@@ -1,24 +1,15 @@
+import { PokemonResponse } from '../types';
 import { makeRandomTeam } from './testTeam';
-export const testDS = {
+export const testResponse: PokemonResponse = {
   opponentsTeam: makeRandomTeam(),
-  user: ['Slowking', 'Heracross', 'Stoutland', 'Amoonguss', 'Stoutland'],
   usersTeam: makeRandomTeam(),
-  opponent: [
-    'Aggron',
-    'Indeedee-F',
-    'Regice',
-    'Runerigus',
-    'Landorus-Therian',
-    'Heatmor',
-    'Jirachi',
-  ],
 };
 const addActive = (array: Array<string>) => {
   const idx = Math.round(Math.random() * array.length);
   array[idx - 1] += ' (active)';
   return array;
 };
-export const refreshTestObj = () => {
+export const refreshTestObj = (): PokemonResponse => {
   const opponentsTeam = [
     'Tangrowth',
     'Arctovish',
@@ -37,22 +28,10 @@ export const refreshTestObj = () => {
   ];
   return {
     opponentsTeam: addActive(opponentsTeam),
-    user: ['Slowking', 'Heracross', 'Stoutland', 'Amoonguss', 'Stoutland'],
     usersTeam: addActive(usersTeam),
-    opponent: [
-      'Aggron',
-      'Indeedee-F',
-      'Regice',
-      'Runerigus',
-      'Landorus-Therian',
-      'Heatmor',
-      'Jirachi',
-    ],
   };
 };
-export const alolaTestObj = {
-  user: ['Beartic', 'Marowak-Alola', 'Liepard', 'Marowak-Alola', 'Liepard', 'Vileplume'],
-  opponent: ['Malamar', 'Rhyperior'],
+export const alolaTestObj: PokemonResponse = {
   opponentsTeam: [
     'Corsola (Corsola-Galar)',
     'Marowak (Marowak-Alola) (active)',

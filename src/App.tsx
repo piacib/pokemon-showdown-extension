@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ChromeMessage, Sender, PokemonResponse, WebsiteInfo } from './types';
+import { ChromeMessage, Sender, PokemonResponse, isRandomBattleReturn } from './types';
 import { pokemonMessage, urlMessage } from './messages';
 import loading from './media/loading.svg';
 import { TeamDisplay } from './components/TeamDisplay/TeamDisplay';
@@ -8,13 +8,18 @@ import { NotPokemonShowdownErrorScreen } from './components/ErrorScreens/NotPoke
 import { NotInBattleErrorScreen } from './components/ErrorScreens/NotInBattleErrorScreen';
 import { TypeWriterContainer } from './TypeWriterContainer.style';
 import { AppDisplay, Button, Refresh, RefreshButton } from './App.styles';
-import {
-  testDS,
-  // refreshTestObj,
-  // alolaTestObj
-} from './functions/testObjects';
+import { testResponse } from './functions/testObjects';
 import { useTimer } from './hooks/useTimer';
 import { LoadingScreen } from './components/LoadingScreen';
+const queryInfo: chrome.tabs.QueryInfo = {
+  active: true,
+  currentWindow: true,
+};
+interface WebsiteInfo {
+  url: string;
+  battleType: string;
+  isRandomBattle: isRandomBattleReturn;
+}
 const App = () => {
   const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfo>({
     url: '',
@@ -27,10 +32,6 @@ const App = () => {
   });
   const [sendOpponentsTeam, setSendOpponentsTeam] = useState<Boolean>(true);
   const sendPokemonMessage = useCallback(() => {
-    const queryInfo: chrome.tabs.QueryInfo = {
-      active: true,
-      currentWindow: true,
-    };
     const message: ChromeMessage = {
       from: Sender.React,
       message: pokemonMessage,
@@ -48,10 +49,6 @@ const App = () => {
     const message: ChromeMessage = {
       from: Sender.React,
       message: urlMessage,
-    };
-    const queryInfo: chrome.tabs.QueryInfo = {
-      active: true,
-      currentWindow: true,
     };
     chrome.tabs &&
       chrome.tabs.query(queryInfo, (tabs) => {
@@ -100,7 +97,7 @@ const App = () => {
   const actionFunction = () => {
     !isDevelopmentMode && sendPokemonMessage();
   };
-  useTimer({ timer: 5000, actionFunction: () => queryWebsite(), exitCondition: false });
+  useTimer({ timer: 5000, actionFunction: () => queryWebsite() });
   // sends pokemon message every 5 seconds
   // to load new pokemon data
   useTimer({ timer: 5000, actionFunction, exitCondition: !isInBattle });
@@ -112,7 +109,7 @@ const App = () => {
         sendPokemonMessage();
       } else {
         console.log('startup sendTestMessage');
-        setResponseFromContent(testDS);
+        setResponseFromContent(testResponse);
       }
     }
   }, [sendPokemonMessage, websiteInfo]);
