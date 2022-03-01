@@ -24,14 +24,11 @@ interface Stats {
   spd: number;
   spe: number;
 }
-interface OpponentPokemonDataDisplayProps {
+interface PokemonDataDisplayProps {
   pokemon: string;
   isRandomBattle: isRandomBattleReturn;
 }
-export const OpponentPokemonDataDisplay = ({
-  pokemon,
-  isRandomBattle,
-}: OpponentPokemonDataDisplayProps) => {
+export const PokemonDataDisplay = ({ pokemon, isRandomBattle }: PokemonDataDisplayProps) => {
   const [typesArray, setTypesArray] = useState<string[] | null>(null);
   const [stats, setStats] = useState<Stats>({
     hp: 0,

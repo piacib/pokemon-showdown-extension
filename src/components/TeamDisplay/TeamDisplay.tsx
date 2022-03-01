@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, ButtonDisplay } from './TeamDisplay.style';
-import { OpponentPokemonDataDisplay } from '../PokemonDataDisplay/OpponentPokemonDataDisplay';
+import { PokemonDataDisplay } from '../PokemonDataDisplay/PokemonDataDisplay';
 import { isRandomBattleReturn } from '../../types';
 import { OpponentsTeamUnavailable } from '../ErrorScreens/OpponentsTeamUnavailable';
 import { PokemonUnavailable } from '../ErrorScreens/PokemonUnavailable';
@@ -62,7 +62,7 @@ export const TeamDisplay = ({ team, isRandomBattle }: TeamProps) => {
       </ButtonDisplay>
 
       {displayedPokemon ? (
-        <OpponentPokemonDataDisplay pokemon={displayedPokemon} isRandomBattle={isRandomBattle} />
+        <PokemonDataDisplay pokemon={displayedPokemon} isRandomBattle={isRandomBattle} />
       ) : (
         <PokemonUnavailable />
       )}
