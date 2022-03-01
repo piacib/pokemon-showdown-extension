@@ -9,7 +9,7 @@ const addActive = (array: Array<string>) => {
   array[idx - 1] += ' (active)';
   return array;
 };
-export const refreshTestObj: PokemonResponse = () => {
+export const refreshTestObj = (): PokemonResponse => {
   const opponentsTeam = [
     'Tangrowth',
     'Arctovish',
@@ -31,9 +31,7 @@ export const refreshTestObj: PokemonResponse = () => {
     usersTeam: addActive(usersTeam),
   };
 };
-export const alolaTestObj = {
-  user: ['Beartic', 'Marowak-Alola', 'Liepard', 'Marowak-Alola', 'Liepard', 'Vileplume'],
-  opponent: ['Malamar', 'Rhyperior'],
+export const alolaTestObj: PokemonResponse = {
   opponentsTeam: [
     'Corsola (Corsola-Galar)',
     'Marowak (Marowak-Alola) (active)',
