@@ -43,10 +43,9 @@ export interface RandomBattlePokemonDisplayProps {
   pokemon: string;
   isRandomBattle: isRandomBattleReturn;
 }
-type POKEMON = string;
 export interface ActivePokemon {
-  pokemon1: POKEMON | null;
-  pokemon2: POKEMON | null;
+  pokemon1: string | null;
+  pokemon2: string | null;
 }
 export interface TeamProps {
   team: string[] | null;
