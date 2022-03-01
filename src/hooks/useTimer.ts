@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 interface Props {
   timer: number;
   actionFunction: any;
-  exitCondition: boolean;
+  exitCondition?: boolean;
 }
 export const useTimer = ({ timer, actionFunction, exitCondition }: Props) => {
   useEffect(() => {
