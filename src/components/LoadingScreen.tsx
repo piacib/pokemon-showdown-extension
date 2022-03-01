@@ -1,5 +1,4 @@
 import React from 'react';
-// import LoadingSVG from '../media/loading.svg';
 import LoadingSVG from '../media/pokeball.svg';
 import styled, { keyframes } from 'styled-components';
 const spinning = keyframes`
