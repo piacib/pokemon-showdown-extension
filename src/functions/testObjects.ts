@@ -1,17 +1,8 @@
+import { PokemonResponse } from '../types';
 import { makeRandomTeam } from './testTeam';
-export const testDS = {
+export const testDS: PokemonResponse = {
   opponentsTeam: makeRandomTeam(),
-  user: ['Slowking', 'Heracross', 'Stoutland', 'Amoonguss', 'Stoutland'],
   usersTeam: makeRandomTeam(),
-  opponent: [
-    'Aggron',
-    'Indeedee-F',
-    'Regice',
-    'Runerigus',
-    'Landorus-Therian',
-    'Heatmor',
-    'Jirachi',
-  ],
 };
 const addActive = (array: Array<string>) => {
   const idx = Math.round(Math.random() * array.length);
