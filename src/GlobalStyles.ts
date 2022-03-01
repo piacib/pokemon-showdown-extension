@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 // import theme from "./theme";
 export const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -10,7 +10,6 @@ export const GlobalStyle = createGlobalStyle`
   }
 html {
   font-size: 20px;
-  font-family: 'VT323', monospace;
 }
 body {
   margin: 0;
@@ -25,6 +24,7 @@ button {
   justify-content: center;
   width: calc(100% - calc(2 * ${(props) => props.theme.outerBorderWidth}));
   height: 100%;
+  font-family: 'VT323', monospace;
   border: ${(props) => `${props.theme.outerBorderWidth}
    ${props.theme.outerBorderColor}
    ${props.theme.outerBorderStyle}`};
