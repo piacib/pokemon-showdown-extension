@@ -8,13 +8,14 @@ import { NotPokemonShowdownErrorScreen } from './components/ErrorScreens/NotPoke
 import { NotInBattleErrorScreen } from './components/ErrorScreens/NotInBattleErrorScreen';
 import { TypeWriterContainer } from './TypeWriterContainer.style';
 import { AppDisplay, Button, Refresh, RefreshButton } from './App.styles';
-import {
-  testResponse,
-  // refreshTestObj,
-  // alolaTestObj
-} from './functions/testObjects';
+import { testResponse } from './functions/testObjects';
 import { useTimer } from './hooks/useTimer';
 import { LoadingScreen } from './components/LoadingScreen';
+const queryInfo: chrome.tabs.QueryInfo = {
+  active: true,
+  currentWindow: true,
+};
+
 const App = () => {
   const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfo>({
     url: '',
@@ -27,10 +28,6 @@ const App = () => {
   });
   const [sendOpponentsTeam, setSendOpponentsTeam] = useState<Boolean>(true);
   const sendPokemonMessage = useCallback(() => {
-    const queryInfo: chrome.tabs.QueryInfo = {
-      active: true,
-      currentWindow: true,
-    };
     const message: ChromeMessage = {
       from: Sender.React,
       message: pokemonMessage,
@@ -48,10 +45,6 @@ const App = () => {
     const message: ChromeMessage = {
       from: Sender.React,
       message: urlMessage,
-    };
-    const queryInfo: chrome.tabs.QueryInfo = {
-      active: true,
-      currentWindow: true,
     };
     chrome.tabs &&
       chrome.tabs.query(queryInfo, (tabs) => {
