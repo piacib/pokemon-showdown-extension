@@ -14,6 +14,7 @@ html {
 body {
   margin: 0;
   width: 650px;
+
 }
 button {
   font-family: inherit;
@@ -25,6 +26,7 @@ button {
   width: calc(100% - calc(2 * ${(props) => props.theme.outerBorderWidth}));
   height: 100%;
   font-family: 'VT323', monospace;
+  font-size: 1rem;
   border: ${(props) => `${props.theme.outerBorderWidth}
    ${props.theme.outerBorderColor}
    ${props.theme.outerBorderStyle}`};
