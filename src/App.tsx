@@ -9,7 +9,7 @@ import { NotInBattleErrorScreen } from './components/ErrorScreens/NotInBattleErr
 import { TypeWriterContainer } from './TypeWriterContainer.style';
 import { AppDisplay, Button, Refresh, RefreshButton } from './App.styles';
 import {
-  testDS,
+  testResponse,
   // refreshTestObj,
   // alolaTestObj
 } from './functions/testObjects';
@@ -112,7 +112,7 @@ const App = () => {
         sendPokemonMessage();
       } else {
         console.log('startup sendTestMessage');
-        setResponseFromContent(testDS);
+        setResponseFromContent(testResponse);
       }
     }
   }, [sendPokemonMessage, websiteInfo]);

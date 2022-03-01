@@ -1,6 +1,6 @@
 import { PokemonResponse } from '../types';
 import { makeRandomTeam } from './testTeam';
-export const testDS: PokemonResponse = {
+export const testResponse: PokemonResponse = {
   opponentsTeam: makeRandomTeam(),
   usersTeam: makeRandomTeam(),
 };
