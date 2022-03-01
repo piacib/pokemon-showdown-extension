@@ -2,25 +2,6 @@ import { ChromeMessage, Sender } from '../types';
 import { pokemonMessage, urlMessage, testMessage } from '../messages';
 import { getTeam } from './getTeam';
 type MessageResponse = (response?: any) => void;
-const testDS = {
-  user: ['Dodrio', 'Rotom-Heat', 'Snorlax', 'Snorlax', 'Talonflame', 'Rotom-Heat', 'Lilligant'],
-  opponent: [
-    'Skarmory',
-    'Suicune',
-    'Wobbuffet',
-    'Exeggutor',
-    'Skarmory',
-    'Pyroar',
-    'Wobbuffet',
-    'Regice',
-    'Pyroar',
-    'Skarmory',
-    'Wobbuffet',
-    'Skarmory',
-    'Suicune',
-    'Wobbuffet',
-  ],
-};
 const validateSender = (message: ChromeMessage, sender: chrome.runtime.MessageSender) => {
   return sender.id === chrome.runtime.id && message.from === Sender.React;
 };
@@ -31,8 +12,7 @@ const messagesFromReactAppListener = (
 ) => {
   if (validateSender(message, sender)) {
     if (message.message === testMessage) {
-      console.log(testDS);
-      response(testDS);
+      response('testing');
     } else if (message.message === pokemonMessage) {
       const opponentsTeam = getTeam('opponent');
       const usersTeam = getTeam('user');
