@@ -3,8 +3,7 @@
 - I used the 
 
 ## How to navigate this project
-- [useEffect api fetch example](src/components/RandomBattlePokemonDisplay.tsx#L43-L53)
-- 
+- [useEffect api fetch example](src/components/PokemonDataDisplay/RandomBattlePokemonDisplay.tsx#L50) 
 
 ## Why I built the project this way
 - I chose to not use a state management library such as Redux on purpose
