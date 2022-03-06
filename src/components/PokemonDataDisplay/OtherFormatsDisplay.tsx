@@ -8,10 +8,6 @@ interface OtherFormatsDisplayProps {
 
 export const OtherFormatsDisplay = ({ pokemon }: OtherFormatsDisplayProps) => {
   const abilities = Object.entries(Dex.species.get(pokemon).abilities).map((x) => x[1]);
-  console.log(
-    Object.entries(abilities).map((x) => Dex.data.Abilities[dexSearchPrepper(x[1])].shortDesc),
-  );
-
   return (
     <>
       <AbilitiesDisplay>
