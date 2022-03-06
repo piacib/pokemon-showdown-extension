@@ -2,7 +2,8 @@
 
 ## How I worked on this project
 
-- I used the
+- I used an automatically updating repository to access random battle pokemon move sets
+- I used a pokedex package to get all move, abilities, and items data
 
 ## How to navigate this project
 
