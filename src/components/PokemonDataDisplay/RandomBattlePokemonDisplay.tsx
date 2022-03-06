@@ -2,19 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { PokemonData, isRandomBattleReturn } from '../../types';
 import { Dex } from '@pkmn/dex';
 import { dexSearchPrepper } from '../../functions';
-import {
-  HiddenPropertyText,
-  PropertyBtn,
-  MoveData,
-  MoveProperty,
-  MoveDescription,
-  MoveBtn,
-  AbilitiesDisplay,
-  MovesDisplay,
-  ItemsDisplay,
-  MoveType,
-} from './DataDisplay.styles';
-const { Moves, Items, Abilities } = Dex.data;
+import ItemsDisplay from '../ItemsDisplay/ItemsDisplay';
+import MovesDisplay from '../MovesDisplay/MovesDisplay';
+import AbilitiesDisplay from '../AbilitiesDisplay/AbilitiesDisplay';
+const { Moves } = Dex.data;
 type RandbatsPokemonData = {
   [key: string]: {
     level: Number;
@@ -65,46 +56,9 @@ export const RandomBattlePokemonDisplay: React.FC<RandomBattlePokemonDisplayProp
   const movesData = pokemonData.moves.map((move) => Moves[dexSearchPrepper(move)]);
   return (
     <>
-      <AbilitiesDisplay>
-        Abilities:
-        {pokemonData.abilities.map((ability) => (
-          <PropertyBtn key={ability}>
-            {ability}
-            <HiddenPropertyText>
-              {Abilities[dexSearchPrepper(ability)].shortDesc}
-            </HiddenPropertyText>
-          </PropertyBtn>
-        ))}
-      </AbilitiesDisplay>
-      <ItemsDisplay>
-        Items:
-        {pokemonData.items.map((item) => (
-          <PropertyBtn key={item}>
-            {item}
-            <HiddenPropertyText>{Items[dexSearchPrepper(item)].desc}</HiddenPropertyText>
-          </PropertyBtn>
-        ))}
-      </ItemsDisplay>
-      <MovesDisplay>
-        Moves:
-        {movesData.map((move) => (
-          <MoveBtn key={move.name}>
-            {move.name}
-            <HiddenPropertyText>
-              <MoveData>
-                <MoveDescription>{move.shortDesc}</MoveDescription>
-                <MoveType background={move.type}>{move.type}</MoveType>
-                {typeof move.accuracy === 'number' && (
-                  <MoveProperty>Accuracy: {move.accuracy}%</MoveProperty>
-                )}
-                {Boolean(move.priority) && <MoveProperty>Priority: {move.priority}</MoveProperty>}
-                {Boolean(move.basePower) && <MoveProperty>Power: {move.basePower}</MoveProperty>}
-                <MoveProperty>Category: {move.category}</MoveProperty>
-              </MoveData>
-            </HiddenPropertyText>
-          </MoveBtn>
-        ))}
-      </MovesDisplay>
+      <AbilitiesDisplay abilities={pokemonData.abilities} />
+      <ItemsDisplay items={pokemonData.items} />
+      <MovesDisplay moves={movesData} />
     </>
   );
 };
