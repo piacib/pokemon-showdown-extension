@@ -54,13 +54,13 @@ const EffectivnessDisplay: React.FC<EffectivnessProps> = ({ damage, effectivenes
 interface DamageDisplayProps {
   typesArray: string[] | null;
 }
-export const DamageDisplay: React.FC<DamageDisplayProps> = (props) => {
+const DamageDisplay: React.FC<DamageDisplayProps> = ({ typesArray }) => {
   const [damageObj, setDamageObj] = useState<DamageObj | null>(null);
   useEffect(() => {
-    if (props.typesArray) {
-      setDamageObj(damageCalculator(props.typesArray));
+    if (typesArray) {
+      setDamageObj(damageCalculator(typesArray));
     }
-  }, [props.typesArray]);
+  }, [typesArray]);
   if (!damageObj) {
     return (
       <DamageContainer>
@@ -83,3 +83,5 @@ export const DamageDisplay: React.FC<DamageDisplayProps> = (props) => {
     </DamageContainer>
   );
 };
+
+export default DamageDisplay;
