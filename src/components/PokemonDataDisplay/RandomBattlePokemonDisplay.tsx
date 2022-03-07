@@ -14,12 +14,10 @@ type RandbatsPokemonData = {
     moves: string[];
   };
 };
-
 interface RandomBattlePokemonDisplayProps {
   pokemon: string;
   isRandomBattle: isRandomBattleReturn;
 }
-
 export const RandomBattlePokemonDisplay: React.FC<RandomBattlePokemonDisplayProps> = ({
   pokemon,
   isRandomBattle,
