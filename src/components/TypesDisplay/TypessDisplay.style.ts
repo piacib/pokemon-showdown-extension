@@ -15,8 +15,7 @@ export const TypeContainer = styled.div`
 `;
 
 export const Type = styled(TypeColoredComponent)`
-  margin: 0 5px;
-  padding: 1px 15px;
+  padding: 0 15px;
   border-radius: 20px;
   display: flex;
   align-items: center;
