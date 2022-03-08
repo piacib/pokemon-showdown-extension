@@ -6,6 +6,11 @@ const theme: DefaultTheme = {
   outerBorderStyle: 'black',
   backgroundColor: '#c5bfbf',
   secondaryBorderMargin: '0.25rem',
+  padding: {
+    medium: '.25rem',
+    small: '.1rem',
+    large: '.5rem',
+  },
   color: {
     typeColors: {
       Normal: 'rgb(168, 167, 120)',
