@@ -12,7 +12,7 @@ export const MoveBtn = styled(HoverDisplay)`
     bottom: 30px;
     right: 0;
     min-width: 170px;
-    padding: 5px;
+    padding: ${(props) => props.theme.padding.medium};
     font-size: 1.1rem;
   }
 `;
@@ -20,6 +20,7 @@ export const MoveInfo = styled.ul`
   list-style: none;
   width: 100%;
   padding: 0;
+  margin: 0;
 `;
 export const MoveProperty = styled.li`
   /* width: fit-content; */
@@ -33,7 +34,7 @@ export const MovesContainer = styled(PropertyDisplay)`
 `;
 export const MoveType = styled(MoveProperty)<TypeColorInterface>`
   background-color: ${(props) => typeColorConverter[props.background]};
-  padding: 2px 6px;
+  padding: ${(props) => props.theme.padding.small} ${(props) => props.theme.padding.medium};
   width: fit-content;
   margin: 0 auto;
 `;
