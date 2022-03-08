@@ -11,7 +11,7 @@ export const HiddenPropertyText = styled.div`
   display: none;
 `;
 export const HoverDisplay = styled.div`
-  padding: 5px;
+  padding: ${(props) => props.theme.padding.medium};
   text-align: center;
   margin: 2px;
   border: 2px solid black;
@@ -32,7 +32,7 @@ export const PropertyBtn = styled(HoverDisplay)`
     right: 0;
     max-width: 250px;
     min-width: 150px;
-    padding: 5px;
+    padding: ${(props) => props.theme.padding.medium};
     font-size: inherit;
   }
 `;
@@ -40,7 +40,7 @@ export const PokemonName = styled.a`
   justify-self: start;
   grid-row: 3;
   grid-column: 1/2;
-  font-size: 36px;
+  font-size: 1.8rem;
   height: fit-content;
   text-align: start;
 `;

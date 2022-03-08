@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { typeColorConverter } from "../PokemonDataDisplay/pokemonTypeColorConverter";
-import { TypeColorInterface } from "../../types";
+import styled from 'styled-components';
+import { typeColorConverter } from '../PokemonDataDisplay/pokemonTypeColorConverter';
+import { TypeColorInterface } from '../../types';
 
 export const DamageContainer = styled.div`
   grid-row: 4;
@@ -17,7 +17,8 @@ export const DamageGroupContainer = styled.div`
 export const TypeBox = styled.div<TypeColorInterface>`
   background-color: ${(props) => typeColorConverter[props.background]};
   margin: 5px;
-  padding: 2px 5px;
+
+  padding: ${(props) => props.theme.padding.small} ${(props) => props.theme.padding.medium};
   border-radius: 10px;
 `;
 export const TypeBoxContainer = styled.div`

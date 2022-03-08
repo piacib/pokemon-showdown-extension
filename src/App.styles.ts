@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 export const RefreshButton = styled.button`
   grid-column: 3/4;
   background-color: transparent;
@@ -33,11 +33,11 @@ export const AppDisplay = styled.div`
   max-width: 640px;
   min-height: 250px;
   display: grid;
-  grid-column-gap: 10px;
+  /* grid-column-gap: 10px; */
   grid-template-rows: 55px 61px 32px auto;
   height: fit-content;
   margin: ${(props) => props.theme.secondaryBorderMargin};
-  padding: 0.25rem;
+  padding: ${(props) => props.theme.padding.medium};
   overflow: hidden;
   background-color: ${(props) => props.theme.backgroundColor};
   border: ${(props) => `${props.theme.outerBorderWidth}

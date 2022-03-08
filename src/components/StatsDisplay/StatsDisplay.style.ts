@@ -4,7 +4,7 @@ export const StatsContainer = styled.div`
   grid-column: 2/4;
   width: 250px;
   display: flex;
-  justify-self: end;
+  /* justify-self: end; */
   flex-direction: column;
   justify-content: space-between;
   align-items: center;

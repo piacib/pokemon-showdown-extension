@@ -8,7 +8,7 @@ export const ButtonDisplay = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1em;
-  width: 300px;
+  /* width: 300px; */
 `;
 export const Button = styled.button`
   /* font-size: 10px; */
