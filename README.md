@@ -9,6 +9,7 @@
 
 - [useEffect api fetch example](src/components/PokemonDataDisplay/RandomBattlePokemonDisplay.tsx#L50)
 - [data fetch to handle multiple promise objects](src/chrome/getMoveData.ts)
+- [custom props styled component](src/components/TypesDisplay/TypessDisplay.style.ts#L17)
 
 ## Why I built the project this way
 
@@ -20,7 +21,7 @@
 - Add user settings to adjust the window size
 - Add an eventlistener to automatically update the display every move
 
-## Installation and usageg
+## Installation and usage
 
 - git clone https://github.com/piacib/pokemon-showdown-extension.git
 - npm install
