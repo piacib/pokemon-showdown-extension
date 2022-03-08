@@ -5,7 +5,7 @@ import { GlobalStyle } from './GlobalStyles';
 import reportWebVitals from './reportWebVitals';
 import { theme } from './theme';
 import { ThemeProvider } from 'styled-components';
-
+import './normalize.css';
 ReactDOM.render(
   <React.StrictMode>
     <GlobalStyle theme={theme} />
