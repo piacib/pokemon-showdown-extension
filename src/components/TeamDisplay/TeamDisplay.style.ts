@@ -15,8 +15,6 @@ export const Button = styled.button`
   width: inherit;
   background: none;
   border: none;
-
   height: 40px;
   border-radius: 0;
-  margin: 0.15em;
 `;
