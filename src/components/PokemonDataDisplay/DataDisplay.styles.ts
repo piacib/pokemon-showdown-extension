@@ -37,12 +37,10 @@ export const PropertyBtn = styled(HoverDisplay)`
   }
 `;
 export const PokemonName = styled.a`
-  justify-self: start;
+  align-self: center;
   grid-row: 3;
   grid-column: 1/2;
   font-size: 1.8rem;
-  height: fit-content;
-  text-align: start;
 `;
 export const PropertiesContainer = styled.div`
   grid-row: 4;
